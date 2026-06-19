@@ -38,7 +38,7 @@ export default function ProductSection() {
             <button
               key={i}
               onClick={() => setCurrentImageIndex(i)}
-              className={`relative aspect-[3/4] w-full overflow-hidden border-2 transition-all ${
+              className={`relative aspect-[3/4] w-full overflow-hidden border-2 transition-all min-[1920px]:aspect-square min-[1920px]:h-[180px] ${
                 currentImageIndex === i ? 'border-[#517C64]' : 'border-transparent'
               }`}
             >
