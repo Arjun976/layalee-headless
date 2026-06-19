@@ -46,7 +46,7 @@ export default function Banner() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleDotClick = (index) => {
+  const handleDotClick = (index: number) => {
     setActiveSlide(index);
   };
 
