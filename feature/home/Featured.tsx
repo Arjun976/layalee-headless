@@ -140,12 +140,12 @@ export default function FeaturedSection() {
             <button
               key={index}
               onClick={() => scrollToCard(index)}
-              className={`p-0 w-3.5 h-3.5  bg-transparent border cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
+              className={`p-0 w-3.5 h-3.5  bg-transparent border rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
                 index === activeDot ? 'border-[#2C322D]' : 'border-transparent'
               }`}
               aria-label={`Go to product slide ${index + 1}`}
             >
-              <div className="w-2 h-2  bg-[#2C322D] transition-all duration-300" />
+              <div className="w-2 h-2  bg-[#2C322D] transition-all duration-300 rounded-full" />
             </button>
           ))}
         </div>

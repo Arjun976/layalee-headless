@@ -16,12 +16,12 @@ export default function Header() {
 
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.classList.add('menu-open');
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
 
