@@ -17,19 +17,49 @@ const product = {
   sizes: ['18', '24', '30'],
   thumbnails: [
     '/fox_B_1.png',
-    '/fox_B_1.png', // Placeholder for second thumb
-    '/fox_B_1.png', // Placeholder for third thumb
+    '/fox-B-2.png',
+    '/fox-B-3.png',
   ],
 };
 
 export default function ProductSection() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const selectedColor = product.colors[selectedColorIndex];
   const mainImage = product.thumbnails[currentImageIndex];
 
+  const handleColorSelect = (index: number) => {
+    setSelectedColorIndex(index);
+    if (index < 3) {
+      setCurrentImageIndex(index);
+    }
+  };
+
+  const handleThumbnailSelect = (index: number) => {
+    setCurrentImageIndex(index);
+    setSelectedColorIndex(index);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => {
+      const nextIndex = (prev - 1 + product.thumbnails.length) % product.thumbnails.length;
+      setSelectedColorIndex(nextIndex);
+      return nextIndex;
+    });
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => {
+      const nextIndex = (prev + 1) % product.thumbnails.length;
+      setSelectedColorIndex(nextIndex);
+      return nextIndex;
+    });
+  };
+
   return (
-    <section className="mx-auto max-w-[1440px] px-6 py-12 md:px-6 lg:px-6 min-[1920px]:max-w-[1768px] min-[1920px]:px-0">
+    <section className="mx-auto max-w-[1440px] px-6 py-12 md:px-6 lg:px-6 min-[1920px]:max-w-[1720px] min-[1920px]:px-0">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 min-[1920px]:flex min-[1920px]:gap-[25px]">
         
         {/* Left: Thumbnails (Desktop) */}
@@ -37,9 +67,9 @@ export default function ProductSection() {
           {product.thumbnails.map((thumb, i) => (
             <button
               key={i}
-              onClick={() => setCurrentImageIndex(i)}
+              onClick={() => handleThumbnailSelect(i)}
               className={`relative aspect-[3/4] w-full overflow-hidden border-2 transition-all min-[1920px]:aspect-square min-[1920px]:h-[180px] ${
-                currentImageIndex === i ? 'border-[#517C64]' : 'border-transparent'
+                currentImageIndex === i && selectedColorIndex === i ? 'border-[#517C64]' : 'border-transparent'
               }`}
             >
               <Image
@@ -65,7 +95,7 @@ export default function ProductSection() {
           {/* Navigation Arrows */}
           <div className="absolute bottom-4 left-4 flex">
             <button
-              onClick={() => setCurrentImageIndex((prev) => (prev - 1 + product.thumbnails.length) % product.thumbnails.length)}
+              onClick={handlePrevImage}
               className="bg-white p-3 text-black hover:bg-zinc-50 transition-colors"
               aria-label="Previous image"
             >
@@ -76,7 +106,7 @@ export default function ProductSection() {
           </div>
           <div className="absolute bottom-4 right-4 flex">
             <button
-              onClick={() => setCurrentImageIndex((prev) => (prev + 1) % product.thumbnails.length)}
+              onClick={handleNextImage}
               className="bg-[#517C64] p-3 text-white hover:bg-[#436752] transition-colors"
               aria-label="Next image"
             >
@@ -112,12 +142,12 @@ export default function ProductSection() {
               Colour: <span className="font-normal text-zinc-500">{selectedColor.name}</span>
             </h3>
             <div className="flex gap-3">
-              {product.colors.map((color) => (
+              {product.colors.map((color, index) => (
                 <button
                   key={color.name}
-                  onClick={() => setSelectedColor(color)}
+                  onClick={() => handleColorSelect(index)}
                   className={`h-10 w-10 border transition-all ${
-                    selectedColor.name === color.name ? 'border-zinc-900 ring-1 ring-zinc-900' : 'border-zinc-200'
+                    selectedColorIndex === index ? 'border-zinc-900 ring-1 ring-zinc-900' : 'border-zinc-200'
                   }`}
                   style={{ backgroundColor: color.value }}
                   title={color.name}
