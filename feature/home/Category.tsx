@@ -211,7 +211,7 @@ export default function CategorySection() {
 
   return (
     <section className="py-10 md:py-[60px] xl:py-[100px] flex flex-col items-center gap-[30px] md:gap-[35px] xl:gap-10 w-full bg-white" id="categories">
-      <div className="w-full px-5 md:px-[30px] xl:px-10 3xl:px-0 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1540px] flex flex-col xl:block gap-[30px] md:gap-10 xl:gap-0">
+      <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:!max-w-[1540px] min-[1600px]:px-[30px] flex flex-col xl:block gap-[30px] md:gap-10 xl:gap-0">
         
         {/* Section Header */}
         <div className="flex flex-col items-center gap-3 text-center order-1 xl:order-none xl:mb-10">
@@ -220,7 +220,7 @@ export default function CategorySection() {
             Curated For You
             <span className="w-[21px] h-[1px] bg-[#CC9433]" />
           </span>
-          <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] 3xl:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
+          <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] min-[1600px]:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
             Shop by Category
           </h2>
         </div>

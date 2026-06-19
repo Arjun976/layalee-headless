@@ -65,7 +65,7 @@ export default function Banner() {
             }`}
           >
             {/* Banner Content Container */}
-            <div className="flex flex-col justify-center h-[466px] md:h-[578px] xl:h-[786px] w-full px-5 md:px-10 xl:px-0 mx-auto xl:max-w-[1120px] 2xl:max-w-[1320px] 3xl:max-w-[1540px]">
+            <div className="flex flex-col justify-center h-[466px] md:h-[578px] xl:h-[786px] w-full px-5 md:px-10 xl:px-0 mx-auto xl:max-w-[1120px] 2xl:max-w-[1320px] min-[1600px]:box-content min-[1600px]:!max-w-[1540px] min-[1600px]:px-[30px]">
               <div className="max-w-[505px] flex flex-col gap-10 md:gap-[30px] xl:gap-10">
                 
                 {/* Text Group */}
@@ -75,7 +75,7 @@ export default function Banner() {
                       <div className="w-[21px] h-[1px] bg-[#CC9433]" />
                       {slide.subtitle}
                     </span>
-                    <h1 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none m-0 text-[36px] md:text-[48px] xl:text-[54px] 2xl:text-[64px] 3xl:text-[80px] tracking-[-1.08px] md:tracking-[-1.44px] xl:tracking-[-1.62px] 3xl:tracking-[-2.4px]">
+                    <h1 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none m-0 text-[36px] md:text-[48px] xl:text-[54px] 2xl:text-[64px] min-[1600px]:text-[80px] tracking-[-1.08px] md:tracking-[-1.44px] xl:tracking-[-1.62px] min-[1600px]:tracking-[-2.4px]">
                       {slide.title}
                     </h1>
                   </div>
