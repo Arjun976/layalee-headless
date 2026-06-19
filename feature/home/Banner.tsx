@@ -111,7 +111,7 @@ export default function Banner() {
 
       {/* Scroll Down Indicator */}
       <a href="#categories" className="hidden xl:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5 text-white hover:text-[#CC9433] uppercase tracking-[6.4px] text-[16px] no-underline z-20 group transition-colors duration-300">
-        <div className="w-[1px] h-[60px] bg-white/40 relative overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-[1px] after:h-[10px] after:bg-white after:animate-[scroll-flow_3s_infinite_ease-in-out]" />
+        <div className="w-[1px] h-[60px] bg-white/20 relative overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-white after:animate-scroll-flow" />
         <span className="font-sans font-medium text-[12px] opacity-80 group-hover:opacity-100 transition-opacity">Scroll</span>
       </a>
 

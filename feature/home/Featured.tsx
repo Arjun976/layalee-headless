@@ -140,12 +140,12 @@ export default function FeaturedSection() {
             <button
               key={index}
               onClick={() => scrollToCard(index)}
-              className={`p-0 w-3.5 h-3.5 rounded-full bg-transparent border cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
+              className={`p-0 w-3.5 h-3.5  bg-transparent border cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
                 index === activeDot ? 'border-[#2C322D]' : 'border-transparent'
               }`}
               aria-label={`Go to product slide ${index + 1}`}
             >
-              <div className="w-2 h-2 rounded-full bg-[#2C322D] transition-all duration-300" />
+              <div className="w-2 h-2  bg-[#2C322D] transition-all duration-300" />
             </button>
           ))}
         </div>
@@ -199,7 +199,7 @@ export default function FeaturedSection() {
                     {product.colors.map((color, colorIdx) => (
                       <div
                         key={colorIdx}
-                        className="w-7 h-7 rounded-full border border-black/5"
+                        className="w-7 h-7  border border-black/5"
                         style={{ backgroundColor: color }}
                       />
                     ))}
