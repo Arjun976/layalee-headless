@@ -72,11 +72,11 @@ export default function Header() {
       </div>
 
       {/* Main Sticky Navbar */}
-      <div className="sticky top-0 z-[1000] w-full bg-white/80 backdrop-blur-[17px] border-b border-black/[0.05]">
-        <div className="flex justify-between items-center py-3 px-5 md:py-4 md:px-10 xl:py-3 xl:max-w-[1200px] 2xl:max-w-[1760px] 3xl:max-w-[1760px] 3xl:px-0 mx-auto w-full">
+      <div className="sticky top-0 z-[1000] w-full bg-white ">
+        <div className="flex justify-between items-center py-3 px-5 md:py-4 md:px-10 xl:py-3 xl:max-w-[1200px] 2xl:max-w-[1760px] 3xl:max-w-[1760px] 3xl:px-0 mx-auto w-full lg:min-h-[100px]">
           {/* Brand Logo */}
           <Link href="/" className="block">
-            <img src="/Logo.png" alt="Layalee Logo" className="h-10 w-auto block object-contain" />
+            <img src="/Logo.png" alt="Layalee Logo" className="h-[74px] w-auto block object-contain" />
           </Link>
 
           {/* Desktop Navigation & Hamburger */}
