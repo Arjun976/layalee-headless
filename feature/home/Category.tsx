@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const categories = [
   {
@@ -263,10 +264,12 @@ export default function CategorySection() {
                 >
                   {/* Image Container with Hover Animation */}
                   <div className="h-[216px] md:h-[320px] bg-[#F4F4F4] flex items-center justify-center relative overflow-hidden rounded-[4px] w-full">
-                    <img
+                    <Image
                       src={category.image}
                       alt={category.title}
-                      className="w-full h-full object-cover scale-110 group-hover:scale-100 group-hover:blur-[2px] transition-all duration-500"
+                      fill
+                      sizes="(max-width: 768px) 218px, (max-width: 1280px) 325px, 280px"
+                      className="object-cover scale-110 group-hover:scale-100 group-hover:blur-[2px] transition-all duration-500"
                     />
                     {/* Hover Button Arrow Overlay */}
                     <div className="absolute top-[calc(50%+10px)] group-hover:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60px] h-[60px] bg-white rounded-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-[0_4px_44px_rgba(0,0,0,0.15)]">
