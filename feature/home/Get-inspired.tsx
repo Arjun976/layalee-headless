@@ -4,6 +4,7 @@ import React from 'react';
 
 interface GetInspiredProps {
   homepage?: any;
+  baseUrl?: string;
 }
 
 interface InspiredImage {
@@ -35,7 +36,7 @@ const defaultImages: InspiredImage[] = [
   }
 ];
 
-function getAbsoluteUrl(url: string): string {
+function getAbsoluteUrl(url: string, wpBase?: string): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
@@ -45,11 +46,12 @@ function getAbsoluteUrl(url: string): string {
     return url;
   }
   
-  const wpBase = 'http://localhost/layale_be';
+  const base = wpBase || 'http://localhost/layale_be';
+  const trimmedBase = base.endsWith('/') ? base.slice(0, -1) : base;
   if (url.startsWith('/')) {
-    return `${wpBase}${url}`;
+    return `${trimmedBase}${url}`;
   }
-  return `${wpBase}/${url}`;
+  return `${trimmedBase}/${url}`;
 }
 
 function getClassForLayout(layoutClass: string): string {
@@ -64,7 +66,7 @@ function getClassForLayout(layoutClass: string): string {
   }
 }
 
-export default function GetInspiredSection({ homepage }: GetInspiredProps) {
+export default function GetInspiredSection({ homepage, baseUrl }: GetInspiredProps) {
   let homeCommonOptions: any = null;
   if (homepage?.homeCommonOptions) {
     try {
@@ -140,7 +142,7 @@ export default function GetInspiredSection({ homepage }: GetInspiredProps) {
           {displayImages.map((imgItem, idx) => (
             <div key={idx} className={getClassForLayout(imgItem.layoutClass)}>
               <img
-                src={getAbsoluteUrl(imgItem.url)}
+                src={getAbsoluteUrl(imgItem.url, baseUrl)}
                 alt={imgItem.alt || title || 'Styled with Layale'}
                 className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-500 block"
               />
