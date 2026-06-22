@@ -2,6 +2,7 @@ import Banner from '@/feature/home/Banner';
 import Category from '@/feature/home/Category';
 import Featured from '@/feature/home/Featured';
 import ExpertAssistance from '@/feature/home/Expert-Assistance';
+import GetInspired from '@/feature/home/Get-inspired';
 import { getHeaderAndHomePageData } from '@/lib/wordpress';
 
 export default async function Home() {
@@ -13,6 +14,7 @@ export default async function Home() {
       <Category homepage={homepage} productCategories={productCategories} />
       <Featured homepage={homepage} products={products} />
       <ExpertAssistance homepage={homepage} />
+      <GetInspired homepage={homepage} />
     </main>
   );
 }
