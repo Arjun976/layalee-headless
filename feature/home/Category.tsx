@@ -4,7 +4,18 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const categories = [
+interface CategoryProps {
+  homepage?: any;
+  productCategories?: any;
+}
+
+interface CategoryItem {
+  title: string;
+  image: string;
+  link: string;
+}
+
+const defaultCategories: CategoryItem[] = [
   {
     title: 'Indoor Planters',
     image: '/4u_1.png',
@@ -32,17 +43,94 @@ const categories = [
   },
 ];
 
-const extendedCategories = [...categories, ...categories, ...categories];
+function mapUrl(url: string): string {
+  if (!url) return '#';
+  if (url.startsWith('/') || url.startsWith('#')) return url;
+  
+  try {
+    const parsed = new URL(url);
+    let pathname = parsed.pathname;
+    
+    // Strip WordPress subdirectory if present (e.g. /layale_be, /layale)
+    const wpBases = ['/layale_be', '/layale'];
+    for (const wpBase of wpBases) {
+      if (pathname.startsWith(wpBase)) {
+        pathname = pathname.substring(wpBase.length);
+      }
+    }
+    
+    // Normalize trailing slash
+    if (pathname.endsWith('/') && pathname.length > 1) {
+      pathname = pathname.slice(0, -1);
+    }
+    
+    // Specific mappings matching standard config/headers
+    if (pathname === '/category') return '/portrait';
+    if (pathname === '/landscape') return '#';
+    if (pathname === '') return '/';
+    
+    return pathname;
+  } catch (error) {
+    return url.startsWith('/') ? url : `/${url}`;
+  }
+}
 
-export default function CategorySection() {
+export default function CategorySection({ homepage, productCategories }: CategoryProps) {
+  // Parse Category Options (title, subtitle, enable)
+  let homeCommonOptions: any = null;
+  if (homepage?.homeCommonOptions) {
+    try {
+      homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
+        ? JSON.parse(homepage.homeCommonOptions)
+        : homepage.homeCommonOptions;
+    } catch (e) {
+      console.error("Error parsing homeCommonOptions:", e);
+    }
+  }
+
+  const categoryFieldset = homeCommonOptions?.home_category_fieldset || {};
+  const categoriesEnabled = categoryFieldset.home_categories_enable !== '0' && categoryFieldset.home_categories_enable !== false;
+  const categorySubtitle = categoryFieldset.home_categories_subtitle || 'Curated For You';
+  const categoryTitle = categoryFieldset.home_categories_title || 'Shop by Category';
+
+  // Map Category Items
+
+  // Parse Category Items
+  const rawNodes = productCategories?.nodes || [];
+  const mappedCategories: CategoryItem[] = rawNodes.map((node: any) => {
+    let categoryOptions: any = null;
+    if (node.categoryOptions) {
+      try {
+        categoryOptions = typeof node.categoryOptions === 'string'
+          ? JSON.parse(node.categoryOptions)
+          : node.categoryOptions;
+      } catch (e) {
+        console.error("Error parsing categoryOptions:", e);
+      }
+    }
+    return {
+      title: node.name || '',
+      image: categoryOptions?.home_page_category_image?.url || '/4u_1.png',
+      link: mapUrl(node.uri || '#'),
+    };
+  });
+
+  const activeCategories = mappedCategories.length > 0 ? mappedCategories : defaultCategories;
+  const extendedCategories = [...activeCategories, ...activeCategories, ...activeCategories];
+
   const [activeDot, setActiveDot] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
-  const currentScrollIndex = useRef(categories.length);
+  const currentScrollIndex = useRef(activeCategories.length);
 
   const autoplayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const restartAutoplayDebounced = useRef<ReturnType<typeof setTimeout> | null>(null);
   const adjustTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Sync scroll index reference if categories length changes dynamically
+  useEffect(() => {
+    currentScrollIndex.current = activeCategories.length;
+  }, [activeCategories.length]);
 
   const stopAutoplay = useCallback(() => {
     if (autoplayTimerRef.current) {
@@ -63,20 +151,20 @@ export default function CategorySection() {
           behavior: smooth ? 'smooth' : 'auto',
         });
         
-        setActiveDot(index % categories.length);
+        setActiveDot(index % activeCategories.length);
 
         if (smooth) {
           // If we scrolled to Set C, schedule a silent jump back to Set B
-          if (index >= 2 * categories.length) {
+          if (index >= 2 * activeCategories.length) {
             setTimeout(() => {
-              currentScrollIndex.current = index - categories.length;
+              currentScrollIndex.current = index - activeCategories.length;
               scroll(currentScrollIndex.current, false);
               isProgrammaticScroll.current = false;
             }, 600);
-          } else if (index < categories.length) {
+          } else if (index < activeCategories.length) {
             // If we scrolled to Set A, schedule a silent jump to Set B
             setTimeout(() => {
-              currentScrollIndex.current = index + categories.length;
+              currentScrollIndex.current = index + activeCategories.length;
               scroll(currentScrollIndex.current, false);
               isProgrammaticScroll.current = false;
             }, 600);
@@ -90,7 +178,7 @@ export default function CategorySection() {
         }
       }
     }
-  }, []);
+  }, [activeCategories.length]);
 
   const startAutoplay = useCallback(() => {
     stopAutoplay();
@@ -102,7 +190,7 @@ export default function CategorySection() {
   }, [scrollToIndex, stopAutoplay]);
 
   const scrollToCard = (index: number) => {
-    const targetIndex = index + categories.length;
+    const targetIndex = index + activeCategories.length;
     currentScrollIndex.current = targetIndex;
     scrollToIndex(targetIndex, true);
   };
@@ -133,21 +221,21 @@ export default function CategorySection() {
           }
         });
 
-        setActiveDot(closestIndex % categories.length);
+        setActiveDot(closestIndex % activeCategories.length);
         currentScrollIndex.current = closestIndex;
 
         // Debounce boundary adjustment during manual scrolling
         if (adjustTimeoutRef.current) clearTimeout(adjustTimeoutRef.current);
         adjustTimeoutRef.current = setTimeout(() => {
-          if (closestIndex < categories.length) {
-            const newIndex = closestIndex + categories.length;
+          if (closestIndex < activeCategories.length) {
+            const newIndex = closestIndex + activeCategories.length;
             currentScrollIndex.current = newIndex;
             isProgrammaticScroll.current = true;
             const targetScroll = (children[newIndex] as HTMLElement).offsetLeft - slider.offsetLeft;
             slider.scrollTo({ left: targetScroll, behavior: 'auto' });
             setTimeout(() => { isProgrammaticScroll.current = false; }, 50);
-          } else if (closestIndex >= 2 * categories.length) {
-            const newIndex = closestIndex - categories.length;
+          } else if (closestIndex >= 2 * activeCategories.length) {
+            const newIndex = closestIndex - activeCategories.length;
             currentScrollIndex.current = newIndex;
             isProgrammaticScroll.current = true;
             const targetScroll = (children[newIndex] as HTMLElement).offsetLeft - slider.offsetLeft;
@@ -157,7 +245,7 @@ export default function CategorySection() {
         }, 150);
       }
     }
-  }, []);
+  }, [activeCategories.length]);
 
   const handleManualInteraction = useCallback(() => {
     isProgrammaticScroll.current = false;
@@ -176,8 +264,8 @@ export default function CategorySection() {
     if (slider) {
       // Set initial scroll to Set B on mount (instantly)
       const children = slider.children;
-      if (children && children.length > categories.length) {
-        const targetCard = children[categories.length] as HTMLElement;
+      if (children && children.length > activeCategories.length) {
+        const targetCard = children[activeCategories.length] as HTMLElement;
         slider.scrollLeft = targetCard.offsetLeft - slider.offsetLeft;
       }
 
@@ -208,7 +296,9 @@ export default function CategorySection() {
       if (restartAutoplayDebounced.current) clearTimeout(restartAutoplayDebounced.current);
       if (adjustTimeoutRef.current) clearTimeout(adjustTimeoutRef.current);
     };
-  }, [handleScroll, handleManualInteraction, handleManualInteractionEnd, startAutoplay, stopAutoplay]);
+  }, [handleScroll, handleManualInteraction, handleManualInteractionEnd, startAutoplay, stopAutoplay, activeCategories.length]);
+
+  if (activeCategories.length === 0) return null;
 
   return (
     <section className="py-10 md:py-[60px] xl:py-[100px] flex flex-col items-center gap-[30px] md:gap-[35px] xl:gap-10 w-full bg-white" id="categories">
@@ -216,31 +306,37 @@ export default function CategorySection() {
         
         {/* Section Header */}
         <div className="flex flex-col items-center gap-3 text-center order-1 xl:order-none xl:mb-10">
-          <span className="inline-flex items-center gap-3 text-[#CC9433] font-['Google_Sans',sans-serif] text-sm xl:text-lg font-normal tracking-[1.4px] xl:tracking-[1.8px] uppercase">
-            <span className="w-[21px] h-[1px] bg-[#CC9433]" />
-            Curated For You
-            <span className="w-[21px] h-[1px] bg-[#CC9433]" />
-          </span>
-          <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] min-[1600px]:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
-            Shop by Category
-          </h2>
+          {categorySubtitle && (
+            <span className="inline-flex items-center gap-3 text-[#CC9433] font-['Google_Sans',sans-serif] text-sm xl:text-lg font-normal tracking-[1.4px] xl:tracking-[1.8px] uppercase">
+              <span className="w-[21px] h-[1px] bg-[#CC9433]" />
+              {categorySubtitle}
+              <span className="w-[21px] h-[1px] bg-[#CC9433]" />
+            </span>
+          )}
+          {categoryTitle && (
+            <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] min-[1600px]:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
+              {categoryTitle}
+            </h2>
+          )}
         </div>
 
         {/* Swipe Slider pagination dots - Hidden on Desktop (xl:hidden) */}
-        <div className="flex xl:hidden justify-center items-center gap-3 -mt-[7px] -mb-[7px] md:-mt-[17px] md:-mb-[7px] py-2.5 order-3">
-          {categories.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToCard(index)}
-              className={`p-0 w-3.5 h-3.5 rounded-full bg-transparent border cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
-                index === activeDot ? 'border-[#2C322D]' : 'border-transparent'
-              }`}
-              aria-label={`Go to category slide ${index + 1}`}
-            >
-              <div className="w-2 h-2 rounded-full bg-[#2C322D] transition-all duration-300" />
-            </button>
-          ))}
-        </div>
+        {activeCategories.length > 1 && (
+          <div className="flex xl:hidden justify-center items-center gap-3 -mt-[7px] -mb-[7px] md:-mt-[17px] md:-mb-[7px] py-2.5 order-3">
+            {activeCategories.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToCard(index)}
+                className={`p-0 w-3.5 h-3.5 rounded-full bg-transparent border cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
+                  index === activeDot ? 'border-[#2C322D]' : 'border-transparent'
+                }`}
+                aria-label={`Go to category slide ${index + 1}`}
+              >
+                <div className="w-2 h-2 rounded-full bg-[#2C322D] transition-all duration-300" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Category Slider Wrapper */}
         <div className="relative w-screen -ml-5 md:-ml-[30px] xl:static xl:w-full xl:m-0 xl:p-0 xl:order-none overflow-hidden pl-5 md:pl-[30px] xl:pl-0 order-2">
@@ -253,7 +349,7 @@ export default function CategorySection() {
             className="flex xl:flex-row overflow-x-auto xl:overflow-x-visible scrollbar-none snap-x snap-mandatory gap-5 md:gap-6 w-full pr-5 md:pr-[30px] xl:p-0"
           >
             {extendedCategories.map((category, index) => {
-              const isCloned = index < categories.length || index >= 2 * categories.length;
+              const isCloned = index < activeCategories.length || index >= 2 * activeCategories.length;
               return (
                 <Link
                   key={index}

@@ -40,13 +40,14 @@ export interface WordPressData {
   themeSettings: ThemeSettings | null;
   navMenus: NavMenus | null;
   homepage: any;
+  productCategories: any;
 }
 
 export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordPressData> {
   const secret = process.env.Secret;
   if (!secret) {
     console.error("Error: Secret environment variable is not defined.");
-    return { themeSettings: null, navMenus: null, homepage: null };
+    return { themeSettings: null, navMenus: null, homepage: null, productCategories: null };
   }
 
   const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
@@ -64,6 +65,18 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
         title
         content
         homeCommonOptions
+      }
+
+      # ── 3. PRODUCT CATEGORIES ──
+      productCategories {
+        nodes {
+          id
+          databaseId
+          name
+          slug
+          uri
+          categoryOptions
+        }
       }
     }
   `;
@@ -92,13 +105,14 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
 
     if (resJson.errors) {
       console.error("GraphQL Errors:", resJson.errors);
-      return { themeSettings: null, navMenus: null, homepage: null };
+      return { themeSettings: null, navMenus: null, homepage: null, productCategories: null };
     }
 
     const data = resJson.data;
     const rawThemeSettings = data?.layaleThemeSettings;
     const rawNavMenus = data?.layaleNavMenus;
     const homepage = data?.homepage || null;
+    const productCategories = data?.productCategories || null;
 
     let themeSettings: ThemeSettings | null = null;
     let navMenus: NavMenus | null = null;
@@ -122,10 +136,11 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
     return {
       themeSettings,
       navMenus,
-      homepage
+      homepage,
+      productCategories
     };
   } catch (error) {
     console.error("Error fetching GraphQL data from WordPress:", error);
-    return { themeSettings: null, navMenus: null, homepage: null };
+    return { themeSettings: null, navMenus: null, homepage: null, productCategories: null };
   }
 }

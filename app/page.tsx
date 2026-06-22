@@ -4,12 +4,12 @@ import Featured from '@/feature/home/Featured';
 import { getHeaderAndHomePageData } from '@/lib/wordpress';
 
 export default async function Home() {
-  const { homepage } = await getHeaderAndHomePageData();
+  const { homepage, productCategories } = await getHeaderAndHomePageData();
 
   return (
     <main className="flex min-h-screen flex-col bg-white">
       <Banner homepage={homepage} />
-      <Category />
+      <Category homepage={homepage} productCategories={productCategories} />
       <Featured/>
     </main>
   );
