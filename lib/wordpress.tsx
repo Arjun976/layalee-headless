@@ -41,13 +41,14 @@ export interface WordPressData {
   navMenus: NavMenus | null;
   homepage: any;
   productCategories: any;
+  products: any;
 }
 
 export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordPressData> {
   const secret = process.env.Secret;
   if (!secret) {
     console.error("Error: Secret environment variable is not defined.");
-    return { themeSettings: null, navMenus: null, homepage: null, productCategories: null };
+    return { themeSettings: null, navMenus: null, homepage: null, productCategories: null, products: null };
   }
 
   const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
@@ -78,6 +79,17 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
           categoryOptions
         }
       }
+
+      # ── 4. PRODUCTS ──
+      products(first: 100) {
+        nodes {
+          id
+          databaseId
+          title
+          slug
+          uri
+        }
+      }
     }
   `;
 
@@ -105,7 +117,7 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
 
     if (resJson.errors) {
       console.error("GraphQL Errors:", resJson.errors);
-      return { themeSettings: null, navMenus: null, homepage: null, productCategories: null };
+      return { themeSettings: null, navMenus: null, homepage: null, productCategories: null, products: null };
     }
 
     const data = resJson.data;
@@ -113,6 +125,7 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
     const rawNavMenus = data?.layaleNavMenus;
     const homepage = data?.homepage || null;
     const productCategories = data?.productCategories || null;
+    const products = data?.products || null;
 
     let themeSettings: ThemeSettings | null = null;
     let navMenus: NavMenus | null = null;
@@ -137,10 +150,11 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
       themeSettings,
       navMenus,
       homepage,
-      productCategories
+      productCategories,
+      products
     };
   } catch (error) {
     console.error("Error fetching GraphQL data from WordPress:", error);
-    return { themeSettings: null, navMenus: null, homepage: null, productCategories: null };
+    return { themeSettings: null, navMenus: null, homepage: null, productCategories: null, products: null };
   }
 }
