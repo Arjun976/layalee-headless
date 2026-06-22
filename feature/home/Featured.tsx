@@ -207,17 +207,8 @@ function ProductCard({ product }: { product: ProductItem }) {
                 }
                 setActiveColorIdx(colorIdx);
               }}
-              onMouseEnter={() => {
-                if (color.image) {
-                  setSelectedImage(color.image);
-                }
-              }}
-              onMouseLeave={() => {
-                const activeColor = product.colors[activeColorIdx];
-                setSelectedImage(activeColor?.image || product.image);
-              }}
               className={`w-7 h-7 border transition-all duration-200 cursor-pointer ${
-                activeColorIdx === colorIdx ? 'border-black scale-110 shadow-sm' : 'border-black/5 hover:scale-105'
+                activeColorIdx === colorIdx ? 'border-black scale-110 shadow-sm' : 'border-black/5'
               }`}
               style={{ backgroundColor: color.code }}
               title={`Color ${colorIdx + 1}`}
@@ -267,11 +258,16 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
     // Parse colors to ColorSwatch objects
     const colorsList = fp.product_colors || [];
     const colors: ColorSwatch[] = colorsList
-      .map((col: any) => ({
-        code: col.color_code,
-        image: col.color_image?.url || ''
-      }))
-      .filter((c: any) => Boolean(c.code));
+      .map((col: any) => {
+        const rawCode = col.color_code;
+        const rawImage = col.color_image?.url;
+        if (!rawCode && !rawImage) return null;
+        return {
+          code: rawCode || '#ffffff',
+          image: rawImage || ''
+        };
+      })
+      .filter(Boolean) as ColorSwatch[];
     
     // Primary image is either the first color swatch image with a url, or a default fallback
     const firstColorWithImage = colors.find(c => c.image);
@@ -289,7 +285,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
       name: matched?.title || fp.product_title || `Product #${fp.product_id}`,
       image: image,
       badge: badge,
-      colors: colors.length > 0 ? colors : [{ code: '#000000', image: image }],
+      colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
       link: matched ? mapUrl(matched.uri) : '#',
     };
   });
