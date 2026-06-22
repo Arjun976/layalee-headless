@@ -22,104 +22,104 @@ interface ProductItem {
   link: string;
 }
 
-// const defaultProducts: ProductItem[] = [
-//   {
-//     name: 'YUCCABE | TULSI Planter',
-//     image: '/select_1.png',
-//     badge: 'New',
-//     colors: [
-//       { code: '#000000', image: '/select_1.png' },
-//       { code: '#4e7361', image: '/select_1.png' },
-//       { code: '#ffffff', image: '/select_1.png' },
-//       { code: '#494949', image: '/select_1.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'FOX B | CUBO Planter',
-//     image: '/select_2.png',
-//     badge: '',
-//     colors: [
-//       { code: '#000000', image: '/select_2.png' },
-//       { code: '#4e7361', image: '/select_2.png' },
-//       { code: '#ffffff', image: '/select_2.png' },
-//       { code: '#494949', image: '/select_2.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'YUCCABE | DMD Planter',
-//     image: '/select_3.png',
-//     badge: 'Best Seller',
-//     colors: [
-//       { code: '#ffffff', image: '/select_3.png' },
-//       { code: '#f5f3ef', image: '/select_3.png' },
-//       { code: '#f5f3ef', image: '/select_3.png' },
-//       { code: '#f5f3ef', image: '/select_3.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'SHERA|Kangaroo Planter',
-//     image: '/select_4.png',
-//     badge: '',
-//     colors: [
-//       { code: '#000000', image: '/select_4.png' },
-//       { code: '#cc9433', image: '/select_4.png' },
-//       { code: '#ffffff', image: '/select_4.png' },
-//       { code: '#f5f3ef', image: '/select_4.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'SHERA|DMD KTR Hanging',
-//     image: '/select_5.png',
-//     badge: 'Limited Stock',
-//     colors: [
-//       { code: '#525252', image: '/select_5.png' },
-//       { code: '#cc9433', image: '/select_5.png' },
-//       { code: '#ffffff', image: '/select_5.png' },
-//       { code: '#f5f3ef', image: '/select_5.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'FOX B | CUBO Tall Planter',
-//     image: '/select_6.png',
-//     badge: '',
-//     colors: [
-//       { code: '#2c322d', image: '/select_6.png' },
-//       { code: '#cc9433', image: '/select_6.png' },
-//       { code: '#ffffff', image: '/select_6.png' },
-//       { code: '#dcdddc', image: '/select_6.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'Fox B | BXT Planter',
-//     image: '/select_7.png',
-//     badge: '',
-//     colors: [
-//       { code: '#313232', image: '/select_7.png' },
-//       { code: '#cc9433', image: '/select_7.png' },
-//       { code: '#ffffff', image: '/select_7.png' },
-//       { code: '#dcdddc', image: '/select_7.png' }
-//     ],
-//     link: '#',
-//   },
-//   {
-//     name: 'YUCCABE | BAR Planter',
-//     image: '/select_8.png',
-//     badge: 'Set',
-//     colors: [
-//       { code: '#2c322d', image: '/select_8.png' },
-//       { code: '#cc9433', image: '/select_8.png' },
-//       { code: '#ffffff', image: '/select_8.png' },
-//       { code: '#F5F3EF', image: '/select_8.png' }
-//     ],
-//     link: '#',
-//   },
-// ];
+const defaultProducts: ProductItem[] = [
+  {
+    name: 'YUCCABE | TULSI Planter',
+    image: '/select_1.png',
+    badge: 'New',
+    colors: [
+      { code: '#000000', image: '/select_1.png' },
+      { code: '#4e7361', image: '/select_1.png' },
+      { code: '#ffffff', image: '/select_1.png' },
+      { code: '#494949', image: '/select_1.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'FOX B | CUBO Planter',
+    image: '/select_2.png',
+    badge: '',
+    colors: [
+      { code: '#000000', image: '/select_2.png' },
+      { code: '#4e7361', image: '/select_2.png' },
+      { code: '#ffffff', image: '/select_2.png' },
+      { code: '#494949', image: '/select_2.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'YUCCABE | DMD Planter',
+    image: '/select_3.png',
+    badge: 'Best Seller',
+    colors: [
+      { code: '#ffffff', image: '/select_3.png' },
+      { code: '#f5f3ef', image: '/select_3.png' },
+      { code: '#f5f3ef', image: '/select_3.png' },
+      { code: '#f5f3ef', image: '/select_3.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'SHERA|Kangaroo Planter',
+    image: '/select_4.png',
+    badge: '',
+    colors: [
+      { code: '#000000', image: '/select_4.png' },
+      { code: '#cc9433', image: '/select_4.png' },
+      { code: '#ffffff', image: '/select_4.png' },
+      { code: '#f5f3ef', image: '/select_4.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'SHERA|DMD KTR Hanging',
+    image: '/select_5.png',
+    badge: 'Limited Stock',
+    colors: [
+      { code: '#525252', image: '/select_5.png' },
+      { code: '#cc9433', image: '/select_5.png' },
+      { code: '#ffffff', image: '/select_5.png' },
+      { code: '#f5f3ef', image: '/select_5.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'FOX B | CUBO Tall Planter',
+    image: '/select_6.png',
+    badge: '',
+    colors: [
+      { code: '#2c322d', image: '/select_6.png' },
+      { code: '#cc9433', image: '/select_6.png' },
+      { code: '#ffffff', image: '/select_6.png' },
+      { code: '#dcdddc', image: '/select_6.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'Fox B | BXT Planter',
+    image: '/select_7.png',
+    badge: '',
+    colors: [
+      { code: '#313232', image: '/select_7.png' },
+      { code: '#cc9433', image: '/select_7.png' },
+      { code: '#ffffff', image: '/select_7.png' },
+      { code: '#dcdddc', image: '/select_7.png' }
+    ],
+    link: '#',
+  },
+  {
+    name: 'YUCCABE | BAR Planter',
+    image: '/select_8.png',
+    badge: 'Set',
+    colors: [
+      { code: '#2c322d', image: '/select_8.png' },
+      { code: '#cc9433', image: '/select_8.png' },
+      { code: '#ffffff', image: '/select_8.png' },
+      { code: '#F5F3EF', image: '/select_8.png' }
+    ],
+    link: '#',
+  },
+];
 
 function mapUrl(url: string): string {
   if (!url) return '#';
@@ -153,7 +153,7 @@ function mapUrl(url: string): string {
   }
 }
 
-function ProductCard({ product }: { product: ProductItem }) {
+function ProductCard({ product, isClone }: { product: ProductItem; isClone?: boolean }) {
   const [selectedImage, setSelectedImage] = useState(product.image);
   const [activeColorIdx, setActiveColorIdx] = useState(0);
 
@@ -164,7 +164,7 @@ function ProductCard({ product }: { product: ProductItem }) {
   }, [product]);
 
   return (
-    <div className="w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 flex-shrink-0 snap-start group">
+    <div className={`w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 flex-shrink-0 snap-start group ${isClone ? 'xl:hidden' : ''}`}>
       {/* Image Container with Hover Zoom & Badge - Clickable Link to Product Details */}
       <Link href={product.link} className="h-[339px] md:h-[460px] bg-white relative overflow-hidden flex items-center justify-center w-full block">
         {product.badge && (
@@ -214,9 +214,6 @@ function ProductCard({ product }: { product: ProductItem }) {
 }
 
 export default function FeaturedSection({ homepage, products }: FeaturedProps) {
-  const [activeDot, setActiveDot] = useState(0);
-  const sliderRef = useRef<HTMLDivElement>(null);
-
   // Parse Featured Options
   let homeCommonOptions: any = null;
   if (homepage?.homeCommonOptions) {
@@ -284,6 +281,24 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
 
   const displayProducts = mappedProducts.length > 0 ? mappedProducts : defaultProducts;
 
+  // Clones setup for infinite loop on mobile/tablet (ignored on desktop via xl:hidden)
+  const cloneCount = displayProducts.length > 1 ? Math.min(3, displayProducts.length) : 0;
+  const extendedProducts = displayProducts.length > 1
+    ? [
+        ...displayProducts.slice(-cloneCount),
+        ...displayProducts,
+        ...displayProducts.slice(0, cloneCount)
+      ]
+    : displayProducts;
+
+  const [activeIndex, setActiveIndex] = useState(cloneCount);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const activeDot = displayProducts.length > 1
+    ? (activeIndex - cloneCount + displayProducts.length) % displayProducts.length
+    : 0;
+
   // Parse Promo Cards
   const rawPromoCards = homeCommonOptions?.home_featured_promo_cards || [];
   
@@ -316,36 +331,103 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
           left: targetScroll,
           behavior: 'smooth',
         });
-        setActiveDot(index);
+        setActiveIndex(index);
       }
     }
   };
 
-  const handleScroll = () => {
+  const instantScrollToCard = (index: number) => {
     const slider = sliderRef.current;
     if (slider) {
-      const scrollLeft = slider.scrollLeft;
       const children = slider.children;
-      if (children && children.length > 0) {
-        let closestIndex = 0;
-        let minDiff = Infinity;
-        const containerLeft = slider.getBoundingClientRect().left;
-
-        Array.from(children).forEach((child, index) => {
-          const rect = child.getBoundingClientRect();
-          const diff = Math.abs(rect.left - containerLeft);
-          if (diff < minDiff) {
-            minDiff = diff;
-            closestIndex = index;
-          }
+      if (children && children[index]) {
+        const card = children[index] as HTMLElement;
+        const targetScroll = card.offsetLeft - slider.offsetLeft;
+        slider.scrollTo({
+          left: targetScroll,
+          behavior: 'auto',
         });
-        setActiveDot(closestIndex);
+        setActiveIndex(index);
       }
     }
   };
 
+  // Mount effect to scroll to first real card instantly
   useEffect(() => {
     const slider = sliderRef.current;
+    if (slider && displayProducts.length > 1) {
+      const children = slider.children;
+      if (children && children[cloneCount]) {
+        const card = children[cloneCount] as HTMLElement;
+        const targetScroll = card.offsetLeft - slider.offsetLeft;
+        slider.scrollTo({
+          left: targetScroll,
+          behavior: 'auto',
+        });
+      }
+      setActiveIndex(cloneCount);
+      setIsInitialized(true);
+    } else {
+      setIsInitialized(true);
+    }
+  }, [displayProducts.length, cloneCount]);
+
+  // Infinite scroll seamless loop boundary check
+  useEffect(() => {
+    if (displayProducts.length <= 1) return;
+
+    if (activeIndex >= cloneCount + displayProducts.length) {
+      // Reached end clones, jump back to real product in middle
+      const targetIndex = activeIndex - displayProducts.length;
+      instantScrollToCard(targetIndex);
+    } else if (activeIndex < cloneCount) {
+      // Reached start clones, jump forward to real product in middle
+      const targetIndex = activeIndex + displayProducts.length;
+      instantScrollToCard(targetIndex);
+    }
+  }, [activeIndex, displayProducts.length, cloneCount]);
+
+  // Auto-scroll loop
+  useEffect(() => {
+    if (displayProducts.length <= 1) return;
+
+    const interval = setInterval(() => {
+      const slider = sliderRef.current;
+      if (slider && slider.scrollWidth > slider.clientWidth) {
+        const nextIndex = activeIndex + 1;
+        scrollToCard(nextIndex);
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [displayProducts.length, activeIndex]);
+
+  // Listener for scroll tracking
+  useEffect(() => {
+    const slider = sliderRef.current;
+    const handleScroll = () => {
+      if (slider) {
+        const children = slider.children;
+        if (children && children.length > 0) {
+          let closestIndex = 0;
+          let minDiff = Infinity;
+          const containerLeft = slider.getBoundingClientRect().left;
+
+          Array.from(children).forEach((child, index) => {
+            const rect = child.getBoundingClientRect();
+            if (rect.width === 0 && rect.height === 0) return; // Skip hidden clones
+
+            const diff = Math.abs(rect.left - containerLeft);
+            if (diff < minDiff) {
+              minDiff = diff;
+              closestIndex = index;
+            }
+          });
+          setActiveIndex(closestIndex);
+        }
+      }
+    };
+
     if (slider) {
       slider.addEventListener('scroll', handleScroll, { passive: true });
     }
@@ -354,7 +436,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
         slider.removeEventListener('scroll', handleScroll);
       }
     };
-  }, []);
+  }, [displayProducts.length]);
 
   return (
     <section className="bg-[#F5F3EF] py-10 md:py-[60px] xl:py-[100px] w-full flex flex-col items-center" id="featured">
@@ -383,7 +465,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
             {displayProducts.map((_: any, index: number) => (
               <button
                 key={index}
-                onClick={() => scrollToCard(index)}
+                onClick={() => scrollToCard(index + cloneCount)}
                 className={`p-0 w-3.5 h-3.5 bg-transparent border rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 outline-none hover:opacity-70 ${
                   index === activeDot ? 'border-[#2C322D]' : 'border-transparent'
                 }`}
@@ -403,11 +485,14 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
           {/* Scrollable Container */}
           <div
             ref={sliderRef}
-            className="flex xl:flex-row overflow-x-auto xl:overflow-x-visible xl:flex-wrap scrollbar-none snap-x snap-mandatory gap-5 md:gap-6 xl:gap-y-10 xl:gap-x-5 w-full pr-5 md:pr-[30px] xl:p-0"
+            className={`flex xl:flex-row overflow-x-auto xl:overflow-x-visible xl:flex-wrap scrollbar-none snap-x snap-mandatory gap-5 md:gap-6 xl:gap-y-10 xl:gap-x-5 w-full pr-5 md:pr-[30px] xl:p-0 transition-opacity duration-500 ${
+              isInitialized ? 'opacity-100' : 'opacity-0'
+            }`}
           >
-            {displayProducts.map((product: ProductItem, index: number) => (
-              <ProductCard key={index} product={product} />
-            ))}
+            {extendedProducts.map((product: ProductItem, index: number) => {
+              const isClone = displayProducts.length > 1 && (index < cloneCount || index >= cloneCount + displayProducts.length);
+              return <ProductCard key={index} product={product} isClone={isClone} />;
+            })}
           </div>
         </div>
 
