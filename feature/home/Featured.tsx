@@ -22,104 +22,104 @@ interface ProductItem {
   link: string;
 }
 
-const defaultProducts: ProductItem[] = [
-  {
-    name: 'YUCCABE | TULSI Planter',
-    image: '/select_1.png',
-    badge: 'New',
-    colors: [
-      { code: '#000000', image: '/select_1.png' },
-      { code: '#4e7361', image: '/select_1.png' },
-      { code: '#ffffff', image: '/select_1.png' },
-      { code: '#494949', image: '/select_1.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'FOX B | CUBO Planter',
-    image: '/select_2.png',
-    badge: '',
-    colors: [
-      { code: '#000000', image: '/select_2.png' },
-      { code: '#4e7361', image: '/select_2.png' },
-      { code: '#ffffff', image: '/select_2.png' },
-      { code: '#494949', image: '/select_2.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'YUCCABE | DMD Planter',
-    image: '/select_3.png',
-    badge: 'Best Seller',
-    colors: [
-      { code: '#ffffff', image: '/select_3.png' },
-      { code: '#f5f3ef', image: '/select_3.png' },
-      { code: '#f5f3ef', image: '/select_3.png' },
-      { code: '#f5f3ef', image: '/select_3.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'SHERA|Kangaroo Planter',
-    image: '/select_4.png',
-    badge: '',
-    colors: [
-      { code: '#000000', image: '/select_4.png' },
-      { code: '#cc9433', image: '/select_4.png' },
-      { code: '#ffffff', image: '/select_4.png' },
-      { code: '#f5f3ef', image: '/select_4.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'SHERA|DMD KTR Hanging',
-    image: '/select_5.png',
-    badge: 'Limited Stock',
-    colors: [
-      { code: '#525252', image: '/select_5.png' },
-      { code: '#cc9433', image: '/select_5.png' },
-      { code: '#ffffff', image: '/select_5.png' },
-      { code: '#f5f3ef', image: '/select_5.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'FOX B | CUBO Tall Planter',
-    image: '/select_6.png',
-    badge: '',
-    colors: [
-      { code: '#2c322d', image: '/select_6.png' },
-      { code: '#cc9433', image: '/select_6.png' },
-      { code: '#ffffff', image: '/select_6.png' },
-      { code: '#dcdddc', image: '/select_6.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'Fox B | BXT Planter',
-    image: '/select_7.png',
-    badge: '',
-    colors: [
-      { code: '#313232', image: '/select_7.png' },
-      { code: '#cc9433', image: '/select_7.png' },
-      { code: '#ffffff', image: '/select_7.png' },
-      { code: '#dcdddc', image: '/select_7.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'YUCCABE | BAR Planter',
-    image: '/select_8.png',
-    badge: 'Set',
-    colors: [
-      { code: '#2c322d', image: '/select_8.png' },
-      { code: '#cc9433', image: '/select_8.png' },
-      { code: '#ffffff', image: '/select_8.png' },
-      { code: '#F5F3EF', image: '/select_8.png' }
-    ],
-    link: '#',
-  },
-];
+// const defaultProducts: ProductItem[] = [
+//   {
+//     name: 'YUCCABE | TULSI Planter',
+//     image: '/select_1.png',
+//     badge: 'New',
+//     colors: [
+//       { code: '#000000', image: '/select_1.png' },
+//       { code: '#4e7361', image: '/select_1.png' },
+//       { code: '#ffffff', image: '/select_1.png' },
+//       { code: '#494949', image: '/select_1.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'FOX B | CUBO Planter',
+//     image: '/select_2.png',
+//     badge: '',
+//     colors: [
+//       { code: '#000000', image: '/select_2.png' },
+//       { code: '#4e7361', image: '/select_2.png' },
+//       { code: '#ffffff', image: '/select_2.png' },
+//       { code: '#494949', image: '/select_2.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'YUCCABE | DMD Planter',
+//     image: '/select_3.png',
+//     badge: 'Best Seller',
+//     colors: [
+//       { code: '#ffffff', image: '/select_3.png' },
+//       { code: '#f5f3ef', image: '/select_3.png' },
+//       { code: '#f5f3ef', image: '/select_3.png' },
+//       { code: '#f5f3ef', image: '/select_3.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'SHERA|Kangaroo Planter',
+//     image: '/select_4.png',
+//     badge: '',
+//     colors: [
+//       { code: '#000000', image: '/select_4.png' },
+//       { code: '#cc9433', image: '/select_4.png' },
+//       { code: '#ffffff', image: '/select_4.png' },
+//       { code: '#f5f3ef', image: '/select_4.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'SHERA|DMD KTR Hanging',
+//     image: '/select_5.png',
+//     badge: 'Limited Stock',
+//     colors: [
+//       { code: '#525252', image: '/select_5.png' },
+//       { code: '#cc9433', image: '/select_5.png' },
+//       { code: '#ffffff', image: '/select_5.png' },
+//       { code: '#f5f3ef', image: '/select_5.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'FOX B | CUBO Tall Planter',
+//     image: '/select_6.png',
+//     badge: '',
+//     colors: [
+//       { code: '#2c322d', image: '/select_6.png' },
+//       { code: '#cc9433', image: '/select_6.png' },
+//       { code: '#ffffff', image: '/select_6.png' },
+//       { code: '#dcdddc', image: '/select_6.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'Fox B | BXT Planter',
+//     image: '/select_7.png',
+//     badge: '',
+//     colors: [
+//       { code: '#313232', image: '/select_7.png' },
+//       { code: '#cc9433', image: '/select_7.png' },
+//       { code: '#ffffff', image: '/select_7.png' },
+//       { code: '#dcdddc', image: '/select_7.png' }
+//     ],
+//     link: '#',
+//   },
+//   {
+//     name: 'YUCCABE | BAR Planter',
+//     image: '/select_8.png',
+//     badge: 'Set',
+//     colors: [
+//       { code: '#2c322d', image: '/select_8.png' },
+//       { code: '#cc9433', image: '/select_8.png' },
+//       { code: '#ffffff', image: '/select_8.png' },
+//       { code: '#F5F3EF', image: '/select_8.png' }
+//     ],
+//     link: '#',
+//   },
+// ];
 
 function mapUrl(url: string): string {
   if (!url) return '#';
@@ -165,8 +165,8 @@ function ProductCard({ product }: { product: ProductItem }) {
 
   return (
     <div className="w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 flex-shrink-0 snap-start group">
-      {/* Image Container with Hover Zoom & Badge */}
-      <div className="h-[339px] md:h-[460px] bg-white relative overflow-hidden flex items-center justify-center w-full">
+      {/* Image Container with Hover Zoom & Badge - Clickable Link to Product Details */}
+      <Link href={product.link} className="h-[339px] md:h-[460px] bg-white relative overflow-hidden flex items-center justify-center w-full block">
         {product.badge && (
           <span className="absolute top-8 left-[23px] z-10 inline-flex px-3 py-1 justify-center items-center bg-[#507661] text-white font-['Google_Sans',sans-serif] text-sm font-normal leading-[1.5] capitalize">
             {product.badge}
@@ -179,23 +179,15 @@ function ProductCard({ product }: { product: ProductItem }) {
           sizes="(max-width: 768px) 262px, (max-width: 1280px) 415px, 280px"
           className="object-cover scale-110 group-hover:scale-100 transition-transform duration-500"
         />
-        {/* Add To Cart Hover Button */}
-        <Link href={product.link} className="absolute bottom-8 left-8 right-8 py-4 bg-[#507661] hover:bg-[#456755] text-white flex items-center justify-center gap-2.5 opacity-0 group-hover:opacity-100 transition-all duration-300 font-['Google_Sans',sans-serif] text-lg font-medium z-10 cursor-pointer border-none no-underline">
-          Add to Cart
-          <svg width="20" height="20" viewBox="0 0 16 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M8.1906 0C7.09658 0 6.04737 0.434597 5.27379 1.20818C4.5002 1.98177 4.0656 3.03098 4.0656 4.125V4.8125L2.83541 4.88135C2.25661 4.88074 1.69988 5.10339 1.28112 5.50294C0.862358 5.90249 0.613833 6.44816 0.587283 7.02635L0.00235959 18.4472C-0.0115633 18.7513 0.0362368 19.0551 0.142878 19.3403C0.24952 19.6254 0.412795 19.886 0.622861 20.1063C0.832928 20.3267 1.08544 20.5022 1.36516 20.6223C1.64489 20.7425 1.94605 20.8047 2.25048 20.8053L13.7345 20.625C14.0389 20.6244 14.3401 20.5621 14.6198 20.442C14.8995 20.3219 15.152 20.1464 15.3621 19.926C15.5721 19.7057 15.7354 19.4451 15.8421 19.1599C15.9487 18.8748 15.9965 18.571 15.9826 18.2669L15.6194 6.91167C15.5929 6.33349 15.3443 5.78782 14.9256 5.38827C14.5068 4.98871 13.9501 4.76606 13.3713 4.76667L12.3156 4.8125V4.125C12.3156 3.03098 11.881 1.98177 11.1074 1.20818C10.3338 0.434597 9.28462 0 8.1906 0ZM5.4406 4.125V4.8125H10.9406V4.125C10.9406 3.39565 10.6509 2.69618 10.1351 2.18046C9.61942 1.66473 8.91995 1.375 8.1906 1.375C7.46126 1.375 6.76178 1.66473 6.24606 2.18046C5.73033 2.69618 5.4406 3.39565 5.4406 4.125ZM14.2444 6.97355L14.6076 18.3356C14.6119 18.4539 14.5929 18.5718 14.5516 18.6827C14.5103 18.7936 14.4476 18.8952 14.367 18.9819C14.2847 19.0664 14.1863 19.1336 14.0777 19.1797C13.9691 19.2257 13.8524 19.2496 13.7345 19.25L2.25048 19.4303C2.13252 19.4299 2.01582 19.406 1.90722 19.36C1.79861 19.314 1.70028 19.2467 1.61798 19.1622C1.53739 19.0756 1.47466 18.9739 1.43337 18.863C1.39208 18.7521 1.37305 18.6342 1.37736 18.516L1.96228 7.08822C1.97289 6.86388 2.06955 6.65225 2.23215 6.49733C2.39476 6.3424 2.61081 6.25635 2.83541 6.25635L13.3713 6.14167C13.5959 6.14142 13.8119 6.22773 13.9745 6.38265C14.1372 6.53758 14.2338 6.74921 14.2444 6.97355Z"
-              fill="white"
-            />
-          </svg>
-        </Link>
-      </div>
+      </Link>
 
       {/* Product Text Details */}
       <div className="flex flex-col gap-4">
-        <h3 className="text-[#2C322D] font-['Funnel_Display',sans-serif] text-[20px] md:text-[32px] font-normal leading-[1.2] tracking-[-0.6px] md:tracking-[-0.96px] xl:tracking-[-1.8px]">
-          {product.name}
-        </h3>
+        <Link href={product.link} className="no-underline">
+          <h3 className="text-[#2C322D] font-['Funnel_Display',sans-serif] text-[20px] md:text-[32px] font-normal leading-[1.2] tracking-[-0.6px] md:tracking-[-0.96px] xl:tracking-[-1.8px] hover:text-[#507661] transition-colors duration-300">
+            {product.name}
+          </h3>
+        </Link>
         {/* Color Swatches */}
         <div className="flex gap-3">
           {product.colors.map((color, colorIdx) => (
@@ -388,7 +380,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
         {/* Swipe Slider pagination dots - Hidden on Desktop (xl:hidden) */}
         {displayProducts.length > 1 && (
           <div className="flex xl:hidden justify-center items-center gap-3 mt-[29px] -mb-[27px] py-2.5 order-3">
-            {displayProducts.map((_, index) => (
+            {displayProducts.map((_: any, index: number) => (
               <button
                 key={index}
                 onClick={() => scrollToCard(index)}
@@ -413,7 +405,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
             ref={sliderRef}
             className="flex xl:flex-row overflow-x-auto xl:overflow-x-visible xl:flex-wrap scrollbar-none snap-x snap-mandatory gap-5 md:gap-6 xl:gap-y-10 xl:gap-x-5 w-full pr-5 md:pr-[30px] xl:p-0"
           >
-            {displayProducts.map((product, index) => (
+            {displayProducts.map((product: ProductItem, index: number) => (
               <ProductCard key={index} product={product} />
             ))}
           </div>

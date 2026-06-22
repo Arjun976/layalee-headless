@@ -18,38 +18,38 @@ interface Slide {
   secondaryBtnLink: string;
 }
 
-const defaultSlides: Slide[] = [
-  {
-    subtitle: 'Layale Group',
-    title: 'Planters that Shape Spaces',
-    description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
-    image: '/banner_img1.png',
-    primaryBtnText: 'Shop Planters',
-    primaryBtnLink: '#',
-    secondaryBtnText: 'Explore Collections',
-    secondaryBtnLink: '#',
-  },
-  {
-    subtitle: 'Layale Group',
-    title: 'Planters that Shape Spaces',
-    description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
-    image: '/banner_img2.png',
-    primaryBtnText: 'Shop Planters',
-    primaryBtnLink: '#',
-    secondaryBtnText: 'Explore Collections',
-    secondaryBtnLink: '#',
-  },
-  {
-    subtitle: 'Layale Group',
-    title: 'Planters that Shape Spaces',
-    description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
-    image: '/banner_img1.png',
-    primaryBtnText: 'Shop Planters',
-    primaryBtnLink: '#',
-    secondaryBtnText: 'Explore Collections',
-    secondaryBtnLink: '#',
-  },
-];
+// const defaultSlides: Slide[] = [
+//   {
+//     subtitle: 'Layale Group',
+//     title: 'Planters that Shape Spaces',
+//     description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
+//     image: '/banner_img1.png',
+//     primaryBtnText: 'Shop Planters',
+//     primaryBtnLink: '#',
+//     secondaryBtnText: 'Explore Collections',
+//     secondaryBtnLink: '#',
+//   },
+//   {
+//     subtitle: 'Layale Group',
+//     title: 'Planters that Shape Spaces',
+//     description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
+//     image: '/banner_img2.png',
+//     primaryBtnText: 'Shop Planters',
+//     primaryBtnLink: '#',
+//     secondaryBtnText: 'Explore Collections',
+//     secondaryBtnLink: '#',
+//   },
+//   {
+//     subtitle: 'Layale Group',
+//     title: 'Planters that Shape Spaces',
+//     description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
+//     image: '/banner_img1.png',
+//     primaryBtnText: 'Shop Planters',
+//     primaryBtnLink: '#',
+//     secondaryBtnText: 'Explore Collections',
+//     secondaryBtnLink: '#',
+//   },
+// ];
 
 function mapUrl(url: string): string {
   if (!url) return '#';
