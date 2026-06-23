@@ -1,6 +1,5 @@
-'use client';
-
 import React from 'react';
+import Image from 'next/image';
 
 interface GetInspiredProps {
   homepage?: any;
@@ -141,10 +140,12 @@ export default function GetInspiredSection({ homepage, baseUrl }: GetInspiredPro
         <div className="grid grid-cols-2 xl:grid-cols-[2fr_1fr_1fr] xl:grid-rows-[350px_350px] gap-3 md:gap-5 xl:gap-5 w-full">
           {displayImages.map((imgItem, idx) => (
             <div key={idx} className={getClassForLayout(imgItem.layoutClass)}>
-              <img
+              <Image
                 src={getAbsoluteUrl(imgItem.url, baseUrl)}
                 alt={imgItem.alt || title || 'Styled with Layale'}
-                className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-500 block"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover scale-110 group-hover:scale-100 transition-transform duration-500 block"
               />
             </div>
           ))}
