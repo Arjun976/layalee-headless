@@ -1,0 +1,331 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>Layale Project Documentation</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+@page {
+  size: 8.5in 11.0in;
+  margin: 1.0in 1.0in 1.0in 1.0in;
+  mso-header-margin: .5in;
+  mso-footer-margin: .5in;
+  mso-paper-source: 0;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #2C322D;
+}
+h1 {
+  font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, sans-serif;
+  color: #2C322D;
+  font-size: 22pt;
+  margin-top: 0;
+  margin-bottom: 12pt;
+  border-bottom: 2px solid #CC9433;
+  padding-bottom: 6px;
+}
+h2 {
+  font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, sans-serif;
+  color: #507661;
+  font-size: 15pt;
+  margin-top: 24pt;
+  margin-bottom: 8pt;
+  border-bottom: 1px solid #E9EDEB;
+  padding-bottom: 3px;
+}
+h3 {
+  font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, sans-serif;
+  color: #CC9433;
+  font-size: 12pt;
+  margin-top: 16pt;
+  margin-bottom: 4pt;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 8pt;
+}
+ul, ol {
+  margin-top: 0;
+  margin-bottom: 8pt;
+  padding-left: 20pt;
+}
+li {
+  margin-bottom: 4pt;
+}
+code {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 9.5pt;
+  background-color: #F5F3EF;
+  color: #2C322D;
+  padding: 2px 4px;
+}
+pre {
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 9.5pt;
+  background-color: #F5F3EF;
+  color: #2C322D;
+  padding: 10pt;
+  border: 1px solid #D5D2CC;
+  margin-top: 0;
+  margin-bottom: 12pt;
+  white-space: pre-wrap;
+}
+table.flowchart {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15pt;
+  margin-bottom: 15pt;
+}
+table.flowchart td {
+  border: none;
+  padding: 8px;
+}
+.box-dark {
+  background-color: #2C322D;
+  color: #FFFFFF;
+  padding: 12pt;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.box-green {
+  background-color: #507661;
+  color: #FFFFFF;
+  padding: 12pt;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.box-gold {
+  background-color: #CC9433;
+  color: #FFFFFF;
+  padding: 12pt;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.box-light {
+  background-color: #F5F3EF;
+  color: #2C322D;
+  padding: 12pt;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid #D5D2CC;
+}
+.arrow {
+  text-align: center;
+  font-size: 18pt;
+  color: #CC9433;
+  font-weight: bold;
+}
+.subtitle {
+  font-size: 8.5pt;
+  font-weight: normal;
+  display: block;
+  margin-top: 4pt;
+}
+.subtitle-light {
+  color: #D5D2CC;
+}
+.subtitle-green {
+  color: #E9EDEB;
+}
+.subtitle-dark {
+  color: #555555;
+}
+</style>
+</head>
+<body>
+
+<h1>Layale Project Documentation</h1>
+
+<p>Welcome to the headless Next.js project for Layale. Below is an explanation of the folder structure, how the backend API is called, and how the data is processed across the application.</p>
+
+<hr style="border: none; border-top: 1px solid #E9EDEB; margin-top: 18pt; margin-bottom: 18pt;"/>
+
+<h2>1. Project Folder Structure</h2>
+
+<p>The project follows a standard Next.js App Router structure combined with modular folders for layouts, utilities, and features:</p>
+
+<pre>
+layale_headless/
+├── app/                  # Next.js App Router Pages & Routings
+│   ├── layout.tsx        # Root HTML shell, runs server-side API for Header/Footer
+│   ├── page.tsx          # Homepage view, runs server-side API for content blocks
+│   └── product/          # Product details page routes (future phases)
+├── components/           # Global design system UI layouts
+│   ├── Header.tsx        # Responsive navigation bar (uses themeSettings & navMenus)
+│   └── Footer.tsx        # Multi-column footer and newsletter (uses themeSettings & navMenus)
+├── feature/              # Feature-specific components grouped by module
+│   ├── home/             # Homepage module sections
+│   │   ├── Banner.tsx            # Main hero slider/carousel
+│   │   ├── Category.tsx          # Collection categories
+│   │   ├── Expert-Assistance.tsx # Banner section for customer help
+│   │   ├── Featured.tsx          # Featured product grids
+│   │   ├── Get-inspired.tsx      # Inspirational slider block
+│   │   ├── Promise.tsx           # Company promise section
+│   │   └── nature-inspired.tsx   # Botanical theme section
+│   └── ProductSection.tsx        # Feature components for product displays
+├── lib/                  # Utilities, configuration, and API layers
+│   └── wordpress.tsx     # GraphQL queries & fetching wrapper for WordPress
+├── public/               # Static assets (images, icons, default logo)
+├── .env                  # Configuration variables (WordPress URL/secret)
+└── package.json          # Dependency configurations
+</pre>
+
+<hr style="border: none; border-top: 1px solid #E9EDEB; margin-top: 18pt; margin-bottom: 18pt;"/>
+
+<h2>2. Where the API is Called</h2>
+
+<p>The API calling logic is centralized under <code>lib/wordpress.tsx</code>. The functions query a headless WordPress instance using GraphQL.</p>
+
+<p>To achieve optimal performance and minimize network roundtrips, the application relies on the following flow:</p>
+
+<h3>Step 1: Centralized GraphQL Fetching</h3>
+<ul>
+  <li><strong>File:</strong> <code>lib/wordpress.tsx</code></li>
+  <li><strong>Function:</strong> <code>getHeaderAndHomePageData</code></li>
+  <li><strong>Mechanism:</strong>
+    <ul>
+      <li>It retrieves the CMS endpoint URL from <code>process.env.Secret</code>.</li>
+      <li>It constructs a single large GraphQL query (<code>GetHeaderAndHomePageData</code>) which bundles requests for:
+        <ol>
+          <li><strong>Theme Settings</strong> (<code>layaleThemeSettings</code>) – header strips, footer copy, brand styles, social links, address details.</li>
+          <li><strong>Navigation Menus</strong> (<code>layaleNavMenus</code>) – links grouped into headers, footers, shop categories, company info, and legal links.</li>
+          <li><strong>Homepage Blocks</strong> (<code>homepage: page(...)</code>) – homepage-specific sliders, text content, options.</li>
+          <li><strong>Product Categories</strong> (<code>productCategories</code>) – categories list.</li>
+          <li><strong>Products</strong> (<code>products</code>) – basic information for the initial products list.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Step 2: Root Layout Server-Side Load (Header/Footer)</h3>
+<ul>
+  <li><strong>File:</strong> <code>app/layout.tsx</code></li>
+  <li><strong>Mechanism:</strong>
+    <ul>
+      <li>When a visitor accesses any route on the site, Next.js calls <code>getHeaderAndHomePageData</code> on the server side.</li>
+      <li>The returned <code>themeSettings</code> and <code>navMenus</code> objects are passed directly into the global <code>&lt;Header&gt;</code> and <code>&lt;Footer&gt;</code> layout components.</li>
+      <li>Because this is executed server-side, the rendered layout is generated as static HTML before being sent to the browser (perfect for SEO and page load speeds).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Step 3: Homepage Component Server-Side Load</h3>
+<ul>
+  <li><strong>File:</strong> <code>app/page.tsx</code></li>
+  <li><strong>Mechanism:</strong>
+    <ul>
+      <li>Similar to the layout, the home page's default export function is a Server Component.</li>
+      <li>It calls <code>getHeaderAndHomePageData</code> to receive page-specific dynamic data (<code>homepage</code>, <code>productCategories</code>, <code>products</code>).</li>
+      <li>It spreads this data down into the respective feature section components (e.g. <code>&lt;Banner homepage={homepage} /&gt;</code>, <code>&lt;Featured products={products} /&gt;</code>, etc.).</li>
+    </ul>
+  </li>
+</ul>
+
+<hr style="border: none; border-top: 1px solid #E9EDEB; margin-top: 18pt; margin-bottom: 18pt;"/>
+
+<h2>3. How Data is Handled (Step-by-Step Flow)</h2>
+
+<p>Here is the exact progression of how data travels from WordPress to the user's screen:</p>
+
+<table class="flowchart">
+  <tr>
+    <td style="width: 28%;">
+      <div class="box-dark">
+        WordPress CMS
+        <span class="subtitle subtitle-light">ACF Settings &amp; Menus</span>
+      </div>
+    </td>
+    <td style="width: 8%;" class="arrow">&rarr;</td>
+    <td style="width: 28%;">
+      <div class="box-green">
+        GraphQL Endpoint
+        <span class="subtitle subtitle-green">lib/wordpress.tsx API Call</span>
+      </div>
+    </td>
+    <td style="width: 8%;" class="arrow">&rarr;</td>
+    <td style="width: 28%;">
+      <div class="box-gold">
+        Server Components
+        <span class="subtitle subtitle-green">layout.tsx / page.tsx</span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5" style="height: 10pt;"></td>
+  </tr>
+  <tr>
+    <td style="width: 28%;">
+      <div class="box-light">
+        HTML Delivery
+        <span class="subtitle subtitle-dark">Served to Client Browser</span>
+      </div>
+    </td>
+    <td style="width: 8%;" class="arrow">&larr;</td>
+    <td style="width: 28%;">
+      <div class="box-light">
+        UI Components
+        <span class="subtitle subtitle-dark">Header, Footer, Banner</span>
+      </div>
+    </td>
+    <td style="width: 8%;" class="arrow">&larr;</td>
+    <td style="width: 28%;">
+      <div class="box-light">
+        JSON Parsing
+        <span class="subtitle subtitle-dark">Entity Decoders &amp; Url Maps</span>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<h3>Step-by-Step Data Flow:</h3>
+<ol>
+  <li><strong>CMS Input</strong>: WordPress editors modify settings (e.g., logo, header banner announcements, links) using custom fields.</li>
+  <li><strong>GraphQL Querying</strong>: Next.js sends a POST request containing the GraphQL schema to the endpoint.</li>
+  <li><strong>JSON Decoding</strong>:
+    <ul>
+      <li>WordPress returns global theme settings and menus serialized as JSON strings.</li>
+      <li><code>lib/wordpress.tsx</code> parses these JSON strings using <code>JSON.parse(rawThemeSettings)</code> and <code>JSON.parse(rawNavMenus)</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Hydration &amp; Prop Passing</strong>: Next.js passes the parsed Javascript objects into <code>&lt;Header themeSettings={themeSettings} navMenus={navMenus} /&gt;</code> and <code>&lt;Footer themeSettings={themeSettings} navMenus={navMenus} /&gt;</code>.</li>
+  <li><strong>Decoders &amp; Cleanups</strong>:
+    <ul>
+      <li>Inside components like <code>Header.tsx</code> or <code>Footer.tsx</code>, utility functions decode HTML entities (e.g., changing <code>&amp;amp;</code> to <code>&amp;</code>).</li>
+      <li>A mapping function <code>mapUrl</code> converts relative WordPress backend links (like <code>/layale_be/category/indoor</code>) into frontend-friendly slugs (like <code>/portrait</code>).</li>
+    </ul>
+  </li>
+  <li><strong>Defensive Fallbacks</strong>: If any field was left blank by an editor in WordPress, the component checks the key and automatically injects a predefined local fallback (e.g., default SVG logo or pre-set announcement strip text).</li>
+  <li><strong>Hydrated Delivery</strong>: The final page is served to the client as clean, ready-to-display HTML with no client-side API requests required.</li>
+</ol>
+
+<hr style="border: none; border-top: 1px solid #E9EDEB; margin-top: 18pt; margin-bottom: 18pt;"/>
+
+<h2>4. Key Challenges &amp; Next Steps</h2>
+<ol>
+  <li><strong>Optimize JSON Stringification:</strong> Avoid calling <code>JSON.stringify</code> or parsing strings repeatedly inside renders; streamline backend serialization structures or keep them static where possible.</li>
+  <li><strong>Error States:</strong> Remove generic inline fallbacks and implement robust client/server-side error boundaries for API failures.</li>
+  <li><strong>Skeleton Loading UI:</strong> Design and build modern skeleton fallback loaders for homepage grids and banner sliders to polish initial load perceived performance.</li>
+  <li><strong>Custom Component Library:</strong> Create high-quality reusable dynamic UI components (buttons, input elements, popups, modals, etc.) matching the brand aesthetic.</li>
+</ol>
+
+<hr style="border: none; border-top: 1px solid #E9EDEB; margin-top: 18pt; margin-bottom: 18pt;"/>
+
+<p><strong>Project Repository:</strong> <a href="https://github.com/Arjun976/layalee-headless.git" style="color: #507661; text-decoration: underline;">layalee-headless</a></p>
+
+</body>
+</html>
