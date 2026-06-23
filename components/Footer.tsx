@@ -83,7 +83,7 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
       className="w-full bg-[#2C322D] pt-[60px] md:pt-[80px] xl:pt-[100px] text-white font-['Google_Sans',sans-serif]"
       style={{ background: 'linear-gradient(90deg, #2C322D 0%, #2C322D 100%)' }}
     >
-      <div className="w-full px-5 md:px-[30px] xl:px-10 3xl:px-0 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1540px]">
+      <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:!max-w-[1540px] min-[1600px]:px-[30px]">
         {/* Main Footer Content */}
         <div className="flex flex-col xl:flex-row justify-between gap-10 xl:gap-[140px] mb-[60px] md:mb-8 xl:mb-[100px]">
           
@@ -167,7 +167,7 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
 
           {/* Right Column: Navigation Links */}
           <div className="w-full xl:w-[60%] flex flex-col gap-10 xl:gap-[60px]">
-            <div className="flex flex-row flex-wrap gap-y-[30px] gap-x-[70px] md:gap-20 xl:gap-[100px]">
+            <div className="flex flex-row flex-wrap xl:flex-nowrap gap-y-[30px] gap-x-[70px] md:gap-20 xl:gap-[80px]">
               
               {/* Link Col 1: Shop */}
               <div className="flex flex-col gap-[30px] md:gap-10 max-[767px]:max-w-[317px] max-[992px]:max-w-[300px]">
@@ -306,7 +306,7 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
 
       {/* Bottom Bar: Copyright & Legal */}
       <div className="py-[33px] border-t border-[#F5F3EF]/10 w-full">
-        <div className="w-full px-5 md:px-[30px] xl:px-10 3xl:px-0 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] 3xl:max-w-[1540px] flex flex-col-reverse md:flex-row items-center md:justify-between gap-[15px] md:gap-0">
+        <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:!max-w-[1540px] min-[1600px]:px-[30px] flex flex-col-reverse md:flex-row items-center md:justify-between gap-[15px] md:gap-0">
           <p className="text-[#F5F3EF]/30 font-['Google_Sans',sans-serif] text-sm md:text-base xl:text-lg m-0">
             {copyrightText}
           </p>
