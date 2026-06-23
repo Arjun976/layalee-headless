@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { getHeaderAndHomePageData } from "@/lib/wordpress";
 
 const geistSans = Geist({
@@ -33,7 +34,10 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Header themeSettings={themeSettings} navMenus={navMenus} />
-        {children}
+        <div className="flex-grow flex flex-col">
+          {children}
+        </div>
+        <Footer themeSettings={themeSettings} navMenus={navMenus} />
       </body>
     </html>
   );
