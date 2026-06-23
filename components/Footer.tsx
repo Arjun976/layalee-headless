@@ -137,7 +137,7 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
             <div className="hidden xl:flex flex-col gap-1 items-start">
               {logoSvg ? (
                 <div
-                  className="w-[159px] h-[52px] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain flex items-center justify-start"
+                  className="w-[159px] h-[52px] lg:h-[76px] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain flex items-center justify-start"
                   dangerouslySetInnerHTML={{ __html: logoSvg }}
                 />
               ) : (
