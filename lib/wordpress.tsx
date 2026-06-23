@@ -103,7 +103,7 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
         query,
         variables: { homepageUri },
       }),
-      next: { revalidate: 60 } // cache for 60 seconds
+      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
     });
 
     if (!response.ok) {

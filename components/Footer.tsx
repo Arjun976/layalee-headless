@@ -51,11 +51,18 @@ function mapUrl(url: string): string {
 
 export default function FooterSection({ themeSettings, navMenus }: FooterProps) {
   // Newsletter copy
-  const newsletterTitle = themeSettings?.footer_settings?.newsletter_title || themeSettings?.newsletter_title || "Stay Inspired";
-  const newsletterDescription = themeSettings?.footer_settings?.newsletter_description || themeSettings?.newsletter_description || "Join our newsletter for design ideas, new collections, and exclusive offers.";
+  const newsletterSubtitle = themeSettings?.newsletter_section?.newsletter_subtitle || themeSettings?.footer_newsletter_content?.footer_newsletter_subtitle || "Join Us";
+  const newsletterTitle = themeSettings?.newsletter_section?.newsletter_title || themeSettings?.footer_newsletter_content?.footer_newsletter_title || "Stay Inspired";
+  
+  let newsletterDescription = "Join our newsletter for design ideas, new collections, and exclusive offers.";
+  if (themeSettings?.newsletter_section?.newsletter_paragraphs && themeSettings.newsletter_section.newsletter_paragraphs.length > 0) {
+    newsletterDescription = themeSettings.newsletter_section.newsletter_paragraphs[0].paragraph;
+  } else if (themeSettings?.footer_newsletter_content?.footer_newsletter_description) {
+    newsletterDescription = themeSettings.footer_newsletter_content.footer_newsletter_description;
+  }
 
   // Logo
-  const logoSvg = themeSettings?.logo_settings?.logo_svg || null;
+  const logoSvg = themeSettings?.footer_logo?.footer_logo_svg || themeSettings?.logo_settings?.logo_svg || null;
 
   // Menus
   const shopMenu = navMenus?.shop || [];
@@ -63,20 +70,26 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
   const legalMenu = navMenus?.legal || [];
 
   // Contact options
-  const addressText = themeSettings?.contact_details?.address || themeSettings?.contact_address || themeSettings?.address || "Layale trading LLC Fz Meydan Grandstand, 6th floor, Meydan Road, Nad Al Sheba, Dubai, U.A.E.";
-  const addressLink = themeSettings?.contact_details?.address_link || themeSettings?.address_link || "#";
-  const emailText = themeSettings?.contact_details?.email || themeSettings?.contact_email || themeSettings?.email || "info@layalegroup.com";
-  const phoneText = themeSettings?.contact_details?.phone || themeSettings?.contact_phone || themeSettings?.phone || "+971 58 58 38 722";
+  const addressText = themeSettings?.footer_contact_content?.footer_contact_address || "Layale trading LLC Fz Meydan Grandstand, 6th floor, Meydan Road, Nad Al Sheba, Dubai, U.A.E.";
+  const addressLink = themeSettings?.footer_contact_content?.footer_contact_address_link || "#";
+  const emailText = themeSettings?.footer_contact_content?.footer_contact_email || "info@layalegroup.com";
+  const phoneText = themeSettings?.footer_contact_content?.footer_contact_phone || "+971 58 58 38 722";
   const phoneLinkText = phoneText.replace(/\s+/g, '');
 
   // Social Links
-  const instagramUrl = themeSettings?.social_links?.instagram || themeSettings?.social_instagram || themeSettings?.instagram || "https://www.instagram.com/";
-  const facebookUrl = themeSettings?.social_links?.facebook || themeSettings?.social_facebook || themeSettings?.facebook || "https://www.facebook.com/";
-  const twitterUrl = themeSettings?.social_links?.twitter || themeSettings?.social_links?.x || themeSettings?.social_x || themeSettings?.social_twitter || themeSettings?.twitter || themeSettings?.x || "https://twitter.com/";
-  const tiktokUrl = themeSettings?.social_links?.tiktok || themeSettings?.social_tiktok || themeSettings?.tiktok || "https://www.tiktok.com/";
+  const socialLinksRaw = themeSettings?.footer_social_content?.footer_social_links || [];
+  const getSocialUrl = (name: string, fallback: string) => {
+    const link = socialLinksRaw.find((s: any) => s.social_name?.toLowerCase() === name.toLowerCase());
+    return link?.social_url || fallback;
+  };
+  
+  const instagramUrl = getSocialUrl('instagram', "https://www.instagram.com/");
+  const facebookUrl = getSocialUrl('facebook', "https://www.facebook.com/");
+  const twitterUrl = getSocialUrl('x', "https://twitter.com/");
+  const tiktokUrl = getSocialUrl('tiktok', "https://www.tiktok.com/");
 
   // Copyright
-  const copyrightText = themeSettings?.copyright_text || themeSettings?.footer_copyright || themeSettings?.copyright || "© 2026 Layale Group. All rights reserved.";
+  const copyrightText = themeSettings?.footer_copyright_text || "© 2026 Layale Group. All rights reserved.";
 
   return (
     <footer
@@ -94,7 +107,7 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
                 <div className="flex flex-col gap-3 items-start">
                   <span className="inline-flex items-center gap-3 text-[#CC9433] font-['Google_Sans',sans-serif] text-sm xl:text-lg font-normal tracking-[1.4px] xl:tracking-[1.8px] uppercase">
                     <span className="w-[21px] h-[1px] bg-[#CC9433]" />
-                    Join Us
+                    {newsletterSubtitle}
                   </span>
                   <h2 className="text-white font-['Funnel_Display',sans-serif] font-light leading-none text-[30px] tracking-[-0.9px] md:text-[48px] md:tracking-[-1.44px] xl:text-[40px] xl:tracking-[-1.8px] 2xl:text-[48px] 3xl:text-[60px]">
                     {newsletterTitle}
