@@ -289,7 +289,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
               </span>
             )}
             {featuredTitle && (
-              <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] min-[1600px]:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
+              <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] lg:text-[48px] xl:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
                 {featuredTitle}
               </h2>
             )}
@@ -352,7 +352,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
                         </span>
                       )}
                       {promo1Title && (
-                        <h2 className="text-white font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] min-[1600px]:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
+                        <h2 className="text-white font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] lg:text-[48px] xl:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
                           {promo1Title}
                         </h2>
                       )}
@@ -396,7 +396,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
                         </span>
                       )}
                       {promo2Title && (
-                        <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] xl:text-[40px] 2xl:text-[48px] min-[1600px]:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
+                        <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] lg:text-[48px] xl:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
                           {promo2Title}
                         </h2>
                       )}

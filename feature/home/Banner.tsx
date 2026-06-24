@@ -134,7 +134,7 @@ export default function Banner({ homepage }: BannerProps) {
                       </span>
                     )}
                     {slide.title && (
-                      <h1 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none m-0 text-[36px] md:text-[48px] xl:text-[54px] 2xl:text-[64px] min-[1600px]:text-[80px] tracking-[-1.08px] md:tracking-[-1.44px] xl:tracking-[-1.62px] min-[1600px]:tracking-[-2.4px]">
+                      <h1 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none m-0 text-[36px] md:text-[48px] lg:text-[60px] xl:text-[80px] tracking-[-1.08px] md:tracking-[-1.44px] xl:tracking-[-1.62px] min-[1600px]:tracking-[-2.4px]">
                         {slide.title}
                       </h1>
                     )}
