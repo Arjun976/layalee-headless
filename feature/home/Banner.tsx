@@ -18,39 +18,6 @@ interface Slide {
   secondaryBtnLink: string;
 }
 
-const defaultSlides: Slide[] = [
-  {
-    subtitle: 'Layale Group',
-    title: 'Planters that Shape Spaces',
-    description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
-    image: '/banner_img1.png',
-    primaryBtnText: 'Shop Planters',
-    primaryBtnLink: '#',
-    secondaryBtnText: 'Explore Collections',
-    secondaryBtnLink: '#',
-  },
-  {
-    subtitle: 'Layale Group',
-    title: 'Planters that Shape Spaces',
-    description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
-    image: '/banner_img2.png',
-    primaryBtnText: 'Shop Planters',
-    primaryBtnLink: '#',
-    secondaryBtnText: 'Explore Collections',
-    secondaryBtnLink: '#',
-  },
-  {
-    subtitle: 'Layale Group',
-    title: 'Planters that Shape Spaces',
-    description: 'Modern indoor and outdoor planters crafted to bring natural elegance to every space.',
-    image: '/banner_img1.png',
-    primaryBtnText: 'Shop Planters',
-    primaryBtnLink: '#',
-    secondaryBtnText: 'Explore Collections',
-    secondaryBtnLink: '#',
-  },
-];
-
 function mapUrl(url: string): string {
   if (!url) return '#';
   if (url.startsWith('/') || url.startsWith('#')) return url;
@@ -86,8 +53,12 @@ function mapUrl(url: string): string {
 export default function Banner({ homepage }: BannerProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
+  if (!homepage) {
+    return null;
+  }
+
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -101,24 +72,22 @@ export default function Banner({ homepage }: BannerProps) {
   const bannerEnabled = bannerFieldset.home_banner_enable !== '0' && bannerFieldset.home_banner_enable !== false;
   const rawSlides = bannerFieldset.home_banner_slides || [];
 
-  // Hide the banner if explicitly disabled in CMS settings
-  if (homepage && !bannerEnabled) {
+  // Hide the banner if explicitly disabled in CMS settings or no slides exist
+  if (!bannerEnabled || rawSlides.length === 0) {
     return null;
   }
 
   // Map CMS slide structure to component structure
-  const slides: Slide[] = rawSlides.length > 0
-    ? rawSlides.map((slide: any, index: number) => ({
-        subtitle: slide.home_banner_slide_subtitle || 'Layale Group',
-        title: slide.home_banner_slide_title || '',
-        description: slide.home_banner_slide_description || '',
-        image: index % 2 === 0 ? '/banner_img1.png' : '/banner_img2.png',
-        primaryBtnText: slide.home_banner_slide_primary_text || '',
-        primaryBtnLink: mapUrl(slide.home_banner_slide_primary_link?.url || '#'),
-        secondaryBtnText: slide.home_banner_slide_secondary_text || '',
-        secondaryBtnLink: mapUrl(slide.home_banner_slide_secondary_link?.url || '#'),
-      }))
-    : defaultSlides;
+  const slides: Slide[] = rawSlides.map((slide: any, index: number) => ({
+    subtitle: slide.home_banner_slide_subtitle || 'Layale Group',
+    title: slide.home_banner_slide_title || '',
+    description: slide.home_banner_slide_description || '',
+    image: index % 2 === 0 ? '/banner_img1.png' : '/banner_img2.png',
+    primaryBtnText: slide.home_banner_slide_primary_text || '',
+    primaryBtnLink: mapUrl(slide.home_banner_slide_primary_link?.url || '#'),
+    secondaryBtnText: slide.home_banner_slide_secondary_text || '',
+    secondaryBtnLink: mapUrl(slide.home_banner_slide_secondary_link?.url || '#'),
+  }));
 
   const scrollText = bannerFieldset.home_banner_scroll_text || 'Scroll';
   const scrollTarget = mapUrl(bannerFieldset.home_banner_scroll_target?.url || '#categories');

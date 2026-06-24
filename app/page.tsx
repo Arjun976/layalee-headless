@@ -9,6 +9,11 @@ import { getHeaderAndHomePageData } from '@/lib/wordpress';
 
 export default async function Home() {
   const { homepage, productCategories, products } = await getHeaderAndHomePageData();
+  
+  if (!homepage || !products) {
+    throw new Error("Unable to load critical homepage data from WordPress API.");
+  }
+
   const baseUrl = process.env.Secret;
 
   return (

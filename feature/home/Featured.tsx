@@ -22,105 +22,6 @@ interface ProductItem {
   link: string;
 }
 
-const defaultProducts: ProductItem[] = [
-  {
-    name: 'YUCCABE | TULSI Planter',
-    image: '/select_1.png',
-    badge: 'New',
-    colors: [
-      { code: '#000000', image: '/select_1.png' },
-      { code: '#4e7361', image: '/select_1.png' },
-      { code: '#ffffff', image: '/select_1.png' },
-      { code: '#494949', image: '/select_1.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'FOX B | CUBO Planter',
-    image: '/select_2.png',
-    badge: '',
-    colors: [
-      { code: '#000000', image: '/select_2.png' },
-      { code: '#4e7361', image: '/select_2.png' },
-      { code: '#ffffff', image: '/select_2.png' },
-      { code: '#494949', image: '/select_2.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'YUCCABE | DMD Planter',
-    image: '/select_3.png',
-    badge: 'Best Seller',
-    colors: [
-      { code: '#ffffff', image: '/select_3.png' },
-      { code: '#f5f3ef', image: '/select_3.png' },
-      { code: '#f5f3ef', image: '/select_3.png' },
-      { code: '#f5f3ef', image: '/select_3.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'SHERA|Kangaroo Planter',
-    image: '/select_4.png',
-    badge: '',
-    colors: [
-      { code: '#000000', image: '/select_4.png' },
-      { code: '#cc9433', image: '/select_4.png' },
-      { code: '#ffffff', image: '/select_4.png' },
-      { code: '#f5f3ef', image: '/select_4.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'SHERA|DMD KTR Hanging',
-    image: '/select_5.png',
-    badge: 'Limited Stock',
-    colors: [
-      { code: '#525252', image: '/select_5.png' },
-      { code: '#cc9433', image: '/select_5.png' },
-      { code: '#ffffff', image: '/select_5.png' },
-      { code: '#f5f3ef', image: '/select_5.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'FOX B | CUBO Tall Planter',
-    image: '/select_6.png',
-    badge: '',
-    colors: [
-      { code: '#2c322d', image: '/select_6.png' },
-      { code: '#cc9433', image: '/select_6.png' },
-      { code: '#ffffff', image: '/select_6.png' },
-      { code: '#dcdddc', image: '/select_6.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'Fox B | BXT Planter',
-    image: '/select_7.png',
-    badge: '',
-    colors: [
-      { code: '#313232', image: '/select_7.png' },
-      { code: '#cc9433', image: '/select_7.png' },
-      { code: '#ffffff', image: '/select_7.png' },
-      { code: '#dcdddc', image: '/select_7.png' }
-    ],
-    link: '#',
-  },
-  {
-    name: 'YUCCABE | BAR Planter',
-    image: '/select_8.png',
-    badge: 'Set',
-    colors: [
-      { code: '#2c322d', image: '/select_8.png' },
-      { code: '#cc9433', image: '/select_8.png' },
-      { code: '#ffffff', image: '/select_8.png' },
-      { code: '#F5F3EF', image: '/select_8.png' }
-    ],
-    link: '#',
-  },
-];
-
 function mapUrl(url: string): string {
   if (!url) return '#';
   if (url.startsWith('/') || url.startsWith('#')) return url;
@@ -164,7 +65,7 @@ function ProductCard({ product, isClone }: { product: ProductItem; isClone?: boo
   }, [product]);
 
   return (
-    <div className={`w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 pb-5 md:pb-6 lg:pb-10 flex-shrink-0 snap-start group ${isClone ? 'xl:hidden' : ''}`}>
+    <div className={`w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 pb-5 md:pb-6 flex-shrink-0 snap-start group ${isClone ? 'xl:hidden' : ''}`}>
       {/* Image Container with Hover Zoom & Badge - Clickable Link to Product Details */}
       <Link href={product.link} className="h-[339px] md:h-[460px] bg-white relative overflow-hidden flex items-center justify-center w-full block">
         {product.badge && (
@@ -214,9 +115,13 @@ function ProductCard({ product, isClone }: { product: ProductItem; isClone?: boo
 }
 
 export default function FeaturedSection({ homepage, products }: FeaturedProps) {
+  if (!homepage || !products) {
+    return null;
+  }
+
   // Parse Featured Options
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -232,13 +137,13 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
   const featuredTitle = featuredFieldset.home_featured_title || 'Featured Planters';
 
   // Return null if featured section is disabled in CMS
-  if (homepage && !featuredEnabled) {
+  if (!featuredEnabled) {
     return null;
   }
 
   // Parse Featured Products
   const rawFeaturedProducts = featuredFieldset.featured_products || [];
-  const apiProducts = products?.nodes || [];
+  const apiProducts = products.nodes || [];
 
   const mappedProducts: ProductItem[] = rawFeaturedProducts.map((fp: any) => {
     // Find matching product by ID
@@ -279,7 +184,10 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
     };
   });
 
-  const displayProducts = mappedProducts.length > 0 ? mappedProducts : defaultProducts;
+  const displayProducts = mappedProducts;
+  if (displayProducts.length === 0) {
+    return null;
+  }
 
   // Clones setup for infinite loop on mobile/tablet (ignored on desktop via xl:hidden)
   const cloneCount = displayProducts.length > 1 ? Math.min(3, displayProducts.length) : 0;

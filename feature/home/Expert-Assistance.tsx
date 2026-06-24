@@ -15,78 +15,6 @@ interface FeatureItem {
   fallbackIcon?: React.ReactNode;
 }
 
-const defaultFeatures: FeatureItem[] = [
-  {
-    title: 'Plant Selection',
-    description: 'Suitable plants for your planters',
-    fallbackIcon: (
-      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M33.5156 33.5156H47.5781V40.5469H44.0625" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M15.9375 40.5469H12.4219V33.5156H30" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M30 22.9688V33.5156" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M30 11.7188V19.4531" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-        <mask id="mask0_280_5130" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
-          <path d="M0 3.8147e-06H60V60H0V3.8147e-06Z" fill="white" />
-        </mask>
-        <g mask="url(#mask0_280_5130)">
-          <path d="M30 22.9688H22.9688C17.1434 22.9688 12.4219 18.2473 12.4219 12.4219V8.90625H19.4531C25.2785 8.90625 30 13.6277 30 19.4531V22.9688Z" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M33.5156 33.5156H30C30 25.7496 36.2965 19.4531 44.0625 19.4531H47.5781C47.5781 27.2191 41.2816 33.5156 33.5156 33.5156Z" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M33.5156 11.7188H30C30 5.89336 34.7215 1.17188 40.5469 1.17188H44.0625C44.0625 6.99727 39.341 11.7188 33.5156 11.7188Z" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M30 60C29.3534 60 28.8281 59.4748 28.8281 58.8281C28.8281 58.1815 29.3534 57.6563 30 57.6563C30.6466 57.6563 31.1719 58.1815 31.1719 58.8281C31.1719 59.4748 30.6466 60 30 60Z" fill="#CC9433" />
-          <path d="M24.7266 58.8281H19.4531L15.9375 40.5469H44.0625L40.5469 58.8281H35.2734" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
-      </svg>
-    )
-  },
-  {
-    title: 'Size Guidance',
-    description: 'Perfect dimensions for your space',
-    fallbackIcon: (
-      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.0723 33.9845L33.8143 16.2425C36.5602 13.4967 41.0121 13.4967 43.758 16.2425C46.5039 18.9883 46.5039 23.4402 43.758 26.1862L25.8988 44.0454" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <g clipPath="url(#clip0_280_5159)">
-          <path d="M36.374 21.1396L38.8599 23.6255" stroke="#CC9433" strokeWidth="30" strokeMiterlimit="10" />
-        </g>
-        <path d="M15.9375 44.1797H51.2109C55.0942 44.1797 58.2422 47.3277 58.2422 51.2109C58.2422 55.0942 55.0942 58.2422 51.2109 58.2422H8.78906" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M22.1484 52.9688V57.8906" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M29.1797 52.9688V57.8906" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M36.2109 52.9688V57.8906" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M43.2422 52.9688V57.8906" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M50.2734 52.9688V57.8906" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M1.75781 8.78906V51.2109C1.75781 55.0942 4.90582 58.2422 8.78906 58.2422C12.6723 58.2422 15.8203 55.0942 15.8203 51.2109V8.78906C15.8203 4.90582 12.6723 1.75781 8.78906 1.75781C4.90582 1.75781 1.75781 4.90582 1.75781 8.78906Z" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M7.03125 37.8516H2.10938" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M7.03125 30.8203H2.10938" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M7.03125 23.7891H2.10938" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M7.03125 16.7578H2.10938" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M7.03125 9.72656H2.10938" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <path d="M7.03125 44.8828H2.10938" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" />
-        <defs>
-          <clipPath id="clip0_280_5159">
-            <rect width="3.51562" height="3.51562" fill="white" transform="matrix(0.7071 0.7071 0.7071 -0.7071 35.1309 22.3828)" />
-          </clipPath>
-        </defs>
-      </svg>
-    )
-  },
-  {
-    title: 'Material Advice',
-    description: 'Best materials for your setting',
-    fallbackIcon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
-        <mask id="mask0_280_5181" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
-          <path d="M59.335 59.335V0.665039H0.665039V59.335H59.335Z" fill="white" stroke="white" strokeWidth="1.33" />
-        </mask>
-        <g mask="url(#mask0_280_5181)">
-          <path d="M8.90625 51.0938L17.3437 44.0625H44.1797C48.0629 44.0625 51.2109 40.9145 51.2109 37.0313V8.78907C51.2109 4.90582 48.0629 1.75782 44.1797 1.75782H8.90625C5.02301 1.75782 1.75781 4.90582 1.75781 8.78907V37.0313C1.75781 40.9145 5.02301 44.0625 8.90625 44.0625V51.0938Z" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M40.6641 22.9688C40.6641 30.7352 34.2509 37.0312 26.4844 37.0312C18.7179 37.0312 12.4219 30.7352 12.4219 22.9688C12.4219 15.2023 18.7179 8.78906 26.4844 8.78906C34.2509 8.78906 40.6641 15.2023 40.6641 22.9688Z" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M19.4531 22.9688L24.7266 28.2422L32.893 20.0757" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M51.2109 15.9375C55.0942 15.9375 58.2422 19.0855 58.2422 22.9688V44.0625C58.2422 47.9457 55.0942 51.0938 51.2109 51.0938V58.2422L42.7734 51.0938H26.4844C22.6011 51.0938 19.4531 47.9457 19.4531 44.0625" stroke="#CC9433" strokeWidth="1.33" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-        </g>
-      </svg>
-    )
-  }
-];
-
 function mapUrl(url: string): string {
   if (!url) return '#';
   if (url.startsWith('/') || url.startsWith('#')) return url;
@@ -120,9 +48,13 @@ function mapUrl(url: string): string {
 }
 
 export default function ExpertAssistanceSection({ homepage }: ExpertAssistanceProps) {
+  if (!homepage) {
+    return null;
+  }
+
   // Parse homeCommonOptions
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -135,7 +67,7 @@ export default function ExpertAssistanceSection({ homepage }: ExpertAssistancePr
   const expertFieldset = homeCommonOptions?.expert_assistance_fieldset || {};
   const expertEnabled = expertFieldset.expert_enable !== '0' && expertFieldset.expert_enable !== false;
 
-  if (homepage && !expertEnabled) {
+  if (!expertEnabled) {
     return null;
   }
 
@@ -150,7 +82,10 @@ export default function ExpertAssistanceSection({ homepage }: ExpertAssistancePr
     description: f.expert_feature_description || '',
     iconHtml: f.expert_feature_icon || ''
   }));
-  const displayFeatures = mappedFeatures.length > 0 ? mappedFeatures : defaultFeatures;
+  const displayFeatures = mappedFeatures;
+  if (displayFeatures.length === 0) {
+    return null;
+  }
 
   const buttonText = expertFieldset.expert_button_text || 'Get Expert Advice';
   const buttonLink = mapUrl(expertFieldset.expert_button_link?.url || '#');

@@ -12,29 +12,6 @@ interface InspiredImage {
   alt: string;
 }
 
-const defaultImages: InspiredImage[] = [
-  {
-    url: '/get_inspired_large.png',
-    layoutClass: 'item-large-v',
-    alt: 'Styled with Layale'
-  },
-  {
-    url: '/get_inspired_small1.png',
-    layoutClass: 'item-medium',
-    alt: 'Styled with Layale'
-  },
-  {
-    url: '/get_inspired_small2.png',
-    layoutClass: 'item-medium',
-    alt: 'Styled with Layale'
-  },
-  {
-    url: '/get_inspired_medium.png',
-    layoutClass: 'item-large-h',
-    alt: 'Styled with Layale'
-  }
-];
-
 function getAbsoluteUrl(url: string, wpBase?: string): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -66,8 +43,12 @@ function getClassForLayout(layoutClass: string): string {
 }
 
 export default function GetInspiredSection({ homepage, baseUrl }: GetInspiredProps) {
+  if (!homepage) {
+    return null;
+  }
+
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -80,7 +61,7 @@ export default function GetInspiredSection({ homepage, baseUrl }: GetInspiredPro
   const getInspiredFieldset = homeCommonOptions?.getinspired_fieldset || {};
   const getInspiredEnabled = getInspiredFieldset.getinspired_enable !== '0' && getInspiredFieldset.getinspired_enable !== false;
 
-  if (homepage && !getInspiredEnabled) {
+  if (!getInspiredEnabled) {
     return null;
   }
 
@@ -110,7 +91,10 @@ export default function GetInspiredSection({ homepage, baseUrl }: GetInspiredPro
     })
     .filter(Boolean) as InspiredImage[];
 
-  const displayImages = mappedImages.length > 0 ? mappedImages : defaultImages;
+  const displayImages = mappedImages;
+  if (displayImages.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-white py-10 md:py-[60px] xl:py-[100px] w-full" id="get-inspired">

@@ -15,34 +15,6 @@ interface CategoryItem {
   link: string;
 }
 
-const defaultCategories: CategoryItem[] = [
-  {
-    title: 'Indoor Planters',
-    image: '/4u_1.png',
-    link: '#',
-  },
-  {
-    title: 'Outdoor planters',
-    image: '/4u_2.png',
-    link: '#',
-  },
-  {
-    title: 'Hanging planters',
-    image: '/4u_3.png',
-    link: '#',
-  },
-  {
-    title: 'Balcony planters',
-    image: '/4u_4.png',
-    link: '#',
-  },
-  {
-    title: 'Tray Planter',
-    image: '/4u_5.png',
-    link: '#',
-  },
-];
-
 function mapUrl(url: string): string {
   if (!url) return '#';
   if (url.startsWith('/') || url.startsWith('#')) return url;
@@ -76,9 +48,13 @@ function mapUrl(url: string): string {
 }
 
 export default function CategorySection({ homepage, productCategories }: CategoryProps) {
+  if (!homepage || !productCategories) {
+    return null;
+  }
+
   // Parse Category Options (title, subtitle, enable)
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -93,10 +69,12 @@ export default function CategorySection({ homepage, productCategories }: Categor
   const categorySubtitle = categoryFieldset.home_categories_subtitle || 'Curated For You';
   const categoryTitle = categoryFieldset.home_categories_title || 'Shop by Category';
 
-  // Map Category Items
+  if (!categoriesEnabled) {
+    return null;
+  }
 
   // Parse Category Items
-  const rawNodes = productCategories?.nodes || [];
+  const rawNodes = productCategories.nodes || [];
   const mappedCategories: CategoryItem[] = rawNodes.map((node: any) => {
     let categoryOptions: any = null;
     if (node.categoryOptions) {
@@ -115,7 +93,10 @@ export default function CategorySection({ homepage, productCategories }: Categor
     };
   });
 
-  const activeCategories = mappedCategories.length > 0 ? mappedCategories : defaultCategories;
+  const activeCategories = mappedCategories;
+  if (activeCategories.length === 0) {
+    return null;
+  }
   const extendedCategories = [...activeCategories, ...activeCategories, ...activeCategories];
 
   const [activeDot, setActiveDot] = useState(0);

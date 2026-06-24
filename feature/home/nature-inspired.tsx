@@ -12,29 +12,6 @@ interface NatureItem {
   alt: string;
 }
 
-const defaultItems: NatureItem[] = [
-  {
-    imageUrl: '/select_1.png',
-    link: 'https://www.instagram.com/',
-    alt: 'Get Inspired by Nature'
-  },
-  {
-    imageUrl: '/select_2.png',
-    link: 'https://www.instagram.com/',
-    alt: 'Get Inspired by Nature'
-  },
-  {
-    imageUrl: '/select_3.png',
-    link: 'https://www.instagram.com/',
-    alt: 'Get Inspired by Nature'
-  },
-  {
-    imageUrl: '/select_4.png',
-    link: 'https://www.instagram.com/',
-    alt: 'Get Inspired by Nature'
-  }
-];
-
 function getAbsoluteUrl(url: string, wpBase?: string): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -54,8 +31,12 @@ function getAbsoluteUrl(url: string, wpBase?: string): string {
 }
 
 export default function NatureInspiredSection({ homepage, baseUrl }: NatureInspiredProps) {
+  if (!homepage) {
+    return null;
+  }
+
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -67,6 +48,10 @@ export default function NatureInspiredSection({ homepage, baseUrl }: NatureInspi
 
   const natureFieldset = homeCommonOptions?.nature_inspired_fieldset || {};
   const natureEnabled = natureFieldset.nature_enable !== '0' && natureFieldset.nature_enable !== false;
+
+  if (!natureEnabled) {
+    return null;
+  }
 
   const subtitle = natureFieldset.nature_subtitle || '@layalegroup';
   const title = natureFieldset.nature_title || 'Get Inspired by Nature';
@@ -93,9 +78,8 @@ export default function NatureInspiredSection({ homepage, baseUrl }: NatureInspi
     })
     .filter(Boolean) as NatureItem[];
 
-  const displayItems = mappedItems.length > 0 ? mappedItems : defaultItems;
-
-  if (homepage && !natureEnabled) {
+  const displayItems = mappedItems;
+  if (displayItems.length === 0) {
     return null;
   }
 

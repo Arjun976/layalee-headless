@@ -21,29 +21,6 @@ const staticSvgFallbacks: string[] = [
   `<svg width="60" height="60" viewbox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M42.6673 43.4219H23.7002" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><mask id="mask0_280_5361" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60"><path d="M0 3.8147e-06H60V60H0V3.8147e-06Z" fill="white" /></mask><g mask="url(#mask0_280_5361)"><path d="M54.2156 43.4224H58.242V31.1969L48.1583 20.7779H39.9072V20.7928V43.3114" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M58.2418 31.1968H39.9062" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M14.1117 39.1703C16.2607 37.0212 19.7447 37.0212 21.8937 39.1703C24.0426 41.3193 24.0426 44.8036 21.8937 46.9526C19.7447 49.1017 16.2607 49.1017 14.1117 46.9526C11.9628 44.8036 11.9628 41.3193 14.1117 39.1703Z" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M44.7835 39.1703C46.9325 37.0212 50.4165 37.0212 52.5655 39.1703C54.7145 41.3193 54.7145 44.8036 52.5655 46.9526C50.4165 49.1017 46.9325 49.1017 44.7835 46.9526C42.6347 44.8036 42.6347 41.3193 44.7835 39.1703Z" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M7.30762 11.436V43.4028H12.2727" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M39.9565 20.7925V11.4359H7.30762" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M19.504H7.30762" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M19.5046 18.4688H4.21973" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M18.2148 25.5015H1.75781" stroke="#CC9433" stroke-width="1.33" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" /></g></svg>`
 ];
 
-const defaultItems: PromiseItem[] = [
-  {
-    title: 'Premium Materials',
-    description: 'Sourced from the finest manufacturers worldwide for lasting quality.',
-    fallbackIcon: staticSvgFallbacks[0]
-  },
-  {
-    title: 'Weather Resistant',
-    description: 'Engineered to withstand harsh outdoor conditions without fading.',
-    fallbackIcon: staticSvgFallbacks[1]
-  },
-  {
-    title: 'Elegant Design',
-    description: 'Every piece is crafted with meticulous attention to aesthetics.',
-    fallbackIcon: staticSvgFallbacks[2]
-  },
-  {
-    title: 'UAE Delivery',
-    description: 'Fast and careful delivery across the Emirates, fully insured.',
-    fallbackIcon: staticSvgFallbacks[3]
-  }
-];
-
 function getAbsoluteUrl(url: string, wpBase?: string): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -61,8 +38,12 @@ function getAbsoluteUrl(url: string, wpBase?: string): string {
 }
 
 export default function PromiseSection({ homepage, baseUrl }: PromiseProps) {
+  if (!homepage) {
+    return null;
+  }
+
   let homeCommonOptions: any = null;
-  if (homepage?.homeCommonOptions) {
+  if (homepage.homeCommonOptions) {
     try {
       homeCommonOptions = typeof homepage.homeCommonOptions === 'string'
         ? JSON.parse(homepage.homeCommonOptions)
@@ -75,7 +56,7 @@ export default function PromiseSection({ homepage, baseUrl }: PromiseProps) {
   const promiseFieldset = homeCommonOptions?.promise_section_fieldset || {};
   const promiseEnabled = promiseFieldset.promise_enable !== '0' && promiseFieldset.promise_enable !== false;
 
-  if (homepage && !promiseEnabled) {
+  if (!promiseEnabled) {
     return null;
   }
 
@@ -111,7 +92,10 @@ export default function PromiseSection({ homepage, baseUrl }: PromiseProps) {
     };
   });
 
-  const displayItems = mappedItems.length > 0 ? mappedItems : defaultItems;
+  const displayItems = mappedItems;
+  if (displayItems.length === 0) {
+    return null;
+  }
 
   return (
     <section className="bg-[#2C322D] py-[60px] md:py-20 xl:py-[100px] w-full flex flex-col items-center" id="promise">
