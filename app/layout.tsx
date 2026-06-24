@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import { getHeaderAndHomePageData } from "@/lib/wordpress";
 import Header from "@/components/header/Header";
 import FooterSection from "@/components/footer/Footer";

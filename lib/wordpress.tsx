@@ -107,7 +107,8 @@ export async function getHeaderAndHomePageData(homepageUri = "/"): Promise<WordP
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+      console.error(`GraphQL fetch failed! Status: ${response.status} ${response.statusText}`);
+      return { themeSettings: null, navMenus: null, homepage: null, productCategories: null, products: null };
     }
 
     const resJson = await response.json();
