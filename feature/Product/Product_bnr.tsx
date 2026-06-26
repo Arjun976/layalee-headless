@@ -43,7 +43,7 @@ export default function ProductBnr({
           
           {/* Subtitle flanked by gold lines */}
           {subtitle && (
-            <span className="inline-flex items-center gap-3 text-[#CC9433] text-sm md:text-[18px] font-sans font-normal tracking-[1.4px] md:tracking-[1.8px] uppercase">
+            <span className="inline-flex items-center gap-3 text-[#CC9433] text-sm md:text-[18px] font-sans font-normal tracking-[1.4px] md:tracking-[1.8px] ">
               <span className="w-[21px] h-[1px] bg-[#CC9433]" />
               {subtitle}
               <span className="w-[21px] h-[1px] bg-[#CC9433]" />
@@ -51,7 +51,7 @@ export default function ProductBnr({
           )}
 
           {/* Large Title */}
-          <h1 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none text-4xl sm:text-5xl md:text-6xl xl:text-[72px] tracking-[-1px] md:tracking-[-1.5px] uppercase select-none">
+          <h1 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none text-4xl sm:text-5xl md:text-6xl xl:text-[72px] tracking-[-1px] md:tracking-[-1.5px]  select-none">
             {title}
           </h1>
 
