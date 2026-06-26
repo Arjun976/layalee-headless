@@ -130,11 +130,13 @@ export default async function ProductPage() {
       {/* Why Choose Our Indoor Products Section */}
       <ProductPromise />
 
-      {/* Nature Inspired Instagram Grid/Carousel */}
-      <NatureInspired homepage={homepage} baseUrl={baseUrl} />
+     
 
       {/* Frequently Asked Questions Section */}
       <ProductFaq />
+
+       {/* Nature Inspired Instagram Grid/Carousel */}
+      <NatureInspired homepage={homepage} baseUrl={baseUrl} />
     </main>
   );
 }
