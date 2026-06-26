@@ -1,4 +1,20 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@font-face {
+  font-family: 'Funnel_Display';
+  src: local('Funnel Display');
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google_Sans';
+  src: local('Google Sans'), local('Plus Jakarta Sans');
+  font-weight: 300 800;
+  font-display: swap;
+}
+
 
 :root {
   --background: #ffffff;
