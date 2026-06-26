@@ -50,8 +50,8 @@ export default function ContactForm() {
             {/* Input Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Full Name */}
-              <div className="relative bg-[#F5F3EF] rounded-[4px] px-6 py-4 flex flex-col justify-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
-                <label htmlFor="fullName" className="text-[#313232] font-['Google_Sans',sans-serif] text-xs font-normal tracking-wide uppercase select-none">
+              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+                <label htmlFor="fullName" className="sr-only">
                   Full Name
                 </label>
                 <input
@@ -61,14 +61,14 @@ export default function ContactForm() {
                   value={formData.fullName}
                   onChange={handleChange}
                   required
-                  placeholder="Enter your full name"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full mt-1 placeholder-[#313232]/30"
+                  placeholder="Full Name"
+                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
 
               {/* Email */}
-              <div className="relative bg-[#F5F3EF] rounded-[4px] px-6 py-4 flex flex-col justify-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
-                <label htmlFor="email" className="text-[#313232] font-['Google_Sans',sans-serif] text-xs font-normal tracking-wide uppercase select-none">
+              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+                <label htmlFor="email" className="sr-only">
                   Email
                 </label>
                 <input
@@ -78,14 +78,14 @@ export default function ContactForm() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  placeholder="Enter your email"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full mt-1 placeholder-[#313232]/30"
+                  placeholder="Email"
+                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
 
               {/* Phone Number */}
-              <div className="relative bg-[#F5F3EF] rounded-[4px] px-6 py-4 flex flex-col justify-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
-                <label htmlFor="phone" className="text-[#313232] font-['Google_Sans',sans-serif] text-xs font-normal tracking-wide uppercase select-none">
+              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+                <label htmlFor="phone" className="sr-only">
                   Phone Number
                 </label>
                 <input
@@ -95,14 +95,14 @@ export default function ContactForm() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  placeholder="Enter phone number"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full mt-1 placeholder-[#313232]/30"
+                  placeholder="Phone Number"
+                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
 
               {/* Subject */}
-              <div className="relative bg-[#F5F3EF] rounded-[4px] px-6 py-4 flex flex-col justify-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
-                <label htmlFor="subject" className="text-[#313232] font-['Google_Sans',sans-serif] text-xs font-normal tracking-wide uppercase select-none">
+              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+                <label htmlFor="subject" className="sr-only">
                   Subject
                 </label>
                 <input
@@ -112,15 +112,15 @@ export default function ContactForm() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  placeholder="Enter subject"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full mt-1 placeholder-[#313232]/30"
+                  placeholder="Subject"
+                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
             </div>
 
             {/* Message */}
-            <div className="relative bg-[#F5F3EF] rounded-[4px] px-6 py-4 flex flex-col justify-start h-[200px] border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
-              <label htmlFor="message" className="text-[#313232] font-['Google_Sans',sans-serif] text-xs font-normal tracking-wide uppercase select-none mb-1">
+            <div className="bg-[#F5F3EF] rounded-[4px] px-6 py-5 flex h-[200px] border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+              <label htmlFor="message" className="sr-only">
                 Message
               </label>
               <textarea
@@ -129,8 +129,8 @@ export default function ContactForm() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                placeholder="Write your message here..."
-                className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full h-full resize-none placeholder-[#313232]/30"
+                placeholder="Message"
+                className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full h-full resize-none placeholder-[#313232]/85"
               />
             </div>
 
