@@ -66,7 +66,13 @@ export default function ContactCards() {
 
   return (
     <section className="bg-white pb-10 md:pb-[60px] xl:pb-[100px] w-full" id="contact-cards-section">
-      <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]! min-[1600px]:px-[30px]">
+      <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]! min-[1600px]:px-[30px] flex flex-col gap-8 md:gap-[60px]">
+        
+        {/* Section Heading: "Contact Us" */}
+        <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-none text-[32px] md:text-[48px] xl:text-[60px] tracking-[-1px] md:tracking-[-1.5px] text-left w-full">
+          Contact Us
+        </h2>
+
         {/* Beige container box matching Frame 265 */}
         <div className="bg-[#F5F3EF] rounded-[4px] py-10 md:py-[42px] px-6 md:px-12 xl:px-[118px] w-full">
           <div className="flex flex-col xl:flex-row items-center xl:items-stretch justify-between gap-10 xl:gap-0">
