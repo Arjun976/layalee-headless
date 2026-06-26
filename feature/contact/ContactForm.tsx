@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -165,18 +164,16 @@ export default function ContactForm() {
           </form>
         </div>
 
-        {/* Right Side: Image with Overlay */}
+        {/* Right Side: Interactive Location Map */}
         <div className="w-full xl:w-[44%] relative aspect-[783/620] xl:h-[620px] rounded-[4px] overflow-hidden bg-[#F5F3EF]">
-          <Image
-            src="/contact_hero.png"
-            alt="Nature Inspired Living Space"
-            fill
-            sizes="(max-width: 1200px) 100vw, 44vw"
-            priority
-            className="object-cover"
+          <iframe
+            src="https://maps.google.com/maps?q=Meydan%20Grandstand,%20Nad%20Al%20Sheba,%20Dubai&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            className="absolute inset-0 w-full h-full border-0"
+            allowFullScreen={true}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Layale Location Map"
           />
-          {/* Green Color Overlay (51% opacity) */}
-          <div className="absolute inset-0 bg-[#507661] opacity-[0.51] z-10 pointer-events-none" />
         </div>
 
       </div>
