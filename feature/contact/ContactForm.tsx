@@ -36,7 +36,7 @@ export default function ContactForm() {
       <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]! min-[1600px]:px-[30px] flex flex-col xl:flex-row xl:justify-between gap-10 xl:gap-[60px]">
         
         {/* Left Side: Form & Heading */}
-        <div className="w-full xl:w-[53%] flex flex-col gap-8">
+        <div className="w-full xl:w-[53%] flex flex-col gap-12">
           <div className="flex flex-col gap-5">
             <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.15] text-[32px] md:text-[48px] xl:text-[64px] tracking-[-1px] md:tracking-[-1.5px]">
               Create Your Green Space
@@ -145,7 +145,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex w-full md:w-[227px] h-[67px] justify-center items-center gap-2.5 bg-[#507661] hover:bg-[#3f5c4b] active:bg-[#2f4538] text-white font-['Google_Sans',sans-serif] font-medium text-[18px] transition-all duration-300 cursor-pointer border-none rounded-[4px] group shadow-sm disabled:opacity-75"
+              className="inline-flex w-full md:w-[227px] h-[67px] justify-center items-center lg:mt-9 gap-2.5 bg-[#507661] hover:bg-[#3f5c4b] active:bg-[#2f4538] text-white font-['Google_Sans',sans-serif] font-medium text-[18px] transition-all duration-300 cursor-pointer border-none rounded-[4px] group shadow-sm disabled:opacity-75"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
               {!isSubmitting && (
