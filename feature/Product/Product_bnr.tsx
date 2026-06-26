@@ -61,7 +61,7 @@ export default function ProductBnr({
               <React.Fragment key={index}>
                 {index > 0 && <span className="text-[#313232] mx-2">/</span>}
                 {index === breadcrumbs.length - 1 ? (
-                  <span className="text-[#CC9433] font-medium">{crumb.label}</span>
+                  <span className="text-[#313232] font-medium">{crumb.label}</span>
                 ) : (
                   <Link
                     href={crumb.url}
