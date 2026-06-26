@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ProductCard, { ProductItem } from '@/components/ProductCard';
 
 interface CategoryNode {
@@ -42,6 +42,10 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 16; // 16 cards per page as requested
 
   const categoryList = useMemo(() => {
     return categories.nodes || [];
@@ -82,10 +86,44 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
     return result;
   }, [initialProducts, searchQuery, selectedCategory, sortBy]);
 
+  // Reset pagination to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory, sortBy]);
+
+  // Paginated subset of products
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return processedProducts.slice(startIndex, startIndex + itemsPerPage);
+  }, [processedProducts, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(processedProducts.length / itemsPerPage);
+
+  const startItem = processedProducts.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, processedProducts.length);
+
   const handleResetFilters = () => {
     setSearchQuery('');
     setSelectedCategory('all');
     setSortBy('default');
+  };
+
+  const renderPageNumbers = () => {
+    const pages = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 2) {
+        pages.push(1, 2, '...', totalPages);
+      } else if (currentPage >= totalPages - 1) {
+        pages.push(1, '...', totalPages - 1, totalPages);
+      } else {
+        pages.push(1, '...', currentPage, '...', totalPages);
+      }
+    }
+    return pages;
   };
 
   return (
@@ -113,8 +151,8 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
                 />
               </svg>
             </button>
-            <span className="text-[#545955] font-['Google_Sans',sans-serif] text-sm md:text-base font-normal">
-              Showing 1–{processedProducts.length} of {initialProducts.length} item(s)
+            <span className="text-[#828787] font-sans text-[14px] font-normal">
+              Showing {startItem}–{endItem} of {processedProducts.length} item(s)
             </span>
           </div>
         </div>
@@ -239,11 +277,11 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
         </div>
 
         {/* Results Info & Responsive Cards Grid */}
-        <div className="flex flex-col gap-6 w-full">
-          {processedProducts.length > 0 ? (
+        <div className="flex flex-col gap-8 w-full">
+          {paginatedProducts.length > 0 ? (
             /* Responsive Grid: 1 column on mobile, 2 columns on tablet/iPad (md), 3 on lg, 4 on xl */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10 md:gap-x-6 xl:gap-x-5 w-full">
-              {processedProducts.map((product, idx) => (
+              {paginatedProducts.map((product, idx) => (
                 <ProductCard 
                   key={idx} 
                   product={product} 
@@ -268,6 +306,37 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
               >
                 Reset All Filters
               </button>
+            </div>
+          )}
+
+          {/* Figma Pixel-Perfect Pagination Bar */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2  pt-6 ">
+              {renderPageNumbers().map((page, index) => {
+                if (page === '...') {
+                  return (
+                    <span 
+                      key={`ellipsis-${index}`} 
+                      className="w-10 h-10 flex items-center justify-center text-[#828787] font-sans text-[15px]"
+                    >
+                      ...
+                    </span>
+                  );
+                }
+                return (
+                  <button
+                    key={`page-${page}`}
+                    onClick={() => setCurrentPage(Number(page))}
+                    className={`w-10 h-10 border flex items-center justify-center cursor-pointer transition-all duration-300 font-sans text-[15px] font-normal ${
+                      currentPage === page
+                        ? 'bg-[#2C322D] border-[#2C322D] text-white'
+                        : 'bg-transparent border-[#E5E5E5] text-[#828787] hover:border-[#2C322D] hover:text-[#2C322D]'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
