@@ -3,6 +3,7 @@ import ProductBnr from '@/feature/Product/Product_bnr';
 import ProductCatalog from '@/feature/Product/ProductCatalog';
 import ProductPromise from '@/feature/Product/Promise';
 import ProductFaq from '@/feature/Product/Faq';
+import NatureInspired from '@/feature/home/nature-inspired';
 import { ProductItem, ColorSwatch } from '@/components/ProductCard';
 import { getHeaderAndHomePageData } from '@/lib/wordpress';
 
@@ -40,6 +41,7 @@ function mapUrl(url: string): string {
 
 export default async function ProductPage() {
   const { homepage, productCategories, products } = await getHeaderAndHomePageData();
+  const baseUrl = process.env.Secret;
 
   if (!homepage || !products || !productCategories) {
     return (
@@ -127,6 +129,9 @@ export default async function ProductPage() {
 
       {/* Why Choose Our Indoor Products Section */}
       <ProductPromise />
+
+      {/* Nature Inspired Instagram Grid/Carousel */}
+      <NatureInspired homepage={homepage} baseUrl={baseUrl} />
 
       {/* Frequently Asked Questions Section */}
       <ProductFaq />

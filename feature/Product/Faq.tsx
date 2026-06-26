@@ -92,20 +92,21 @@ export default function ProductFaq() {
                     {item.question}
                   </span>
                   
-                  {/* Plus / Minus toggle icon */}
-                  <span className="flex-shrink-0 ml-4 w-6 h-6 rounded-full border border-[#2C322D]/10 flex items-center justify-center text-[#2C322D] transition-transform duration-300">
+                  {/* Chevron arrow toggle icon */}
+                  <span className="flex-shrink-0 ml-4 text-[#2C322D]">
                     <svg
-                      className={`w-3.5 h-3.5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                      className={`w-4 h-4 transition-transform duration-300 ease-in-out ${isOpen ? '' : 'rotate-180'}`}
                       fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
+                      viewBox="0 0 16 16"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      {isOpen ? (
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4" />
-                      ) : (
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                      )}
+                      <path
+                        d="M12 10L8 6L4 10"
+                        stroke="#2C322D"
+                        strokeWidth="1.33333"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </span>
                 </button>
