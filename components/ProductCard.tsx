@@ -20,9 +20,10 @@ export interface ProductItem {
 interface ProductCardProps {
   product: ProductItem;
   isClone?: boolean;
+  className?: string;
 }
 
-export default function ProductCard({ product, isClone }: ProductCardProps) {
+export default function ProductCard({ product, isClone, className }: ProductCardProps) {
   const [selectedImage, setSelectedImage] = useState(product.image);
   const [activeColorIdx, setActiveColorIdx] = useState(0);
 
@@ -33,7 +34,7 @@ export default function ProductCard({ product, isClone }: ProductCardProps) {
   }, [product]);
 
   return (
-    <div className={`w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 pb-5 md:pb-6 flex-shrink-0 snap-start group ${isClone ? 'xl:hidden' : ''}`}>
+    <div className={className || `w-[262px] md:w-[415px] xl:w-[calc(25%-15px)] flex flex-col gap-4 md:gap-5 pb-5 md:pb-6 flex-shrink-0 snap-start group ${isClone ? 'xl:hidden' : ''}`}>
       {/* Image Container with Hover Zoom & Badge - Clickable Link to Product Details */}
       <Link href={product.link} className="h-[339px] md:h-[460px] bg-white relative overflow-hidden flex items-center justify-center w-full block">
         {product.badge && (

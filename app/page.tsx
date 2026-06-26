@@ -1,6 +1,7 @@
 import Banner from '@/feature/home/Banner';
 import Category from '@/feature/home/Category';
 import Featured from '@/feature/home/Featured';
+import FilteredProducts from '@/feature/home/FilteredProducts';
 import ExpertAssistance from '@/feature/home/Expert-Assistance';
 import GetInspired from '@/feature/home/Get-inspired';
 import NatureInspired from '@/feature/home/nature-inspired';
@@ -21,6 +22,7 @@ export default async function Home() {
       <Banner homepage={homepage} />
       <Category homepage={homepage} productCategories={productCategories} />
       <Featured homepage={homepage} products={products} />
+      <FilteredProducts />
       <ExpertAssistance homepage={homepage} />
       <GetInspired homepage={homepage} baseUrl={baseUrl} />
       <PromiseSection homepage={homepage} baseUrl={baseUrl} />
@@ -28,4 +30,5 @@ export default async function Home() {
     </main>
   );
 }
+
 
