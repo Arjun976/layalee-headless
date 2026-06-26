@@ -65,42 +65,45 @@ export default function ContactCards() {
   ];
 
   return (
-    <section className="bg-[#F5F3EF] py-10 md:py-[60px] xl:py-[100px] w-full" id="contact-cards-section">
+    <section className="bg-white pb-10 md:pb-[60px] xl:pb-[100px] w-full" id="contact-cards-section">
       <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]! min-[1600px]:px-[30px]">
-        <div className="flex flex-col xl:flex-row items-stretch justify-between gap-8 xl:gap-0 bg-[#F5F3EF] py-5">
-          {cards.map((card, idx) => (
-            <React.Fragment key={idx}>
-              {/* Divider between columns (only visible on desktop) */}
-              {idx > 0 && (
-                <div className="hidden xl:block w-[1px] bg-[#507661]/25 self-stretch my-2" />
-              )}
-              
-              {/* Card Container */}
-              <div className="flex-1 flex flex-col items-center text-center gap-6 px-4 md:px-8">
-                {/* Icon wrapper */}
-                <div className="flex-shrink-0 flex items-center justify-center">
-                  {card.icon}
-                </div>
+        {/* Beige container box matching Frame 265 */}
+        <div className="bg-[#F5F3EF] rounded-[4px] py-10 md:py-[42px] px-6 md:px-12 xl:px-[118px] w-full">
+          <div className="flex flex-col xl:flex-row items-center xl:items-stretch justify-between gap-10 xl:gap-0">
+            {cards.map((card, idx) => (
+              <React.Fragment key={idx}>
+                {/* Divider between columns (only visible on desktop) */}
+                {idx > 0 && (
+                  <div className="hidden xl:block w-[1px] bg-[#507661]/25 self-stretch my-2" />
+                )}
                 
-                {/* Text Content */}
-                <div className="flex flex-col gap-3 items-center">
-                  <h3 className="text-[#313232] font-['Funnel_Display',sans-serif] text-[24px] md:text-[32px] font-normal leading-[1.2] tracking-tight">
-                    {card.title}
-                  </h3>
-                  <div className="flex flex-col gap-1.5">
-                    {card.values.map((val, vIdx) => (
-                      <p
-                        key={vIdx}
-                        className="text-[#545955] font-['Google_Sans',sans-serif] text-base md:text-[18px] leading-[1.5]"
-                      >
-                        {val}
-                      </p>
-                    ))}
+                {/* Card Container */}
+                <div className="flex-1 flex flex-col items-center text-center gap-6 px-4">
+                  {/* Icon wrapper */}
+                  <div className="flex-shrink-0 flex items-center justify-center">
+                    {card.icon}
+                  </div>
+                  
+                  {/* Text Content */}
+                  <div className="flex flex-col gap-3 items-center">
+                    <h3 className="text-[#313232] font-['Funnel_Display',sans-serif] text-[24px] md:text-[32px] font-normal leading-[1.2] tracking-tight">
+                      {card.title}
+                    </h3>
+                    <div className="flex flex-col gap-1.5">
+                      {card.values.map((val, vIdx) => (
+                        <p
+                          key={vIdx}
+                          className="text-[#545955] font-['Google_Sans',sans-serif] text-base md:text-[18px] leading-[1.5]"
+                        >
+                          {val}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
     </section>
