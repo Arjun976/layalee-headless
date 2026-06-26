@@ -2,6 +2,7 @@ import React from 'react';
 import ProductBnr from '@/feature/Product/Product_bnr';
 import ProductCatalog from '@/feature/Product/ProductCatalog';
 import ProductPromise from '@/feature/Product/Promise';
+import ProductFaq from '@/feature/Product/Faq';
 import { ProductItem, ColorSwatch } from '@/components/ProductCard';
 import { getHeaderAndHomePageData } from '@/lib/wordpress';
 
@@ -126,6 +127,9 @@ export default async function ProductPage() {
 
       {/* Why Choose Our Indoor Products Section */}
       <ProductPromise />
+
+      {/* Frequently Asked Questions Section */}
+      <ProductFaq />
     </main>
   );
 }
