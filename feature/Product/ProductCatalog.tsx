@@ -432,7 +432,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
   );
 
   return (
-    <section className="py-12 md:py-16 xl:py-20 bg-[#F5F3EF]">
+    <section className="py-12 md:py-16 xl:py-20 bg-white">
       <div className="flex flex-col gap-8 md:gap-10 px-5 md:px-[30px] xl:px-10 mx-auto w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]!">
         
         {/* Top Control bar (Figma Layout) */}
@@ -573,7 +573,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
             onClick={() => setIsFilterOpen(false)}
           />
           <aside 
-            className={`fixed top-0 left-0 bottom-0 w-[300px] bg-[#F5F3EF] z-50 p-6 overflow-y-auto shadow-2xl transition-transform duration-300 lg:hidden transform ${
+            className={`fixed top-0 left-0 bottom-0 w-[300px] bg-white z-50 p-6 overflow-y-auto shadow-2xl transition-transform duration-300 lg:hidden transform ${
               isFilterOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
           >
