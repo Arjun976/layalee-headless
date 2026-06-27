@@ -563,7 +563,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
         )}
 
         {/* Outer Split Layout Container */}
-        <div className="flex flex-col lg:flex-row gap-10 items-start w-full relative">
+        <div className="flex flex-col lg:flex-row items-start w-full relative">
           
           {/* Mobile Drawer Filter Sidebar */}
           <div 
@@ -590,11 +590,17 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
           </aside>
 
           {/* Desktop Inline Filter Sidebar */}
-          {isFilterOpen && (
-            <aside className="hidden lg:block w-[280px] shrink-0 sticky top-6">
+          <aside 
+            className={`hidden lg:block shrink-0 sticky top-6 transition-all duration-300 ease-in-out ${
+              isFilterOpen 
+                ? 'w-[280px] opacity-100 mr-10 pointer-events-auto' 
+                : 'w-0 opacity-0 mr-0 pointer-events-none overflow-hidden'
+            }`}
+          >
+            <div className="w-[280px]">
               {renderSidebarFilters()}
-            </aside>
-          )}
+            </div>
+          </aside>
 
           {/* Results Grid Section */}
           <div className="flex-1 w-full flex flex-col gap-10">
