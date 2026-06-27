@@ -50,7 +50,6 @@ const getCategoryLabel = (name: string) => {
 
 export default function ProductCatalog({ initialProducts, categories }: ProductCatalogProps) {
   // Main filter states
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedShapes, setSelectedShapes] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -133,12 +132,6 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
   const processedProducts = useMemo(() => {
     let result = [...enrichedProducts];
 
-    // Search Query Filter
-    if (searchQuery.trim() !== '') {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(p => p.name.toLowerCase().includes(query));
-    }
-
     // Category Filter
     if (selectedCategories.length > 0) {
       result = result.filter(p => selectedCategories.includes(p.categorySlug));
@@ -173,12 +166,12 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
     }
 
     return result;
-  }, [enrichedProducts, searchQuery, selectedCategories, selectedShapes, selectedSizes, selectedColors, sortBy]);
+  }, [enrichedProducts, selectedCategories, selectedShapes, selectedSizes, selectedColors, sortBy]);
 
   // Reset pagination to page 1 whenever filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedCategories, selectedShapes, selectedSizes, selectedColors, sortBy]);
+  }, [selectedCategories, selectedShapes, selectedSizes, selectedColors, sortBy]);
 
   // Paginated products
   const paginatedProducts = useMemo(() => {
@@ -219,7 +212,6 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
   };
 
   const handleResetFilters = () => {
-    setSearchQuery('');
     setSelectedCategories([]);
     setSelectedShapes([]);
     setSelectedSizes([]);
@@ -250,30 +242,9 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
   const sizeOptions = ['ALL', '6', '8', '10', '12', '15', '17', '20'];
   const colorOptions = ['ALL', 'Beige', 'Grey', 'Marble White', 'White', 'Choco Brown'];
 
-  // Check if any filter is active
-  const hasActiveFilters = searchQuery !== '' || selectedCategories.length > 0 || selectedShapes.length > 0 || selectedSizes.length > 0 || selectedColors.length > 0;
-
   // Sidebar Filter JSX content (to avoid duplication in Desktop and Mobile drawer)
   const renderSidebarFilters = () => (
     <div className="flex flex-col w-full">
-      {/* Search Input */}
-      <div className="relative mb-8">
-        <input
-          type="text"
-          placeholder="Search planters..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full h-10 pl-10 pr-4 bg-white border border-[#2C322D]/10 focus:border-[#507661] text-[#2C322D] placeholder-[#545955]/50 text-sm font-sans font-normal outline-none transition-all duration-300 rounded-sm"
-        />
-        <svg 
-          className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#545955]/60 pointer-events-none" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          stroke="currentColor"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </div>
 
       {/* 1. Categories Section */}
       <div className="flex flex-col mb-8">
@@ -505,62 +476,6 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
             </select>
           </div>
         </div>
-
-        {/* Active Filters row */}
-        {hasActiveFilters && (
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-4 rounded-sm border border-[#2C322D]/5 shadow-[0_2px_12px_rgba(44,50,45,0.01)] w-full">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-sans font-medium text-[#545955]">Active Filters:</span>
-              
-              {/* Selected Categories Tags */}
-              {selectedCategories.map(slug => (
-                <span key={slug} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#507661]/10 text-[#507661] text-xs font-sans font-normal border border-[#507661]/20 rounded-full">
-                  Category: {getCategoryLabel(categoryList.find(c => c.slug === slug)?.name || slug)}
-                  <button onClick={() => toggleCategory(slug)} className="hover:text-red-500 font-bold focus:outline-none ml-1">×</button>
-                </span>
-              ))}
-
-              {/* Selected Shapes Tags */}
-              {selectedShapes.map(shape => (
-                <span key={shape} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#507661]/10 text-[#507661] text-xs font-sans font-normal border border-[#507661]/20 rounded-full">
-                  Shape: {shape}
-                  <button onClick={() => toggleShape(shape)} className="hover:text-red-500 font-bold focus:outline-none ml-1">×</button>
-                </span>
-              ))}
-
-              {/* Selected Sizes Tags */}
-              {selectedSizes.map(size => (
-                <span key={size} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#507661]/10 text-[#507661] text-xs font-sans font-normal border border-[#507661]/20 rounded-full">
-                  Size: {size}
-                  <button onClick={() => toggleSize(size)} className="hover:text-red-500 font-bold focus:outline-none ml-1">×</button>
-                </span>
-              ))}
-
-              {/* Selected Colors Tags */}
-              {selectedColors.map(color => (
-                <span key={color} className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#507661]/10 text-[#507661] text-xs font-sans font-normal border border-[#507661]/20 rounded-full">
-                  Color: {color}
-                  <button onClick={() => toggleColor(color)} className="hover:text-red-500 font-bold focus:outline-none ml-1">×</button>
-                </span>
-              ))}
-
-              {/* Search Query Tag */}
-              {searchQuery !== '' && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#507661]/10 text-[#507661] text-xs font-sans font-normal border border-[#507661]/20 rounded-full">
-                  Search: &quot;{searchQuery}&quot;
-                  <button onClick={() => setSearchQuery('')} className="hover:text-red-500 font-bold focus:outline-none ml-1">×</button>
-                </span>
-              )}
-            </div>
-
-            <button
-              onClick={handleResetFilters}
-              className="text-xs font-sans font-semibold tracking-wider text-red-500 hover:text-red-700 transition-colors uppercase border-none bg-transparent cursor-pointer"
-            >
-              Clear All Filters
-            </button>
-          </div>
-        )}
 
         {/* Outer Split Layout Container */}
         <div className="flex flex-col lg:flex-row items-start w-full relative">
