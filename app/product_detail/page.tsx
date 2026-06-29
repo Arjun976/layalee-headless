@@ -1,4 +1,4 @@
-import ProductSection from '@/feature/ProductSection';
+import ProductSection from '@/feature/product_detail/ProductSection';
 
 export default function Home() {
   return (
