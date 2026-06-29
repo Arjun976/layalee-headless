@@ -99,15 +99,15 @@ export default function ProductSection() {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-[40px] xl:gap-[65px] items-start w-full">
         
         {/* Left Side: Image Gallery Block */}
-        <div className="flex flex-col lg:flex-row gap-5 xl:gap-[21px] shrink-0 w-full lg:w-auto">
+        <div className="flex flex-col md:flex-row gap-5 xl:gap-[21px] shrink-0 w-full md:w-[688px] lg:w-auto">
           
-          {/* Vertical Thumbnails (Desktop only) */}
-          <div className="hidden lg:flex flex-col gap-5 xl:gap-[21px] w-[160px] shrink-0">
+          {/* Vertical Thumbnails (Tablet & Desktop) */}
+          <div className="hidden md:flex flex-col gap-3.5 lg:gap-5 xl:gap-[21px] w-[101px] lg:w-[160px] shrink-0">
             {activeImages.map((thumb, i) => (
               <button
                 key={i}
                 onClick={() => handleThumbnailSelect(i)}
-                className={`relative w-[160px] h-[180px] overflow-hidden border-2 transition-all cursor-pointer ${
+                className={`relative w-[101px] h-[101px] lg:w-[160px] lg:h-[180px] overflow-hidden border-2 transition-all cursor-pointer ${
                   currentImageIndex === i ? 'border-[#507661]' : 'border-transparent hover:border-[#507661]/40'
                 }`}
               >
@@ -120,9 +120,9 @@ export default function ProductSection() {
               </button>
             ))}
           </div>
-
+ 
           {/* Main Image Container */}
-          <div className="relative w-full lg:w-[736px] aspect-[736/860] overflow-hidden bg-[#F5F3EF]/50 shrink-0">
+          <div className="relative w-full md:w-[567px] lg:w-[736px] aspect-[415/460] md:aspect-[567/466] lg:aspect-[736/860] overflow-hidden bg-[#F5F3EF]/50 shrink-0">
             <Image
               src={mainImage}
               alt={product.name}
@@ -151,9 +151,9 @@ export default function ProductSection() {
               </svg>
             </button>
           </div>
-
-          {/* Horizontal Thumbnails (Mobile & Tablet only) */}
-          <div className="flex lg:hidden flex-row gap-2.5 mt-2">
+ 
+          {/* Horizontal Thumbnails (Mobile only) */}
+          <div className="flex md:hidden flex-row gap-2.5 mt-2">
             {activeImages.map((thumb, i) => (
               <button
                 key={i}
@@ -177,7 +177,7 @@ export default function ProductSection() {
         <div className="flex-1 w-full flex flex-col lg:max-h-[860px] lg:overflow-y-auto no-scrollbar lg:pr-2">
           
           {/* Breadcrumbs (Non-uppercase, styled to Figma) */}
-          <nav className="mb-6 flex flex-wrap text-sm font-normal text-[#828787] font-sans">
+          <nav className="mb-6 flex flex-wrap text-[14px] lg:text-[18px] font-normal text-[#828787] font-sans tracking-[1.4px] lg:tracking-[1.8px] leading-[21px] lg:leading-[27px]">
             {product.breadcrumbs.map((crumb, i) => (
               <span key={crumb} className="flex items-center">
                 {crumb}
@@ -187,95 +187,100 @@ export default function ProductSection() {
               </span>
             ))}
           </nav>
-
+ 
           {/* Product Title */}
-          <h1 className="mb-1 text-[#2C322D] font-['Google_Sans',sans-serif] text-[32px] md:text-[48px] font-medium leading-[1.1] tracking-tight">
+          <h1 className="mb-1 text-[#2C322D] font-['Funnel_Display',sans-serif] text-[32px] md:text-[40px] lg:text-[48px] font-normal md:font-light lg:font-medium leading-none tracking-[-0.96px] md:tracking-[-1.2px] lg:tracking-[-1.44px]">
             {product.name}
           </h1>
           
           {/* Subtitle */}
-          <p className="mb-8 text-sm italic text-[#828787] font-sans">
+          <p className="mb-8 text-[14px] md:text-[16px] italic text-[#828787] font-sans leading-[20px] md:leading-[22.4px]">
             {product.subtitle}
           </p>
-
-          {/* Color Selector */}
-          <div className="mb-8">
-            <h3 className="mb-4 text-[16px] font-medium text-[#2C322D] font-sans">
-              Colour: <span className="font-normal text-[#2C322D]/70">{activeColor.name}</span>
-            </h3>
-            <div className="flex gap-4">
-              {product.colors.map((color, index) => (
-                <button
-                  key={color.name}
-                  onClick={() => handleColorSelect(index)}
-                  className={`h-12 w-12 border-2 transition-all cursor-pointer ${
-                    selectedColorIndex === index 
-                      ? 'border-[#2C322D] ring-2 ring-[#2C322D] ring-offset-2' 
-                      : 'border-zinc-200 hover:border-zinc-400'
-                  }`}
-                  style={{ backgroundColor: color.value }}
-                  title={color.name}
-                  aria-label={`Select ${color.name}`}
-                />
-              ))}
+ 
+          {/* Selectors Container (Side-by-side on iPad, stacked on mobile/desktop) */}
+          <div className="flex flex-col md:flex-row lg:flex-col gap-0 md:gap-[43px] lg:gap-0 mb-8 lg:mb-0">
+            
+            {/* Color Selector */}
+            <div className="mb-8 md:mb-0 lg:mb-8">
+              <h3 className="mb-4 text-[18px] lg:text-[20px] font-medium text-[#2C322D] font-sans">
+                Colour: <span className="font-medium text-[#2C322D]">{activeColor.name}</span>
+              </h3>
+              <div className="flex gap-4">
+                {product.colors.map((color, index) => (
+                  <button
+                    key={color.name}
+                    onClick={() => handleColorSelect(index)}
+                    className={`h-12 w-12 border-2 transition-all cursor-pointer ${
+                      selectedColorIndex === index 
+                        ? 'border-[#2C322D] ring-2 ring-[#2C322D] ring-offset-2' 
+                        : 'border-zinc-200 hover:border-zinc-400'
+                    }`}
+                    style={{ backgroundColor: color.value }}
+                    title={color.name}
+                    aria-label={`Select ${color.name}`}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-
-          {/* Size Selector */}
-          <div className="mb-8">
-            <h3 className="mb-4 text-[16px] font-medium text-[#2C322D] font-sans">
-              Size in inches
-            </h3>
-            <div className="flex gap-4">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`flex h-12 w-[52px] items-center justify-center border font-sans text-[16px] font-medium transition-all cursor-pointer ${
-                    selectedSize === size
-                      ? 'bg-[#2C322D] border-[#2C322D] text-white'
-                      : 'border-[#2C322D]/10 hover:border-[#2C322D]/40 text-[#2C322D]'
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
+   
+            {/* Size Selector */}
+            <div className="mb-8 md:mb-0 lg:mb-8">
+              <h3 className="mb-4 text-[18px] lg:text-[20px] font-medium text-[#2C322D] font-sans">
+                Size in inches
+              </h3>
+              <div className="flex gap-4">
+                {product.sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`flex h-12 w-[52px] items-center justify-center border font-sans text-[18px] font-normal transition-all cursor-pointer ${
+                      selectedSize === size
+                        ? 'bg-[#507661] border-[#507661] text-white'
+                        : 'border-[#2C322D]/10 hover:border-[#2C322D]/40 text-[#2C322D]'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
+          </div>
+ 
           {/* Specs Table */}
           <div className="flex flex-col gap-3.5 border-t border-[#2C322D]/10 pt-8 pb-8 mb-8">
             {product.specs.map((spec) => {
               const value = spec.label === 'Colour' ? activeColor.name : spec.value;
               return (
                 <div key={spec.label} className="flex items-start gap-4">
-                  <span className="w-[120px] shrink-0 font-['Google_Sans',sans-serif] text-[16px] font-medium text-[#2C322D]">
+                  <span className="w-[150px] shrink-0 font-['Funnel_Display',sans-serif] text-[20px] font-medium text-[#2C322D]">
                     {spec.label}
                   </span>
-                  <span className="font-['Google_Sans',sans-serif] text-[16px] font-normal text-[#2C322D]/80 leading-normal">
+                  <span className="font-sans text-[18px] font-normal text-[#2C322D]/80 leading-[22.4px]">
                     {value}
                   </span>
                 </div>
               );
             })}
           </div>
-
+ 
           {/* Call to Action Buttons */}
           <div className="flex flex-row gap-4 mb-10 w-full sm:w-auto">
-            <button className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#CC9433] hover:bg-[#b5832a] text-white h-[67px] w-full md:w-[198px] text-[16px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm">
+            <button className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#CC9433] hover:bg-[#b5832a] text-white h-[67px] w-full md:w-[198px] text-[16px] lg:text-[18px] font-medium transition-colors duration-300 cursor-pointer rounded-sm">
               <span>Contact us</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </button>
-            <button className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#507661] hover:bg-[#3e5b4a] text-white h-[67px] w-full md:w-[206px] text-[16px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm">
+            <button className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#507661] hover:bg-[#3e5b4a] text-white h-[67px] w-full md:w-[206px] text-[16px] lg:text-[18px] font-medium transition-colors duration-300 cursor-pointer rounded-sm">
               <span>Place Order</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </button>
           </div>
-
+ 
           {/* Collapsible Accordion Menu Stack */}
           <div className="border-t border-[#2C322D]/10 w-full">
             {accordionSections.map((sec) => {
@@ -287,7 +292,7 @@ export default function ProductSection() {
                     onClick={() => setOpenSection(isOpen ? null : sec.id)}
                     className="w-full py-5 flex items-center justify-between text-[#2C322D] hover:text-[#507661] transition-colors cursor-pointer text-left focus:outline-none"
                   >
-                    <span className="font-['Google_Sans',sans-serif] text-[20px] font-medium leading-none">
+                    <span className="font-['Funnel_Display',sans-serif] text-[24px] font-medium leading-none">
                       {sec.title}
                     </span>
                     <svg 
@@ -303,7 +308,7 @@ export default function ProductSection() {
                   <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
                     isOpen ? 'max-h-[600px] opacity-100 pb-6' : 'max-h-0 opacity-0'
                   }`}>
-                    <p className="font-['Google_Sans',sans-serif] text-[15px] font-normal text-[#2C322D]/80 leading-relaxed whitespace-pre-line">
+                    <p className="font-sans text-[14px] lg:text-[16px] font-normal text-[#2C322D]/80 leading-[21px] lg:leading-[24px] whitespace-pre-line">
                       {contentText}
                     </p>
                   </div>
