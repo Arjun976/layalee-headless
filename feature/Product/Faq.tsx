@@ -55,7 +55,7 @@ export default function ProductFaq() {
                 Frequently Asked Question
               </h2>
             </div>
-            <p className="text-[#545955] font-['Google_Sans',sans-serif] text-base leading-[1.6] max-w-[709px]">
+            <p className="text-[#545955] font-sans text-base lg:text-[18px] leading-[1.6] lg:leading-[27px] max-w-[709px]">
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London,
             </p>
           </div>
