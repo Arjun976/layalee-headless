@@ -140,7 +140,7 @@ export default function BuiltEveryOutdoorSpace({ builtForOutdoor }: { builtForOu
               {/* Desktop Button */}
               <Link 
                 href={buttonUrl}
-                className="hidden lg:inline-flex items-center justify-center gap-3 bg-[#CC9433] hover:bg-[#b5832a] text-white w-[256px] h-[67px] text-[18px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
+                className="hidden lg:inline-flex items-center justify-center gap-3 bg-[#CC9433] hover:bg-[#b5832a] text-white w-fit min-w-[256px] px-[30px] h-[67px] text-[18px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
               >
                 <span>{isDefault ? 'View All products' : buttonText}</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-1">
