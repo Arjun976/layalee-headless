@@ -13,6 +13,7 @@ export const revalidate = 60;
 
 export default async function ContactPage() {
   const contactData = await getLayaleContact();
+  console.log("\n📬 [GraphQL Contact Data Query Result]:", JSON.stringify(contactData, null, 2), "\n");
 
   const banner = contactData?.banner || {};
   const bannerEnabled = banner.enabled !== false;

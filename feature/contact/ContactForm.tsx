@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useActionState, useEffect } from 'react';
+import { submitContactForm, FormState } from '@/app/actions/contact';
+
+const initialState: FormState = {
+  success: false,
+  message: '',
+};
 
 interface ContactFormProps {
   formDataProps?: {
@@ -25,6 +31,9 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
     : (formDataProps.paragraphs || []).map((p) => p.text).join('\n');
   
   const mapHtml = isDefault ? '' : (formDataProps.mapEmbedCode || '');
+  const dynamicFormId = isDefault ? '' : (formDataProps.formId || '');
+
+  const [state, formAction, isPending] = useActionState(submitContactForm, initialState);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -34,23 +43,21 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
     message: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  useEffect(() => {
+    if (state.success) {
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+    }
+  }, [state.success]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate API request
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setSuccess(true);
-    setFormData({ fullName: '', email: '', phone: '', subject: '', message: '' });
-    setTimeout(() => setSuccess(false), 5000);
   };
 
   return (
@@ -68,7 +75,16 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
+          <form action={formAction} className="flex flex-col gap-6 w-full">
+            {/* Honeypot Spam Deterrent */}
+            <div className="hidden">
+              <label htmlFor="honeypot">Leave this blank</label>
+              <input type="text" id="honeypot" name="honeypot" tabIndex={-1} autoComplete="off" />
+            </div>
+
+            {/* Dynamic Form ID */}
+            <input type="hidden" name="formId" value={dynamicFormId} />
+
             {/* Input Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Full Name */}
@@ -83,10 +99,14 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
                   value={formData.fullName}
                   onChange={handleChange}
                   required
+                  disabled={isPending}
                   placeholder="Full Name"
                   autoComplete="name"
-                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85 disabled:opacity-50"
                 />
+                {state.errors?.fullName && (
+                  <p className="mt-1 text-xs text-red-500 font-medium font-sans">{state.errors.fullName[0]}</p>
+                )}
               </div>
 
               {/* Email */}
@@ -101,10 +121,14 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={isPending}
                   placeholder="Email"
                   autoComplete="email"
-                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85 disabled:opacity-50"
                 />
+                {state.errors?.email && (
+                  <p className="mt-1 text-xs text-red-500 font-medium font-sans">{state.errors.email[0]}</p>
+                )}
               </div>
 
               {/* Phone Number */}
@@ -119,10 +143,14 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
                   value={formData.phone}
                   onChange={handleChange}
                   required
+                  disabled={isPending}
                   placeholder="Phone Number"
                   autoComplete="tel"
-                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85 disabled:opacity-50"
                 />
+                {state.errors?.phone && (
+                  <p className="mt-1 text-xs text-red-500 font-medium font-sans">{state.errors.phone[0]}</p>
+                )}
               </div>
 
               {/* Subject */}
@@ -137,10 +165,14 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
                   value={formData.subject}
                   onChange={handleChange}
                   required
+                  disabled={isPending}
                   placeholder="Subject"
                   autoComplete="off"
-                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85 disabled:opacity-50"
                 />
+                {state.errors?.subject && (
+                  <p className="mt-1 text-xs text-red-500 font-medium font-sans">{state.errors.subject[0]}</p>
+                )}
               </div>
             </div>
 
@@ -155,26 +187,37 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
                 value={formData.message}
                 onChange={handleChange}
                 required
+                disabled={isPending}
                 placeholder="Message"
-                className="bg-[#F5F3EF] rounded-[4px] px-6 py-5 h-[200px] border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full h-full resize-none placeholder-[#313232]/85"
+                className="bg-[#F5F3EF] rounded-[4px] px-6 py-5 h-[200px] border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full h-full resize-none placeholder-[#313232]/85 disabled:opacity-50"
               />
+              {state.errors?.message && (
+                <p className="mt-1 text-xs text-red-500 font-medium font-sans">{state.errors.message[0]}</p>
+              )}
             </div>
 
-            {/* Success Alert */}
-            {success && (
-              <div className="text-[#507661] bg-[#F5F3EF] border border-[#507661]/20 px-5 py-3 rounded-[4px] font-['Google_Sans',sans-serif] text-sm">
-                Thank you! Your message has been sent successfully. We will get back to you shortly.
+            {/* Form Action Feedback Message */}
+            {state.message && (
+              <div 
+                className={`p-4 rounded-[4px] font-['Google_Sans',sans-serif] text-sm border font-medium ${
+                  state.success
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                    : 'bg-rose-50 border-rose-200 text-rose-800'
+                }`} 
+                role="alert"
+              >
+                {state.message}
               </div>
             )}
 
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isPending}
               className="inline-flex w-full md:w-[227px] h-[67px] justify-center items-center lg:mt-9 gap-2.5 bg-[#507661] hover:bg-[#3f5c4b] active:bg-[#2f4538] text-white font-['Google_Sans',sans-serif] font-medium text-[18px] transition-all duration-300 cursor-pointer border-none rounded-[4px] group shadow-sm disabled:opacity-75"
             >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-              {!isSubmitting && (
+              {isPending ? 'Sending...' : 'Send Message'}
+              {!isPending && (
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-1">
                   <path d="M10.7742 3.0442C10.5562 2.8186 10.1935 2.8186 9.96786 3.0442C9.74989 3.26217 9.74989 3.62495 9.96786 3.84242L14.0565 7.93108H0.564497C0.249984 7.93159 0 8.18157 0 8.49609C0 8.8106 0.249984 9.06871 0.564497 9.06871H14.0565L9.96786 13.1498C9.74989 13.3753 9.74989 13.7386 9.96786 13.9561C10.1935 14.1817 10.5567 14.1817 10.7742 13.9561L15.8308 8.89952C16.0564 8.68154 16.0564 8.31876 15.8308 8.10129L10.7742 3.0442Z" fill="currentColor"/>
                 </svg>
