@@ -38,29 +38,61 @@ const promiseItems: PromiseItem[] = [
   },
 ];
 
-export default function ProductPromise() {
+export interface PromiseItemData {
+  title?: string;
+  description?: string;
+  icon?: string;
+}
+
+export interface PromiseProps {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  items?: PromiseItemData[];
+}
+
+export default function ProductPromise({
+  title = "Why Choose Our Indoor Products",
+  subtitle = "Our Promise",
+  description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London,",
+  items,
+}: PromiseProps) {
+  const displayItems = items && items.length > 0
+    ? items.map((item, index) => ({
+        title: item.title || '',
+        description: item.description || '',
+        iconHtml: item.icon || staticSvgFallbacks[index] || staticSvgFallbacks[staticSvgFallbacks.length - 1],
+      }))
+    : promiseItems;
+
   return (
     <section className="bg-[#2C322D] py-10 md:py-[60px] xl:py-[100px] w-full flex flex-col items-center" id="product-promise">
       <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]! min-[1600px]:px-[30px]">
         
         {/* Promise Header */}
         <div className="flex flex-col items-center text-center gap-3 mb-10 md:mb-[60px] xl:mb-[100px]">
-          <span className="inline-flex items-center gap-3 text-[#CC9433] font-['Google_Sans',sans-serif] text-sm xl:text-lg font-normal tracking-[1.4px] xl:tracking-[1.8px] uppercase">
-            <span className="w-[21px] h-[1px] bg-[#CC9433]" />
-            Our Promise
-            <span className="w-[21px] h-[1px] bg-[#CC9433]" />
-          </span>
-          <h2 className="text-white font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] lg:text-[48px] xl:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
-            Why Choose Our Indoor Products
-          </h2>
-          <p className="text-white/80 font-['Google_Sans',sans-serif] text-sm md:text-lg leading-[1.5] max-w-[1066px] text-center mt-6">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London,
-          </p>
+          {subtitle && (
+            <span className="inline-flex items-center gap-3 text-[#CC9433] font-['Google_Sans',sans-serif] text-sm xl:text-lg font-normal tracking-[1.4px] xl:tracking-[1.8px] uppercase">
+              <span className="w-[21px] h-[1px] bg-[#CC9433]" />
+              {subtitle}
+              <span className="w-[21px] h-[1px] bg-[#CC9433]" />
+            </span>
+          )}
+          {title && (
+            <h2 className="text-white font-['Funnel_Display',sans-serif] font-light leading-[1.2] text-[30px] md:text-[48px] lg:text-[48px] xl:text-[60px] tracking-[-0.9px] md:tracking-[-1.2px] xl:tracking-[-1.8px]">
+              {title}
+            </h2>
+          )}
+          {description && (
+            <p className="text-white/80 font-['Google_Sans',sans-serif] text-sm md:text-lg leading-[1.5] max-w-[1066px] text-center mt-6">
+              {description}
+            </p>
+          )}
         </div>
 
         {/* Promise Grid */}
         <div className="flex flex-col gap-8 md:flex-row md:flex-wrap md:gap-y-12 md:gap-x-12 xl:flex-nowrap xl:gap-10 min-[1600px]:gap-20 w-full justify-between">
-          {promiseItems.map((item, idx) => (
+          {displayItems.map((item, idx) => (
             <div key={idx} className="flex-1 flex flex-col items-center gap-8 text-center min-w-[240px] md:max-w-[calc(50%-24px)] xl:max-w-none">
               <div className="w-[100px] h-[100px] border border-[#F5F3EF]/10 rounded-full flex justify-center items-center text-[#CC9433] [&>svg]:w-[60px] [&>svg]:h-[60px]">
                 <div

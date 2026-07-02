@@ -487,3 +487,163 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
     return { themeSettings: null, navMenus: null, homepage: null, productCategories: null, products: null };
   }
 }
+
+export interface ProductCategoryData {
+  term: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+  homePageCategory?: {
+    image?: {
+      id?: string;
+      url?: string;
+    };
+  };
+  banner?: {
+    subtitle?: string;
+    title?: string;
+  };
+  featured?: {
+    enabled?: boolean;
+    products?: Array<{
+      productId?: number | string;
+      isNew?: boolean;
+      isBestseller?: boolean;
+      colors?: Array<{
+        colorCode?: string;
+        colorImage?: {
+          id?: string;
+          url?: string;
+        };
+      }>;
+    }>;
+  };
+  whyChoose?: {
+    enabled?: boolean;
+    subtitle?: string;
+    title?: string;
+    description?: string;
+    items?: Array<{
+      title?: string;
+      description?: string;
+      icon?: string;
+    }>;
+  };
+  faq?: {
+    enabled?: boolean;
+    subtitle?: string;
+    title?: string;
+    paragraphs?: string;
+    button?: {
+      text?: string;
+      url?: string;
+    };
+    items?: Array<{
+      question?: string;
+      answer?: string;
+    }>;
+  };
+}
+
+export async function getLayaleProductCategory(slug: string): Promise<ProductCategoryData | null> {
+  const secret = process.env.Secret;
+  if (!secret) {
+    console.error("Error: Secret environment variable is not defined.");
+    return null;
+  }
+
+  const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
+
+  const query = `
+    query GetLayaleProductCategory($slug: String!) {
+      layaleProductCategory(slug: $slug) {
+        term {
+          id
+          name
+          slug
+        }
+        homePageCategory {
+          image {
+            id
+            url
+          }
+        }
+        banner {
+          subtitle
+          title
+        }
+        featured {
+          enabled
+          products {
+            productId
+            isNew
+            isBestseller
+            colors {
+              colorCode
+              colorImage {
+                id
+                url
+              }
+            }
+          }
+        }
+        whyChoose {
+          enabled
+          subtitle
+          title
+          description
+          items {
+            title
+            description
+            icon
+          }
+        }
+        faq {
+          enabled
+          subtitle
+          title
+          paragraphs
+          button {
+            text
+            url
+          }
+          items {
+            question
+            answer
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: { slug },
+      }),
+      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
+    });
+
+    if (!response.ok) {
+      console.error(`GraphQL fetch failed! Status: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const resJson = await response.json();
+    if (resJson.errors) {
+      console.error("GraphQL Errors in getLayaleProductCategory:", resJson.errors);
+      return null;
+    }
+
+    return resJson.data?.layaleProductCategory || null;
+  } catch (error) {
+    console.error("Error fetching product category from WordPress:", error);
+    return null;
+  }
+}
