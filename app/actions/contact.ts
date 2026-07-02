@@ -5,7 +5,10 @@ import { z } from 'zod';
 const contactSchema = z.object({
   fullName: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  phone: z.string().min(5, { message: 'Phone number must be at least 5 characters.' }),
+  phone: z
+    .string()
+    .min(5, { message: 'Phone number must be at least 5 characters.' })
+    .regex(/^[0-9+\s\-()]+$/, { message: 'Phone number can only contain digits, spaces, dashes, parentheses, or +.' }),
   subject: z.string().min(3, { message: 'Subject must be at least 3 characters.' }),
   message: z.string().min(10, { message: 'Message must be at least 10 characters.' }),
   honeypot: z.string().optional(),

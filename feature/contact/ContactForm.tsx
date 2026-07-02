@@ -57,6 +57,14 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    
+    // Restrict phone field to valid phone characters: digits, spaces, dashes, parentheses, and +
+    if (name === 'phone') {
+      const sanitized = value.replace(/[^0-9+\s\-()]/g, '');
+      setFormData(prev => ({ ...prev, [name]: sanitized }));
+      return;
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
