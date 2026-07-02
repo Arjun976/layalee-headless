@@ -95,8 +95,9 @@ export default function ProductSection() {
   };
 
   return (
-    <section className="mx-auto max-w-[1720px] px-5 md:px-[30px] xl:px-12 py-12 md:py-16">
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-[40px] xl:gap-[65px] items-start w-full">
+    <section className="w-full bg-white flex flex-col items-center">
+      <div className="w-full px-5 md:px-[30px] xl:px-10 mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:box-content min-[1600px]:max-w-[1540px]! min-[1600px]:px-[30px] py-12 md:py-16">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-[40px] xl:gap-[65px] items-start w-full">
         
         {/* Left Side: Image Gallery Block */}
         <div className="flex flex-col md:flex-row gap-5 xl:gap-[21px] shrink-0 w-full md:w-[688px] lg:w-auto">
@@ -319,6 +320,7 @@ export default function ProductSection() {
 
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 }

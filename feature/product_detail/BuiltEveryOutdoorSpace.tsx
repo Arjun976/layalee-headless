@@ -60,10 +60,10 @@ export function LongLastingIcon({ className }: IconProps) {
 
 export default function BuiltEveryOutdoorSpace() {
   return (
-    <section className="w-full bg-white px-0 lg:px-[30px] xl:px-12 py-10 md:py-14 xl:py-16">
+    <section className="w-full bg-white px-0 md:px-[30px] xl:px-10 min-[1600px]:px-[30px] py-10 md:py-14 xl:py-16 flex flex-col items-center">
       {/* Background Image Container */}
       <div 
-        className="mx-auto max-w-[1720px] relative min-h-[484px] lg:h-[597px] py-10 md:py-14 lg:py-0 overflow-hidden rounded-none lg:rounded-sm bg-neutral-900 bg-cover bg-center bg-no-repeat flex items-center"
+        className="w-full mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:max-w-[1540px]! relative min-h-[484px] lg:h-[597px] py-10 md:py-14 lg:py-0 overflow-hidden rounded-none lg:rounded-sm bg-neutral-900 bg-cover bg-center bg-no-repeat flex items-center"
         style={{ backgroundImage: "url('/outdoor_bg.png')" }}
       >
         {/* Soft Dark Blurred Vignette Overlay on the left side of the background */}
