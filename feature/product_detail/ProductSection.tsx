@@ -2,8 +2,9 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
-const product = {
+const DEFAULT_PRODUCT = {
   name: 'FOX B | CILIN TALL',
   subtitle: '*Plants are not included',
   description: `Bring home elegance and strength with the FOX B | CILIN TALL Planter, crafted from premium German Polymer. Designed with a sleek rectangular shape, this planter is the perfect balance of modern style and lasting durability, making it suitable for both indoor and outdoor spaces.
@@ -37,39 +38,119 @@ Available in three versatile sizes – 18, 24, and 30 inches, it adapts effortle
   sizes: ['18', '24', '30'],
   specs: [
     { label: 'Material', value: 'Polymers' },
-    { label: 'Colour', value: 'Beige' }, // Dynamic based on selected color name
+    { label: 'Colour', value: 'Beige' },
     { label: 'Style', value: 'Plant Pot' },
     { label: 'Special Feature', value: 'Lightweight, Perfect for Indoor and Outdoor, Portable, UV Resistant, Weather Resistant' }
-  ]
+  ],
+  accordionSections: [
+    { id: 'description', title: 'Product Description', content: '' },
+    { id: 'features', title: 'Product Features', content: `• Crafted from premium German Polymer technology.\n• Sleek rectangular modern silhouette.\n• Highly UV-protected and resistant to fading.\n• Long lifespan of 10+ years.\n• Outstanding weather resistance for harsh outdoor climates.` },
+    { id: 'care', title: 'Care Instructions', content: `• Wipe clean with a soft, damp cloth.\n• Avoid using abrasive cleaners or harsh chemicals.\n• Safe for direct planting; ensure drainage holes are clear if used outdoors.` },
+    { id: 'shipping', title: 'Shipping Information', content: `• Standard delivery within UAE in 2-3 business days.\n• Free delivery for orders above AED 300.\n• International shipping available upon request.` },
+    { id: 'about', title: 'About Layale Products', content: `Layale indoor and outdoor planters are crafted with premium materials to bring elegance, greenery, and timeless style into every space. Our focus is on long-lasting durability, aesthetic beauty, and eco-friendly manufacturing.` }
+  ],
+  contactButton: {
+    text: 'Contact us',
+    url: '/contact'
+  },
+  orderButton: {
+    text: 'Place Order',
+    url: '/contact'
+  }
 };
 
-const accordionSections = [
-  { id: 'description', title: 'Product Description' },
-  { id: 'features', title: 'Product Features', content: `• Crafted from premium German Polymer technology.\n• Sleek rectangular modern silhouette.\n• Highly UV-protected and resistant to fading.\n• Long lifespan of 10+ years.\n• Outstanding weather resistance for harsh outdoor climates.` },
-  { id: 'care', title: 'Care Instructions', content: `• Wipe clean with a soft, damp cloth.\n• Avoid using abrasive cleaners or harsh chemicals.\n• Safe for direct planting; ensure drainage holes are clear if used outdoors.` },
-  { id: 'shipping', title: 'Shipping Information', content: `• Standard delivery within UAE in 2-3 business days.\n• Free delivery for orders above AED 300.\n• International shipping available upon request.` },
-  { id: 'about', title: 'About Layale Products', content: `Layale indoor and outdoor planters are crafted with premium materials to bring elegance, greenery, and timeless style into every space. Our focus is on long-lasting durability, aesthetic beauty, and eco-friendly manufacturing.` }
-];
+function normalizeProductData(productData: any) {
+  if (!productData) {
+    const p = { ...DEFAULT_PRODUCT };
+    p.accordionSections[0].content = p.description;
+    return p;
+  }
 
-export default function ProductSection() {
+  if (productData.colors && productData.colors[0] && typeof productData.colors[0].images[0] === 'string') {
+    const p = { ...productData };
+    if (p.accordionSections && p.accordionSections[0] && !p.accordionSections[0].content) {
+      p.accordionSections[0].content = p.description;
+    }
+    return p;
+  }
+
+  const content = productData.content || {};
+  
+  const colors = (content.colors || []).map((col: any) => ({
+    name: col.colorName || '',
+    value: col.colorCode || '#ffffff',
+    images: (col.images || []).map((img: any) => img.url).filter(Boolean)
+  }));
+
+  const sizes = (content.sizes || []).map((sz: any) => sz.sizeName || '');
+
+  const specs = (content.infoSections || []).map((sec: any) => ({
+    label: sec.title || '',
+    value: (sec.points || []).map((p: any) => p.text).join(', ')
+  }));
+
+  const accordionSections = (content.contentSections || []).map((sec: any) => ({
+    id: sec.title?.toLowerCase().replace(/\s+/g, '-') || 'section',
+    title: sec.title || '',
+    content: (sec.paragraphs || []).map((p: any) => p.text).join('\n')
+  }));
+
+  const contactButton = {
+    text: content.contactButton?.text || 'Contact us',
+    url: content.contactButton?.url || '/contact'
+  };
+
+  const orderButton = {
+    text: content.orderButton?.text || 'Place Order',
+    url: content.orderButton?.url || '/contact'
+  };
+
+  const descSection = accordionSections.find((s: any) => s.id.includes('desc'));
+  const description = descSection ? descSection.content : (productData?.title || '');
+
+  return {
+    name: productData.title || '',
+    subtitle: '*Plants are not included',
+    description,
+    breadcrumbs: ['Home', 'Indoor', productData.title || 'Product Detail'],
+    colors: colors.length > 0 ? colors : [{ name: 'Default', value: '#ffffff', images: ['/select_1.png'] }],
+    sizes: sizes.length > 0 ? sizes : ['One Size'],
+    specs,
+    accordionSections,
+    contactButton,
+    orderButton
+  };
+}
+
+export default function ProductSection({ productData }: { productData?: any }) {
+  const product = useMemo(() => normalizeProductData(productData), [productData]);
+
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [openSection, setOpenSection] = useState<string | null>('description'); // Expand Description by default
+  const [openSection, setOpenSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (product.sizes.length > 0) {
+      setSelectedSize(product.sizes[0]);
+    }
+    if (product.accordionSections.length > 0) {
+      setOpenSection(product.accordionSections[0].id);
+    }
+  }, [product]);
 
   const activeColor = useMemo(() => {
-    return product.colors[selectedColorIndex];
-  }, [selectedColorIndex]);
+    return product.colors[selectedColorIndex] || product.colors[0];
+  }, [product, selectedColorIndex]);
 
   const activeImages = useMemo(() => {
-    return activeColor.images;
+    return activeColor?.images || [];
   }, [activeColor]);
 
   const mainImage = useMemo(() => {
-    return activeImages[currentImageIndex] || activeImages[0];
+    return activeImages[currentImageIndex] || activeImages[0] || '/select_1.png';
   }, [activeImages, currentImageIndex]);
 
-  // Reset image view index when color variant changes
   useEffect(() => {
     setCurrentImageIndex(0);
   }, [selectedColorIndex]);
@@ -104,7 +185,7 @@ export default function ProductSection() {
           
           {/* Vertical Thumbnails (Tablet & Desktop) */}
           <div className="hidden md:flex flex-col gap-3.5 lg:gap-5 xl:gap-[21px] w-[101px] lg:w-[160px] shrink-0">
-            {activeImages.map((thumb, i) => (
+            {activeImages.map((thumb: string, i: number) => (
               <button
                 key={i}
                 onClick={() => handleThumbnailSelect(i)}
@@ -155,7 +236,7 @@ export default function ProductSection() {
  
           {/* Horizontal Thumbnails (Mobile only) */}
           <div className="flex md:hidden flex-row gap-2.5 mt-2">
-            {activeImages.map((thumb, i) => (
+            {activeImages.map((thumb: string, i: number) => (
               <button
                 key={i}
                 onClick={() => handleThumbnailSelect(i)}
@@ -179,7 +260,7 @@ export default function ProductSection() {
           
           {/* Breadcrumbs (Non-uppercase, styled to Figma) */}
           <nav className="mb-6 flex flex-wrap text-[14px] lg:text-[18px] font-normal text-[#828787] font-sans tracking-[1.4px] lg:tracking-[1.8px] leading-[21px] lg:leading-[27px]">
-            {product.breadcrumbs.map((crumb, i) => (
+            {product.breadcrumbs.map((crumb: string, i: number) => (
               <span key={crumb} className="flex items-center">
                 {crumb}
                 {i < product.breadcrumbs.length - 1 && (
@@ -208,7 +289,7 @@ export default function ProductSection() {
                 Colour: <span className="font-medium text-[#2C322D]">{activeColor.name}</span>
               </h3>
               <div className="flex gap-4">
-                {product.colors.map((color, index) => (
+                {product.colors.map((color: any, index: number) => (
                   <button
                     key={color.name}
                     onClick={() => handleColorSelect(index)}
@@ -231,7 +312,7 @@ export default function ProductSection() {
                 Size in inches
               </h3>
               <div className="flex gap-4">
-                {product.sizes.map((size) => (
+                {product.sizes.map((size: string) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
@@ -251,7 +332,7 @@ export default function ProductSection() {
  
           {/* Specs Table */}
           <div className="flex flex-col gap-3.5 border-t border-[#2C322D]/10 pt-8 pb-8 mb-8">
-            {product.specs.map((spec) => {
+            {product.specs.map((spec: any) => {
               const value = spec.label === 'Colour' ? activeColor.name : spec.value;
               return (
                 <div key={spec.label} className="flex items-start gap-4">
@@ -268,25 +349,25 @@ export default function ProductSection() {
  
           {/* Call to Action Buttons */}
           <div className="flex flex-row gap-4 mb-10 w-full sm:w-auto">
-            <button className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#CC9433] hover:bg-[#b5832a] text-white h-[67px] w-full md:w-[198px] text-[16px] lg:text-[18px] font-medium transition-colors duration-300 cursor-pointer rounded-sm">
-              <span>Contact us</span>
+            <Link href={product.contactButton.url} className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#CC9433] hover:bg-[#b5832a] text-white h-[67px] w-full md:w-[198px] text-[16px] lg:text-[18px] font-medium transition-colors duration-300 cursor-pointer rounded-sm no-underline">
+              <span>{product.contactButton.text}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
-            </button>
-            <button className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#507661] hover:bg-[#3e5b4a] text-white h-[67px] w-full md:w-[206px] text-[16px] lg:text-[18px] font-medium transition-colors duration-300 cursor-pointer rounded-sm">
-              <span>Place Order</span>
+            </Link>
+            <Link href={product.orderButton.url} className="flex flex-1 md:flex-none items-center justify-center gap-2 bg-[#507661] hover:bg-[#3e5b4a] text-white h-[67px] w-full md:w-[206px] text-[16px] lg:text-[18px] font-medium transition-colors duration-300 cursor-pointer rounded-sm no-underline">
+              <span>{product.orderButton.text}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
-            </button>
+            </Link>
           </div>
  
           {/* Collapsible Accordion Menu Stack */}
           <div className="border-t border-[#2C322D]/10 w-full">
-            {accordionSections.map((sec) => {
+            {product.accordionSections.map((sec: any) => {
               const isOpen = openSection === sec.id;
-              const contentText = sec.id === 'description' ? product.description : sec.content;
+              const contentText = sec.content;
               return (
                 <div key={sec.id} className="border-b border-[#2C322D]/10">
                   <button

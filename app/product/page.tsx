@@ -55,7 +55,7 @@ export default async function ProductPage() {
     );
   }
 
-  const apiProducts = (products as { nodes?: Array<{ databaseId: number; title?: string; uri?: string }> })?.nodes || [];
+  const apiProducts = (products as { nodes?: Array<{ databaseId: number; title?: string; uri?: string; slug?: string }> })?.nodes || [];
   const rawCategoryFeaturedProducts = categoryDetails?.featured?.products;
 
   let displayProducts: ProductItem[] = [];
@@ -96,7 +96,7 @@ export default async function ProductPage() {
         image: image,
         badge: badge,
         colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
-        link: matched ? mapUrl(matched.uri || '') : '#',
+        link: matched ? `/product_detail/${matched.slug}` : '#',
       };
     });
   } else {
@@ -164,7 +164,7 @@ export default async function ProductPage() {
         image: image,
         badge: badge,
         colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
-        link: matched ? mapUrl(matched.uri || '') : '#',
+        link: matched ? `/product_detail/${matched.slug}` : '#',
       };
     });
   }

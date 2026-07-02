@@ -58,13 +58,48 @@ export function LongLastingIcon({ className }: IconProps) {
   );
 }
 
-export default function BuiltEveryOutdoorSpace() {
+export default function BuiltEveryOutdoorSpace({ builtForOutdoor }: { builtForOutdoor?: any }) {
+  if (builtForOutdoor === null || (builtForOutdoor && builtForOutdoor.enabled === false)) {
+    return null;
+  }
+
+  const isDefault = builtForOutdoor === undefined;
+
+  const bgImage = isDefault ? '/outdoor_bg.png' : (builtForOutdoor.image?.url || '/outdoor_bg.png');
+  const title = isDefault ? 'Built for Every Outdoor Space' : (builtForOutdoor.title || '');
+  const description = isDefault 
+    ? 'Designed to Transform Outdoor Spaces\nCrafted with premium German polymer technology for durability, style, and all-weather performance.'
+    : (builtForOutdoor.description || '');
+
+  const points = isDefault ? [
+    {
+      title: 'UV Protected',
+      svg: `<svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-white">
+        <path d="M0.0551142 7.36571C0.0551142 10.9066 -0.0892609 14.4776 0.0893329 18.0148C0.442302 25.0071 3.51261 31.7229 8.59011 36.5477C11.1246 38.9562 14.1073 40.8499 17.3506 42.1493C17.6853 42.2834 18.1198 42.5393 18.4896 42.5355C18.8661 42.5318 19.2875 42.2862 19.6287 42.1493C20.465 41.8137 21.2876 41.4438 22.0887 41.0318C23.6393 40.234 25.0986 39.2791 26.4706 38.2038C31.9409 33.9171 35.6525 27.5037 36.6317 20.6224C36.9354 18.4882 36.9242 16.362 36.9242 14.2146C36.9242 12.0846 36.9242 9.95461 36.9242 7.82461C36.9242 7.6718 36.9242 7.51852 36.9242 7.36571C36.9242 7.03289 36.7015 6.79805 36.4081 6.68789C31.1937 4.72524 25.9793 2.76258 20.765 0.799924C20.0965 0.548205 19.3962 0.186332 18.6987 0.0222691C18.1625 -0.103825 17.4401 0.338674 16.9587 0.519611C13.925 1.66149 10.8912 2.80336 7.85746 3.94524C5.42886 4.8593 2.9998 5.77383 0.571208 6.68789C-0.267855 7.00383 0.0954265 8.36368 0.94527 8.04399C6.1348 6.09071 11.3243 4.13696 16.5143 2.18368C16.9873 2.00555 17.4598 1.82789 17.9328 1.64977C18.101 1.58649 18.5145 1.51524 18.6448 1.38164C18.7039 1.32117 18.2726 1.32305 18.335 1.38164C18.3851 1.42899 18.5164 1.45008 18.5806 1.47399C18.957 1.61555 19.3329 1.75711 19.7093 1.89867C22.7586 3.04617 25.8073 4.19414 28.8565 5.34164C31.2495 6.24211 33.642 7.14305 36.035 8.04352C35.8629 7.81758 35.6909 7.59164 35.5189 7.36571C35.5189 10.6596 35.585 13.9601 35.5123 17.2535C35.3637 23.9801 32.539 30.4929 27.7479 35.2132C25.362 37.5635 22.5143 39.4601 19.4131 40.7299C19.2303 40.8049 19.0465 40.8771 18.8618 40.9479C18.7559 40.9882 18.65 41.028 18.544 41.0674C18.4165 41.1143 18.0987 41.1541 18.491 41.1546C18.9012 41.1551 18.3471 41.0346 18.1995 40.9784C17.9886 40.8982 17.7781 40.8157 17.569 40.7304C16.7717 40.4041 15.9921 40.0306 15.2323 39.6241C13.7581 38.8357 12.35 37.9113 11.0567 36.8515C5.88589 32.6149 2.4223 26.4284 1.64418 19.7735C1.41636 17.8385 1.46136 15.8932 1.46136 13.9493C1.46136 11.8901 1.46136 9.83086 1.46136 7.77164C1.46136 7.63617 1.46136 7.50117 1.46136 7.36571C1.46136 6.46102 0.0551142 6.45961 0.0551142 7.36571Z" fill="#CC9433" transform="translate(2.92627, 15.6855)" />
+        <path d="M14.5004 31.9231C9.87196 29.8685 6.07368 26.2934 3.77961 21.7737C2.64664 19.5415 1.89477 17.0862 1.60508 14.599C1.42977 13.0948 1.45602 11.5854 1.45602 10.0741C1.45602 8.62712 1.45602 7.18055 1.45602 5.73352C1.28399 5.95946 1.11196 6.1854 0.939925 6.41133C4.83805 4.94415 8.73571 3.47696 12.6338 2.0093C13.0084 1.86821 13.3824 1.72758 13.757 1.58649C13.8966 1.53399 14.1924 1.48524 14.3035 1.38071C14.2187 1.46087 13.7593 1.29493 14.1798 1.4529C14.4643 1.55977 14.7488 1.66712 15.0334 1.77399C17.3237 2.63602 19.614 3.49805 21.9043 4.36055C23.7202 5.04399 25.5357 5.72743 27.3516 6.41087C27.1796 6.18493 27.0076 5.95899 26.8356 5.73305C26.8356 8.33696 26.9616 10.976 26.7816 13.5752C26.4338 18.5895 24.2607 23.4167 20.7854 27.0396C18.7951 29.1148 16.4171 30.7568 13.7907 31.9226C12.9652 32.2892 13.6796 33.5013 14.5004 33.1367C19.2709 31.0188 23.2538 27.2707 25.6501 22.631C26.8627 20.2826 27.6704 17.7424 28.0252 15.1235C28.2437 13.5134 28.2413 11.907 28.2413 10.2874C28.2413 8.76915 28.2413 7.25087 28.2413 5.73259C28.2413 5.39977 28.0187 5.16493 27.7252 5.05477C23.7901 3.57352 19.8545 2.09227 15.9193 0.611022C15.4131 0.420709 14.8763 0.138523 14.3471 0.0194603C13.9023 -0.0808522 13.3801 0.231804 12.9765 0.383679C10.6735 1.2504 8.37008 2.11759 6.06711 2.9843C4.23336 3.6743 2.39961 4.36477 0.565862 5.05477C0.272425 5.1654 0.049769 5.40305 0.049769 5.73259C0.049769 8.50102 -0.111013 11.3276 0.145394 14.0876C0.630081 19.3001 2.88571 24.2538 6.51149 28.0334C8.57727 30.1873 11.064 31.9259 13.7907 33.1362C14.6105 33.5013 15.3268 32.2901 14.5004 31.9231Z" fill="#CC9433" transform="translate(7.27051, 20.3203)" />
+        <path d="M0.206882 5.88363C1.46876 7.14551 2.73063 8.40738 3.99204 9.66879C4.26063 9.93738 4.71719 9.93785 4.98626 9.66879C7.45657 7.19848 9.92735 4.72769 12.3977 2.25738C12.7497 1.90535 13.1017 1.55332 13.4538 1.20129C14.0945 0.560508 13.1003 -0.434177 12.4595 0.207073C9.98923 2.67739 7.51844 5.14817 5.04813 7.61848C4.6961 7.97051 4.34407 8.32254 3.99204 8.67457L4.98626 8.67457C3.72438 7.4127 2.46251 6.15082 1.2011 4.88942C0.560319 4.24817 -0.433899 5.24238 0.206882 5.88363Z" fill="#CC9433" transform="translate(15.3826, 31.0134)" />
+        <path d="M9.95262 19.8945C13.0487 19.8673 15.9709 18.4395 17.859 15.979C19.7359 13.5336 20.3678 10.2692 19.5498 7.29592C18.7548 4.40608 16.6276 1.97233 13.8723 0.796705C10.9886 -0.433764 7.61121 -0.234077 4.90559 1.36202C1.89949 3.1353 0.0577754 6.3903 0.00011915 9.86608C-0.0148809 10.7712 1.39137 10.7717 1.40637 9.86608C1.44996 7.23592 2.67621 4.72811 4.78137 3.13155C6.93387 1.49889 9.78621 0.983268 12.3761 1.74358C14.8365 2.46592 16.9056 4.32874 17.8717 6.70764C18.8748 9.17702 18.6587 12.0345 17.2937 14.3215C15.7529 16.9025 12.947 18.4625 9.95309 18.4887C9.0484 18.4962 9.04606 19.9025 9.95262 19.8945Z" fill="#CC9433" transform="translate(29.1953, 9.70703)" />
+        <path d="M0 0.703708L0 3.75808L0 4.19027C0 4.55824 0.323438 4.91027 0.703125 4.8934C1.08422 4.87652 1.40625 4.58449 1.40625 4.19027C1.40625 3.17215 1.40625 2.15402 1.40625 1.1359C1.40625 0.99199 1.40625 0.848083 1.40625 0.703708C1.40625 0.33574 1.08281 -0.0162918 0.703125 0.000583233C0.322031 0.0174582 0 0.30949 0 0.703708Z" fill="#CC9433" transform="translate(38.4441, 1.77734)" />
+        <path d="M2.66789 0.200638C1.94836 0.920169 1.2293 1.63923 0.50977 2.35876C0.407583 2.46095 0.304927 2.56361 0.20274 2.66579C-0.0578852 2.92642 -0.0771039 3.40314 0.20274 3.66001C0.483521 3.91782 0.918987 3.93798 1.19696 3.66001C1.91649 2.94048 2.63555 2.22142 3.35508 1.50189C3.45727 1.3997 3.55993 1.29704 3.66211 1.19486C3.92274 0.934231 3.94196 0.457513 3.66211 0.200638C3.38133 -0.0567062 2.94586 -0.0768624 2.66789 0.200638Z" fill="#CC9433" transform="translate(48.1221, 6.81055)" />
+        <path d="M4.19027 0C3.17214 0 2.15402 0 1.13589 0C0.991988 0 0.848083 0 0.703708 0C0.335739 0 -0.0162918 0.323438 0.000583233 0.703125C0.0174582 1.08422 0.309489 1.40625 0.703708 1.40625L3.75808 1.40625L4.19027 1.40625C4.55824 1.40625 4.91027 1.08281 4.89339 0.703125C4.87652 0.3225 4.58449 0 4.19027 0Z" fill="#CC9433" transform="translate(52.1255, 18.9453)" />
+        <path d="M3.66036 2.6679C2.94083 1.94837 2.22177 1.2293 1.50224 0.50977C1.40005 0.407583 1.29739 0.304927 1.19521 0.20274C0.93458 -0.0578852 0.457864 -0.0771039 0.200989 0.20274C-0.0568235 0.483521 -0.0769797 0.918989 0.200989 1.19696C0.92052 1.91649 1.63958 2.63555 2.35911 3.35508L2.66614 3.66211C2.92677 3.92274 3.40349 3.94196 3.66036 3.66211C3.91818 3.3818 3.93833 2.94587 3.66036 2.6679Z" fill="#CC9433" transform="translate(48.124, 28.623)" />
+        <path d="M0.200989 1.19696C0.92052 1.91649 1.63958 2.63555 2.35911 3.35508C2.4613 3.45727 2.56396 3.55993 2.66614 3.66211C2.92677 3.92274 3.40349 3.94196 3.66036 3.66211C3.91818 3.38133 3.93833 2.94586 3.66036 2.6679C2.94083 1.94836 2.22177 1.2293 1.50224 0.509771C1.40005 0.407583 1.29739 0.304927 1.19521 0.20274C0.934582 -0.0578852 0.457864 -0.0771039 0.200989 0.20274C-0.0568235 0.483052 -0.0769797 0.91899 0.200989 1.19696Z" fill="#CC9433" transform="translate(26.3093, 6.81055)" />
+      </svg>`
+    }
+  ] : (builtForOutdoor.points || []).map((pt: any) => ({
+    title: pt.title || '',
+    svg: pt.svg || ''
+  }));
+
+  const buttonText = isDefault ? 'View All Outdoor Planters' : (builtForOutdoor.button?.text || 'View All Outdoor Planters');
+  const buttonUrl = isDefault ? '/product' : (builtForOutdoor.button?.url || '/product');
+
   return (
     <section className="w-full bg-white px-0 md:px-[30px] xl:px-10 min-[1600px]:px-[30px] py-10 md:py-14 xl:py-16 flex flex-col items-center">
       {/* Background Image Container */}
       <div 
         className="w-full mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:max-w-[1540px]! relative min-h-[484px] lg:h-[597px] py-10 md:py-14 lg:py-0 overflow-hidden rounded-none lg:rounded-sm bg-neutral-900 bg-cover bg-center bg-no-repeat flex items-center"
-        style={{ backgroundImage: "url('/outdoor_bg.png')" }}
+        style={{ backgroundImage: `url('${bgImage}')` }}
       >
         {/* Soft Dark Blurred Vignette Overlay on the left side of the background */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent w-full md:w-[75%] lg:w-[55%] z-0" />
@@ -75,72 +110,50 @@ export default function BuiltEveryOutdoorSpace() {
             
             {/* Header / Title */}
             <h2 className="text-white font-['Funnel_Display',sans-serif] font-light leading-[1.0] text-[30px] md:text-[40px] lg:text-[64px] tracking-[-0.9px] md:tracking-[-1.2px] lg:tracking-[-1.92px] mb-4 lg:mb-6">
-              Built for Every Outdoor Space
+              {title}
             </h2>
 
             {/* Description */}
-            <p className="text-white/85 font-sans font-normal leading-relaxed text-[16px] lg:text-[24px] mb-8 lg:mb-12 max-w-[322px] md:max-w-[432px] lg:max-w-[856px]">
-              Designed to Transform Outdoor Spaces
-              <br className="hidden lg:inline" />
-              {" "}Crafted with premium German polymer technology for durability, style, and all-weather performance.
+            <p className="text-white/85 font-sans font-normal leading-relaxed text-[16px] lg:text-[24px] mb-8 lg:mb-12 max-w-[322px] md:max-w-[432px] lg:max-w-[856px] whitespace-pre-line">
+              {description}
             </p>
 
             {/* Badges / Features Group */}
             <div className="grid grid-cols-2 gap-x-6 md:gap-x-10 lg:gap-x-16 xl:gap-x-24 gap-y-5 lg:gap-y-6 mb-8 lg:mb-0 max-w-[302px] lg:max-w-[580px]">
-              
-              {/* Feature 1: UV Protected */}
-              <div className="flex items-center gap-2.5 lg:gap-3.5">
-                <UvIcon className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0" />
-                <span className="text-white font-['Funnel_Display',sans-serif] font-normal text-[16px] lg:text-[24px] leading-none">
-                  UV Protected
-                </span>
-              </div>
-
-              {/* Feature 2: Weather Resistant */}
-              <div className="flex items-center gap-2.5 lg:gap-3.5">
-                <WeatherIcon className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0" />
-                <span className="text-white font-['Funnel_Display',sans-serif] font-normal text-[16px] lg:text-[24px] leading-none">
-                  Weather Resistant
-                </span>
-              </div>
-
-              {/* Feature 3: Lightweight */}
-              <div className="flex items-center gap-2.5 lg:gap-3.5">
-                <LightweightIcon className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0" />
-                <span className="text-white font-['Funnel_Display',sans-serif] font-normal text-[16px] lg:text-[24px] leading-none">
-                  Lightweight
-                </span>
-              </div>
-
-              {/* Feature 4: Long Lasting */}
-              <div className="flex items-center gap-2.5 lg:gap-3.5">
-                <LongLastingIcon className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0" />
-                <span className="text-white font-['Funnel_Display',sans-serif] font-normal text-[16px] lg:text-[24px] leading-none">
-                  Long Lasting
-                </span>
-              </div>
-              
+              {points.map((point: any, idx: number) => (
+                <div key={idx} className="flex items-center gap-2.5 lg:gap-3.5">
+                  {point.svg ? (
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: point.svg }} 
+                      className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0"
+                    />
+                  ) : null}
+                  <span className="text-white font-['Funnel_Display',sans-serif] font-normal text-[16px] lg:text-[24px] leading-none">
+                    {point.title}
+                  </span>
+                </div>
+              ))}
             </div>
 
             {/* Button Link - Absolute positioned on desktop at bottom right of container, stacked on mobile/tablet */}
             <div className="flex lg:absolute lg:bottom-[28px] lg:right-[30px] z-20">
-              {/* Desktop Button: View All Products (256px wide, 67px high) */}
+              {/* Desktop Button */}
               <Link 
-                href="/product"
+                href={buttonUrl}
                 className="hidden lg:inline-flex items-center justify-center gap-3 bg-[#CC9433] hover:bg-[#b5832a] text-white w-[256px] h-[67px] text-[18px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
               >
-                <span>View All products</span>
+                <span>{isDefault ? 'View All products' : buttonText}</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-1">
                   <path d="M10.7742 3.0442C10.5562 2.8186 10.1935 2.8186 9.96786 3.0442C9.74989 3.26217 9.74989 3.62495 9.96786 3.84242L14.0565 7.93108H0.564497C0.249984 7.93159 0 8.18157 0 8.49609C0 8.8106 0.249984 9.06871 0.564497 9.06871H14.0565L9.96786 13.1498C9.74989 13.3753 9.74989 13.7386 9.96786 13.9561C10.1935 14.1817 10.5567 14.1817 10.7742 13.9561L15.8308 8.89952C16.0564 8.68154 16.0564 8.31876 15.8308 8.10129L10.7742 3.0442Z" fill="currentColor"/>
                 </svg>
               </Link>
 
-              {/* Tablet/Mobile Button: View All Outdoor Planters (w-fit min-w-[223px], 45px high) */}
+              {/* Tablet/Mobile Button */}
               <Link 
-                href="/product"
+                href={buttonUrl}
                 className="inline-flex lg:hidden items-center justify-center gap-2.5 bg-[#CC9433] hover:bg-[#b5832a] text-white w-fit min-w-[223px] h-[45px] px-[20px] py-[12px] text-[14px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
               >
-                <span>View All Outdoor Planters</span>
+                <span>{buttonText}</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-0.5">
                   <path d="M10.7742 3.0442C10.5562 2.8186 10.1935 2.8186 9.96786 3.0442C9.74989 3.26217 9.74989 3.62495 9.96786 3.84242L14.0565 7.93108H0.564497C0.249984 7.93159 0 8.18157 0 8.49609C0 8.8106 0.249984 9.06871 0.564497 9.06871H14.0565L9.96786 13.1498C9.74989 13.3753 9.74989 13.7386 9.96786 13.9561C10.1935 14.1817 10.5567 14.1817 10.7742 13.9561L15.8308 8.89952C16.0564 8.68154 16.0564 8.31876 15.8308 8.10129L10.7742 3.0442Z" fill="currentColor"/>
                 </svg>
