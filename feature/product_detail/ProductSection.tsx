@@ -114,7 +114,7 @@ function normalizeProductData(productData: any) {
     description,
     breadcrumbs: ['Home', 'Indoor', productData.title || 'Product Detail'],
     colors: colors.length > 0 ? colors : [{ name: 'Default', value: '#ffffff', images: ['/select_1.png'] }],
-    sizes: sizes.length > 0 ? sizes : ['One Size'],
+    sizes: sizes.length > 0 ? sizes : ['-'],
     specs,
     accordionSections,
     contactButton,
@@ -271,7 +271,7 @@ export default function ProductSection({ productData }: { productData?: any }) {
           </nav>
  
           {/* Product Title */}
-          <h1 className="mb-1 text-[#2C322D] font-['Funnel_Display',sans-serif] text-[32px] md:text-[40px] lg:text-[48px] font-normal md:font-light lg:font-medium leading-none tracking-[-0.96px] md:tracking-[-1.2px] lg:tracking-[-1.44px]">
+          <h1 className="mb-[9px] md:mb-3 lg:mb-[21px] text-[#2C322D] font-['Funnel_Display',sans-serif] text-[32px] md:text-[40px] lg:text-[48px] font-normal md:font-light lg:font-medium leading-none tracking-[-0.96px] md:tracking-[-1.2px] lg:tracking-[-1.44px]">
             {product.name}
           </h1>
           
