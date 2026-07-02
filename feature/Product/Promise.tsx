@@ -58,12 +58,32 @@ export default function ProductPromise({
   items,
 }: PromiseProps) {
   const displayItems = items && items.length > 0
-    ? items.map((item, index) => ({
-        title: item.title || '',
-        description: item.description || '',
-        iconHtml: item.icon || staticSvgFallbacks[index] || staticSvgFallbacks[staticSvgFallbacks.length - 1],
-      }))
-    : promiseItems;
+    ? items.map((item, index) => {
+        let iconUrl = '';
+        let customSvg = '';
+        
+        if (item.icon) {
+          const trimmed = item.icon.trim();
+          if (trimmed.startsWith('<svg') || trimmed.includes('<svg')) {
+            customSvg = trimmed;
+          } else {
+            iconUrl = trimmed;
+          }
+        }
+        
+        return {
+          title: item.title || '',
+          description: item.description || '',
+          iconUrl: iconUrl,
+          iconHtml: customSvg || staticSvgFallbacks[index] || staticSvgFallbacks[staticSvgFallbacks.length - 1],
+        };
+      })
+    : promiseItems.map((item) => ({
+        title: item.title,
+        description: item.description,
+        iconUrl: '',
+        iconHtml: item.iconHtml,
+      }));
 
   return (
     <section className="bg-[#2C322D] py-10 md:py-[60px] xl:py-[100px] w-full flex flex-col items-center" id="product-promise">
@@ -94,11 +114,19 @@ export default function ProductPromise({
         <div className="flex flex-col gap-8 md:flex-row md:flex-wrap md:gap-y-12 md:gap-x-12 xl:flex-nowrap xl:gap-10 min-[1600px]:gap-20 w-full justify-between">
           {displayItems.map((item, idx) => (
             <div key={idx} className="flex-1 flex flex-col items-center gap-8 text-center min-w-[240px] md:max-w-[calc(50%-24px)] xl:max-w-none">
-              <div className="w-[100px] h-[100px] border border-[#F5F3EF]/10 rounded-full flex justify-center items-center text-[#CC9433] [&>svg]:w-[60px] [&>svg]:h-[60px]">
-                <div
-                  className="w-[60px] h-[60px] flex items-center justify-center"
-                  dangerouslySetInnerHTML={{ __html: item.iconHtml }}
-                />
+              <div className="w-[100px] h-[100px] border border-[#F5F3EF]/10 rounded-full flex justify-center items-center text-[#CC9433] [&_svg]:w-[60px] [&_svg]:h-[60px]">
+                {item.iconUrl ? (
+                  <img
+                    src={item.iconUrl}
+                    alt={item.title}
+                    className="w-[60px] h-[60px] object-contain"
+                  />
+                ) : (
+                  <div
+                    className="w-[60px] h-[60px] flex items-center justify-center [&_svg]:w-[60px] [&_svg]:h-[60px]"
+                    dangerouslySetInnerHTML={{ __html: item.iconHtml }}
+                  />
+                )}
               </div>
               
               <div className="flex flex-col gap-3 items-center max-w-[320px]">
