@@ -130,19 +130,19 @@ export default function BuiltEveryOutdoorSpace() {
                 className="hidden lg:inline-flex items-center justify-center gap-3 bg-[#CC9433] hover:bg-[#b5832a] text-white w-[256px] h-[67px] text-[18px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
               >
                 <span>View All products</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-300 group-hover:translate-x-1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-1">
+                  <path d="M10.7742 3.0442C10.5562 2.8186 10.1935 2.8186 9.96786 3.0442C9.74989 3.26217 9.74989 3.62495 9.96786 3.84242L14.0565 7.93108H0.564497C0.249984 7.93159 0 8.18157 0 8.49609C0 8.8106 0.249984 9.06871 0.564497 9.06871H14.0565L9.96786 13.1498C9.74989 13.3753 9.74989 13.7386 9.96786 13.9561C10.1935 14.1817 10.5567 14.1817 10.7742 13.9561L15.8308 8.89952C16.0564 8.68154 16.0564 8.31876 15.8308 8.10129L10.7742 3.0442Z" fill="currentColor"/>
                 </svg>
               </Link>
 
-              {/* Tablet/Mobile Button: View All Outdoor Planters (223px wide, 45px high) */}
+              {/* Tablet/Mobile Button: View All Outdoor Planters (w-fit min-w-[223px], 45px high) */}
               <Link 
                 href="/product"
-                className="inline-flex lg:hidden items-center justify-center gap-2 bg-[#CC9433] hover:bg-[#b5832a] text-white w-[223px] h-[45px] text-[14px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
+                className="inline-flex lg:hidden items-center justify-center gap-2.5 bg-[#CC9433] hover:bg-[#b5832a] text-white w-fit min-w-[223px] h-[45px] px-[20px] py-[12px] text-[14px] font-medium tracking-wide uppercase transition-colors duration-300 cursor-pointer rounded-sm group no-underline"
               >
                 <span>View All Outdoor Planters</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-300 group-hover:translate-x-0.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-0.5">
+                  <path d="M10.7742 3.0442C10.5562 2.8186 10.1935 2.8186 9.96786 3.0442C9.74989 3.26217 9.74989 3.62495 9.96786 3.84242L14.0565 7.93108H0.564497C0.249984 7.93159 0 8.18157 0 8.49609C0 8.8106 0.249984 9.06871 0.564497 9.06871H14.0565L9.96786 13.1498C9.74989 13.3753 9.74989 13.7386 9.96786 13.9561C10.1935 14.1817 10.5567 14.1817 10.7742 13.9561L15.8308 8.89952C16.0564 8.68154 16.0564 8.31876 15.8308 8.10129L10.7742 3.0442Z" fill="currentColor"/>
                 </svg>
               </Link>
             </div>
