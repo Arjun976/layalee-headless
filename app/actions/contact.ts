@@ -42,7 +42,21 @@ export async function submitContactForm(
   const phone = formData.get('phone') as string;
   const subject = formData.get('subject') as string;
   const message = formData.get('message') as string;
-  const formId = (formData.get('formId') as string) || process.env.WP_CONTACT_FORM_ID || '123';
+  const rawFormId = (formData.get('formId') as string) || process.env.WP_CONTACT_FORM_ID || '';
+
+  // Parse to integer if it consists entirely of digits to stay compatible with different schema types
+  const contactFormId = /^\d+$/.test(rawFormId) ? parseInt(rawFormId, 10) : rawFormId;
+
+  console.log("\n=========================================");
+  console.log("📬 GRAPHQL CONTACT FORM SUBMISSION RECEIVED");
+  console.log("-----------------------------------------");
+  console.log(`- Form ID:   ${contactFormId}`);
+  console.log(`- Name:      ${fullName}`);
+  console.log(`- Email:     ${email}`);
+  console.log(`- Phone:     ${phone}`);
+  console.log(`- Subject:   ${subject}`);
+  console.log(`- Message:   ${message}`);
+  console.log("=========================================\n");
 
   const validatedFields = contactSchema.safeParse({
     fullName,
@@ -60,27 +74,7 @@ export async function submitContactForm(
     };
   }
 
-  // Debug Log for Testing
-  console.log("\n=========================================");
-  console.log("📬 CONTACT FORM SUBMISSION RECEIVED");
-  console.log("-----------------------------------------");
-  console.log(`- Form ID:   ${formId}`);
-  console.log(`- Name:      ${fullName}`);
-  console.log(`- Email:     ${email}`);
-  console.log(`- Phone:     ${phone}`);
-  console.log(`- Subject:   ${subject}`);
-  console.log(`- Message:   ${message}`);
-  console.log("=========================================\n");
-
-  // 3. Prepare payload for Contact Form 7
-  const cf7FormData = new FormData();
-  cf7FormData.append('your-name', fullName);
-  cf7FormData.append('your-email', email);
-  cf7FormData.append('your-phone', phone);
-  cf7FormData.append('your-subject', subject);
-  cf7FormData.append('your-message', message);
-
-  // 4. Resolve endpoints
+  // 3. Resolve endpoints
   const wpBaseUrl = process.env.Secret;
   if (!wpBaseUrl) {
     console.error('Error: Secret environment variable is missing.');
@@ -90,59 +84,78 @@ export async function submitContactForm(
     };
   }
 
-  let endpoint = `${wpBaseUrl}/wp-json/contact-form-7/v1/contact-forms/${formId}/feedback`;
+  const endpoint = wpBaseUrl.endsWith('/graphql') ? wpBaseUrl : `${wpBaseUrl}/graphql`;
+
+  // GraphQL Mutation Schema registered by the WPGraphQL Contact Form 7 plugin
+  const mutation = `
+    mutation SubmitContactForm($input: SubmitContactFormInput!) {
+      submitContactForm(input: $input) {
+        success
+        message
+      }
+    }
+  `;
+
+  // Map keys to WPGraphQL input tags
+  const variables = {
+    input: {
+      contactFormId: contactFormId,
+      clientMutationId: 'contact-form-submission',
+      fieldValues: [
+        { id: 'your-name', value: fullName },
+        { id: 'your-email', value: email },
+        { id: 'your-phone', value: phone },
+        { id: 'your-subject', value: subject },
+        { id: 'your-message', value: message },
+      ]
+    }
+  };
 
   try {
-    let response = await fetch(endpoint, {
+    const response = await fetch(endpoint, {
       method: 'POST',
-      body: cf7FormData,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: mutation,
+        variables,
+      }),
       cache: 'no-store',
     });
 
-    // Fallback: If pretty permalinks are disabled on WordPress, try query-parameter rest_route format
-    if (response.status === 404) {
-      const altEndpoint = wpBaseUrl.includes('?') 
-        ? `${wpBaseUrl}&rest_route=/contact-form-7/v1/contact-forms/${formId}/feedback`
-        : `${wpBaseUrl}/index.php?rest_route=/contact-form-7/v1/contact-forms/${formId}/feedback`;
-      
-      console.log(`[Contact Form Action] Primary endpoint 404'd. Trying permalink fallback: ${altEndpoint}`);
-      const altResponse = await fetch(altEndpoint, {
-        method: 'POST',
-        body: cf7FormData,
-        cache: 'no-store',
-      });
-      
-      if (altResponse.ok || altResponse.status !== 404) {
-        response = altResponse;
-      }
-    }
-
     if (!response.ok) {
-      const errText = await response.text();
-      console.error(`[Contact Form Action] WordPress failed with status: ${response.status}. Response:`, errText);
-      throw new Error(`WordPress responded with status: ${response.status}. Details: ${errText}`);
+      throw new Error(`WordPress responded with status: ${response.status}`);
     }
 
     const result = await response.json();
 
-    // CF7 returns 'mail_sent' when successful
-    if (result.status === 'mail_sent') {
+    if (result.errors) {
+      console.error('GraphQL contact submission errors:', result.errors);
+      const firstErr = result.errors[0]?.message || 'GraphQL Error';
       return {
-        success: true,
-        message: result.message || 'Thank you! Your message has been sent successfully.',
+        success: false,
+        message: `WordPress GraphQL Error: ${firstErr}`,
       };
     }
 
-    // Handle CF7 validation/spam/failure statuses
+    const data = result.data?.submitContactForm;
+    if (data?.success) {
+      return {
+        success: true,
+        message: data.message || 'Thank you! Your message has been sent successfully.',
+      };
+    }
+
     return {
       success: false,
-      message: result.message || 'There was an issue submitting your form. Please try again.',
+      message: data?.message || 'There was an issue submitting your form via GraphQL. Please try again.',
     };
-  } catch (error) {
-    console.error('Error sending contact submission to WordPress:', error);
+  } catch (error: any) {
+    console.error('Error sending GraphQL contact submission to WordPress:', error);
     return {
       success: false,
-      message: 'Unable to deliver message right now. Please check your connection.',
+      message: error.message || 'Unable to deliver message right now. Please check your connection.',
     };
   }
 }
