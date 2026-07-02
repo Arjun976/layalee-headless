@@ -13,6 +13,7 @@ export interface ProductBnrProps {
   title?: string;
   subtitle?: string;
   breadcrumbs?: BreadcrumbItem[];
+  backgroundImage?: string;
 }
 
 export default function ProductBnr({
@@ -22,13 +23,14 @@ export default function ProductBnr({
     { label: 'Home', url: '/' },
     { label: 'Indoor planters', url: '/product' },
   ],
+  backgroundImage,
 }: ProductBnrProps) {
   return (
     <section className="relative w-full h-[260px] md:h-[300px] xl:h-[336px] overflow-hidden bg-white border-b border-[#2C322D]/10">
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0 h-full w-full">
         <Image
-          src="/bg-product.png"
+          src={backgroundImage || "/bg-product.png"}
           alt="Product Banner Background"
           fill
           priority

@@ -806,3 +806,83 @@ export async function getLayaleProduct(slug: string): Promise<any> {
   }
 }
 
+export async function getLayaleContact(): Promise<any> {
+  const secret = process.env.Secret;
+  if (!secret) {
+    console.error("Error: Secret environment variable is not defined.");
+    return null;
+  }
+
+  const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
+
+  const query = `
+    query GetLayaleContact {
+      layaleContact {
+        id
+        title
+        slug
+
+        banner {
+          enabled
+          image {
+            id
+            url
+          }
+          subtitle
+          title
+        }
+
+        contactForm {
+          enabled
+          title
+          paragraphs {
+            text
+          }
+          formId
+          mapEmbedCode
+        }
+
+        contactInfo {
+          enabled
+          title
+          cards {
+            title
+            description
+            svg
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+      }),
+      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
+    });
+
+    if (!response.ok) {
+      console.error(`GraphQL fetch failed! Status: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const resJson = await response.json();
+    if (resJson.errors) {
+      console.error("GraphQL Errors in getLayaleContact:", resJson.errors);
+      return null;
+    }
+
+    return resJson.data?.layaleContact || null;
+  } catch (error) {
+    console.error("Error fetching contact page data from WordPress:", error);
+    return null;
+  }
+}
+
+

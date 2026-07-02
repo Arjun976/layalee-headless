@@ -2,7 +2,30 @@
 
 import React, { useState } from 'react';
 
-export default function ContactForm() {
+interface ContactFormProps {
+  formDataProps?: {
+    enabled?: boolean;
+    title?: string;
+    paragraphs?: Array<{ text: string }>;
+    formId?: string;
+    mapEmbedCode?: string;
+  };
+}
+
+export default function ContactForm({ formDataProps }: ContactFormProps) {
+  if (formDataProps === null || (formDataProps && formDataProps.enabled === false)) {
+    return null;
+  }
+
+  const isDefault = formDataProps === undefined;
+
+  const title = isDefault ? 'Create Your Green Space' : (formDataProps.title || '');
+  const description = isDefault 
+    ? "From premium planters to complete landscape solutions, we're here to help transform your space. Reach out to discuss your project, request a quote, or get expert recommendations."
+    : (formDataProps.paragraphs || []).map((p) => p.text).join('\n');
+  
+  const mapHtml = isDefault ? '' : (formDataProps.mapEmbedCode || '');
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -38,10 +61,10 @@ export default function ContactForm() {
         <div className="w-full xl:w-[53%] flex flex-col gap-12">
           <div className="flex flex-col gap-5">
             <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.15] text-[32px] md:text-[48px] xl:text-[64px] tracking-[-1px] md:tracking-[-1.5px]">
-              Create Your Green Space
+              {title}
             </h2>
-            <p className="text-[#545955] font-['Google_Sans',sans-serif] text-base md:text-[18px] leading-[1.78] max-w-[876px]">
-              From premium planters to complete landscape solutions, we're here to help transform your space. Reach out to discuss your project, request a quote, or get expert recommendations.
+            <p className="text-[#545955] font-['Google_Sans',sans-serif] text-base md:text-[18px] leading-[1.78] max-w-[876px] whitespace-pre-line">
+              {description}
             </p>
           </div>
 
@@ -49,7 +72,7 @@ export default function ContactForm() {
             {/* Input Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Full Name */}
-              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+              <div className="w-full">
                 <label htmlFor="fullName" className="sr-only">
                   Full Name
                 </label>
@@ -61,12 +84,13 @@ export default function ContactForm() {
                   onChange={handleChange}
                   required
                   placeholder="Full Name"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  autoComplete="name"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
 
               {/* Email */}
-              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+              <div className="w-full">
                 <label htmlFor="email" className="sr-only">
                   Email
                 </label>
@@ -78,12 +102,13 @@ export default function ContactForm() {
                   onChange={handleChange}
                   required
                   placeholder="Email"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  autoComplete="email"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
 
               {/* Phone Number */}
-              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+              <div className="w-full">
                 <label htmlFor="phone" className="sr-only">
                   Phone Number
                 </label>
@@ -95,12 +120,13 @@ export default function ContactForm() {
                   onChange={handleChange}
                   required
                   placeholder="Phone Number"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  autoComplete="tel"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
 
               {/* Subject */}
-              <div className="bg-[#F5F3EF] rounded-[4px] px-6 flex items-center h-20 border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+              <div className="w-full">
                 <label htmlFor="subject" className="sr-only">
                   Subject
                 </label>
@@ -112,13 +138,14 @@ export default function ContactForm() {
                   onChange={handleChange}
                   required
                   placeholder="Subject"
-                  className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
+                  autoComplete="off"
+                  className="bg-[#F5F3EF] rounded-[4px] px-6 h-20 border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full placeholder-[#313232]/85"
                 />
               </div>
             </div>
 
             {/* Message */}
-            <div className="bg-[#F5F3EF] rounded-[4px] px-6 py-5 flex h-[200px] border border-transparent focus-within:border-[#507661]/30 transition-all duration-300">
+            <div className="w-full">
               <label htmlFor="message" className="sr-only">
                 Message
               </label>
@@ -129,7 +156,7 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 placeholder="Message"
-                className="bg-transparent border-none outline-none text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full h-full resize-none placeholder-[#313232]/85"
+                className="bg-[#F5F3EF] rounded-[4px] px-6 py-5 h-[200px] border border-transparent focus:border-[#507661]/30 focus:outline-none transition-all duration-300 text-[#2C322D] font-['Google_Sans',sans-serif] text-[16px] w-full h-full resize-none placeholder-[#313232]/85"
               />
             </div>
 
@@ -148,17 +175,9 @@ export default function ContactForm() {
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
               {!isSubmitting && (
-                <div className="relative w-4 h-4 overflow-hidden flex items-center">
-                  <div className="flex transition-transform duration-300 ease-in-out group-hover:translate-x-1">
-                    {/* Double Arrow Icon */}
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
-                      <path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0 -ml-1.5">
-                      <path d="M6 12L10 8L6 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </div>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:translate-x-1">
+                  <path d="M10.7742 3.0442C10.5562 2.8186 10.1935 2.8186 9.96786 3.0442C9.74989 3.26217 9.74989 3.62495 9.96786 3.84242L14.0565 7.93108H0.564497C0.249984 7.93159 0 8.18157 0 8.49609C0 8.8106 0.249984 9.06871 0.564497 9.06871H14.0565L9.96786 13.1498C9.74989 13.3753 9.74989 13.7386 9.96786 13.9561C10.1935 14.1817 10.5567 14.1817 10.7742 13.9561L15.8308 8.89952C16.0564 8.68154 16.0564 8.31876 15.8308 8.10129L10.7742 3.0442Z" fill="currentColor"/>
+                </svg>
               )}
             </button>
           </form>
@@ -166,14 +185,21 @@ export default function ContactForm() {
 
         {/* Right Side: Interactive Location Map */}
         <div className="w-full xl:w-[44%] relative aspect-[783/620] xl:h-[620px] rounded-[4px] overflow-hidden bg-[#F5F3EF]">
-          <iframe
-            src="https://maps.google.com/maps?q=Meydan%20Grandstand,%20Nad%20Al%20Sheba,%20Dubai&t=&z=14&ie=UTF8&iwloc=&output=embed"
-            className="absolute inset-0 w-full h-full border-0"
-            allowFullScreen={true}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Layale Location Map"
-          />
+          {mapHtml ? (
+            <div 
+              className="absolute inset-0 w-full h-full [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:border-0"
+              dangerouslySetInnerHTML={{ __html: mapHtml }}
+            />
+          ) : (
+            <iframe
+              src="https://maps.google.com/maps?q=Meydan%20Grandstand,%20Nad%20Al%20Sheba,%20Dubai&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              className="absolute inset-0 w-full h-full border-0"
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Layale Location Map"
+            />
+          )}
         </div>
 
       </div>
