@@ -3,7 +3,6 @@ import CraftedIndoorSection from '@/feature/product_detail/CraftedIndoorSection'
 import BuiltEveryOutdoorSpace from '@/feature/product_detail/BuiltEveryOutdoorSpace';
 import ProductFaq from '@/feature/Product/Faq';
 import NatureInspired from '@/feature/home/nature-inspired';
-import GetInspired from '@/feature/home/Get-inspired';
 import { getHeaderAndHomePageData, getLayaleProduct } from '@/lib/wordpress';
 import { notFound } from 'next/navigation';
 
@@ -52,7 +51,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
       )}
 
       <NatureInspired homepage={homepage} baseUrl={baseUrl} />
-      <GetInspired homepage={homepage} baseUrl={baseUrl} />
     </main>
   );
 }
