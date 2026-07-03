@@ -109,7 +109,7 @@ export default function FeaturedSection({ homepage, products }: FeaturedProps) {
       image: image,
       badge: badge,
       colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
-      link: matched ? mapUrl(matched.uri) : '#',
+      link: matched ? `/product_detail/${matched.slug}` : '#',
     };
   });
 
