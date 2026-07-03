@@ -72,7 +72,8 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
 
   // Contact options
   const addressText = themeSettings?.footer_contact_content?.footer_contact_address || "Layale trading LLC Fz Meydan Grandstand, 6th floor, Meydan Road, Nad Al Sheba, Dubai, U.A.E.";
-  const addressLink = themeSettings?.footer_contact_content?.footer_contact_address_link || "#";
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressText)}`;
+  const addressLink = themeSettings?.footer_contact_content?.footer_contact_address_link || googleMapsUrl;
   const emailText = themeSettings?.footer_contact_content?.footer_contact_email || "info@layalegroup.com";
   const phoneText = themeSettings?.footer_contact_content?.footer_contact_phone || "+971 58 58 38 722";
   const phoneLinkText = phoneText.replace(/\s+/g, '');
@@ -81,7 +82,11 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
   const socialLinksRaw = themeSettings?.footer_social_content?.footer_social_links || [];
   const getSocialUrl = (name: string, fallback: string) => {
     const link = socialLinksRaw.find((s: any) => s.social_name?.toLowerCase() === name.toLowerCase());
-    return link?.social_url || fallback;
+    const url = link?.social_url?.trim();
+    if (!url || (!url.startsWith('http://') && !url.startsWith('https://'))) {
+      return fallback;
+    }
+    return url;
   };
   
   const instagramUrl = getSocialUrl('instagram', "https://www.instagram.com/");
@@ -176,19 +181,19 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
                     ))
                   ) : (
                     <>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/category/indoor-planters" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Indoor Planters
                       </Link>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/category/outdoor-planters" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Outdoor Planters
                       </Link>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/category/hanging-planters" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Hanging
                       </Link>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/category/tray-planter" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Tray Planter
                       </Link>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/category/balcony-planters" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Balcony
                       </Link>
                     </>
@@ -215,13 +220,13 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
                     ))
                   ) : (
                     <>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         About Layale
                       </Link>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/contact" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Contact
                       </Link>
-                      <Link href="#" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                      <Link href="/landscape" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                         Landscape
                       </Link>
                     </>
@@ -235,7 +240,7 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
                   Contact
                 </h4>
                 <div className="flex flex-col gap-5">
-                  <Link href={addressLink} className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
+                  <Link href={addressLink} target="_blank" rel="noopener noreferrer" className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">
                     {addressText}
                   </Link>
                   <Link href={`mailto:${emailText}`} className="no-underline text-[#F5F3EF] hover:text-white font-['Google_Sans',sans-serif] text-base md:text-lg font-normal leading-[1.25] transition-colors duration-300 xl:max-w-[422px]">

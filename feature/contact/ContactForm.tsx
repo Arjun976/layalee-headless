@@ -43,6 +43,25 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
     message: ''
   });
 
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (state.message) {
+      setFeedbackMessage(state.message);
+      setIsSuccess(state.success);
+      setShowFeedback(true);
+
+      if (state.success) {
+        const timer = setTimeout(() => {
+          setShowFeedback(false);
+        }, 5000); // Clear success message after 5 seconds
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [state]);
+
   useEffect(() => {
     if (state.success) {
       setFormData({
@@ -205,16 +224,16 @@ export default function ContactForm({ formDataProps }: ContactFormProps) {
             </div>
 
             {/* Form Action Feedback Message */}
-            {state.message && (
+            {showFeedback && feedbackMessage && (
               <div 
-                className={`p-4 rounded-[4px] font-['Google_Sans',sans-serif] text-sm border font-medium ${
-                  state.success
+                className={`p-4 rounded-[4px] font-['Google_Sans',sans-serif] text-sm border font-medium transition-opacity duration-500 ${
+                  isSuccess
                     ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
                     : 'bg-rose-50 border-rose-200 text-rose-800'
                 }`} 
                 role="alert"
               >
-                {state.message}
+                {feedbackMessage}
               </div>
             )}
 

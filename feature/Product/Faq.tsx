@@ -3,6 +3,30 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
+function mapUrl(url: string): string {
+  if (!url) return '/contact';
+  if (url.startsWith('/') || url.startsWith('#')) return url;
+  
+  try {
+    const parsed = new URL(url);
+    let pathname = parsed.pathname;
+    
+    const wpBase = '/layale_be';
+    if (pathname.startsWith(wpBase)) {
+      pathname = pathname.substring(wpBase.length);
+    }
+    
+    if (pathname.endsWith('/') && pathname.length > 1) {
+      pathname = pathname.slice(0, -1);
+    }
+    
+    if (pathname === '') return '/';
+    return pathname;
+  } catch (error) {
+    return url.startsWith('/') ? url : `/${url}`;
+  }
+}
+
 interface FaqItem {
   question: string;
   answer: string;
@@ -97,7 +121,7 @@ export default function ProductFaq({
           {/* Contact Us Button */}
           {buttonText && (
             <Link
-              href={buttonUrl}
+              href={mapUrl(buttonUrl)}
               className="inline-flex w-[198px] h-[67px] justify-center items-center gap-2.5 bg-[#CC9433] hover:bg-[#b5822c] active:bg-[#9d7124] text-white font-['Google_Sans',sans-serif] font-medium text-[18px] transition-all duration-300 no-underline cursor-pointer border-none shadow-[0_4px_12px_rgba(204,148,51,0.12)] rounded-sm"
             >
               {buttonText}
