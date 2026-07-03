@@ -60,8 +60,10 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
     newsletterDescription = themeSettings.footer_newsletter_content.footer_newsletter_description;
   }
 
-  // Logo
-  const logoSvg = themeSettings?.footer_logo?.footer_logo_svg || themeSettings?.logo_settings?.logo_svg || null;
+  // Logo (processed to ensure unique IDs across desktop and mobile, avoiding SVG duplication/mask clipping bugs)
+  const logoSvgRaw = themeSettings?.footer_logo?.footer_logo_svg || themeSettings?.logo_settings?.logo_svg || null;
+  const desktopLogoSvg = logoSvgRaw ? logoSvgRaw.replaceAll('338_3914', 'desktop_338_3914') : null;
+  const mobileLogoSvg = logoSvgRaw ? logoSvgRaw.replaceAll('338_3914', 'mobile_338_3914') : null;
 
   // Menus
   const shopMenu = navMenus?.shop || [];
@@ -133,19 +135,22 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
             </div>
 
           <div className="hidden xl:flex flex-col gap-1 items-start">
-  {logoSvg ? (
-    <div
-      className="w-[159px] h-[52px] lg:h-[76px] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain flex items-center justify-start"
-      dangerouslySetInnerHTML={{ __html: logoSvg }}
-    />
-  ) : (
-    <img
-      src="/assets/Logo.png"
-      alt="Layalee Logo"
-      className="w-[159px] h-[52px] object-contain block"
-    />
-  )}
-</div>
+            {desktopLogoSvg ? (
+              <Link
+                href="/"
+                className="w-[159px] h-[76px] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain flex items-center justify-start block"
+                dangerouslySetInnerHTML={{ __html: desktopLogoSvg }}
+              />
+            ) : (
+              <Link href="/" className="block">
+                <img
+                  src="/Logo.png"
+                  alt="Layalee Logo"
+                  className="w-[159px] h-[76px] object-contain block"
+                />
+              </Link>
+            )}
+          </div>
           </div>
 
           {/* Right Column: Navigation Links */}
@@ -269,17 +274,20 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
 
             {/* Mobile Brand Logo */}
             <div className="flex xl:hidden flex-col gap-1 items-start">
-              {logoSvg ? (
-                <div
-                  className="w-[159px] h-[52px] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain flex items-center justify-start"
-                  dangerouslySetInnerHTML={{ __html: logoSvg }}
+              {mobileLogoSvg ? (
+                <Link
+                  href="/"
+                  className="w-[159px] h-[76px] [&>svg]:w-full [&>svg]:h-full [&>svg]:object-contain flex items-center justify-start block"
+                  dangerouslySetInnerHTML={{ __html: mobileLogoSvg }}
                 />
               ) : (
-                <img
-                  src="/assets/Logo.png"
-                  alt="Layalee Logo"
-                  className="w-[159px] h-[52px] object-contain block"
-                />
+                <Link href="/" className="block">
+                  <img
+                    src="/Logo.png"
+                    alt="Layalee Logo"
+                    className="w-[159px] h-[76px] object-contain block"
+                  />
+                </Link>
               )}
             </div>
 
