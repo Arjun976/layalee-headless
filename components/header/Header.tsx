@@ -50,6 +50,7 @@ function mapUrl(url: string): string {
 
 export default function Header({ themeSettings, navMenus }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileCategoryOpen, setIsMobileCategoryOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -57,6 +58,7 @@ export default function Header({ themeSettings, navMenus }: HeaderProps) {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+    setIsMobileCategoryOpen(false);
   };
 
   useEffect(() => {
@@ -80,6 +82,22 @@ export default function Header({ themeSettings, navMenus }: HeaderProps) {
   // Extract navigation links
   const menuItems = navMenus?.primary || [];
   const hasMenuItems = menuItems.length > 0;
+
+  // Selection/Dropdown options for Categories (Figma pixel perfect lists)
+  const defaultCategories = [
+    { label: 'Indoor Planters', url: '/category/indoor-planters' },
+    { label: 'Outdoor planters', url: '/category/outdoor-planters' },
+    { label: 'Hanging planters', url: '/category/hanging-planters' },
+    { label: 'Balcony planters', url: '/category/balcony-planters' },
+    { label: 'Tray Planter', url: '/category/tray-planter' },
+  ];
+
+  const categories = navMenus?.shop && navMenus.shop.length > 0
+    ? navMenus.shop.filter((item: any) => item.url.includes('/category/')).map((item: any) => ({
+        label: item.label,
+        url: mapUrl(item.url)
+      }))
+    : defaultCategories;
 
   // Static Fallbacks
   const defaultStripItems = [
@@ -168,22 +186,66 @@ export default function Header({ themeSettings, navMenus }: HeaderProps) {
           <div className="flex items-center gap-11">
             <nav className="hidden xl:flex items-center gap-[44px]">
               {hasMenuItems ? (
-                menuItems.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={mapUrl(item.url)}
-                    target={item.target || undefined}
-                    className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 no-underline"
-                  >
-                    {item.label}
-                  </Link>
-                ))
+                menuItems.map((item) => {
+                  const isCategory = item.label.toLowerCase() === 'category';
+                  if (isCategory) {
+                    return (
+                      <div key={item.id} className="relative group cursor-pointer py-4 flex items-center">
+                        <span className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 flex items-center select-none">
+                          {item.label}
+                          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1.5 transition-transform duration-300 group-hover:rotate-180">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </span>
+                        {/* Dropdown Menu */}
+                        <div className="absolute left-0 top-[100%] w-64 bg-white shadow-xl border border-[#F5F3EF] rounded-[4px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[1100] py-2 flex flex-col">
+                          {categories.map((cat, idx) => (
+                            <Link
+                              key={idx}
+                              href={cat.url}
+                              className="text-[#2C322D] hover:bg-[#F5F3EF]/60 hover:text-[#507661] text-[16px] font-normal leading-[20px] transition-colors duration-200 px-5 py-3.5 no-underline block"
+                            >
+                              {cat.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={item.id}
+                      href={mapUrl(item.url)}
+                      target={item.target || undefined}
+                      className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 no-underline"
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })
               ) : (
                 <>
-                  <Link href="/portrait" className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 no-underline">
-                    Category
-                  </Link>
-                  <Link href="#" className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 no-underline">
+                  {/* Category Dropdown */}
+                  <div className="relative group cursor-pointer py-4 flex items-center">
+                    <span className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 flex items-center select-none">
+                      Category
+                      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-1.5 transition-transform duration-300 group-hover:rotate-180">
+                        <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                    <div className="absolute left-0 top-[100%] w-64 bg-white shadow-xl border border-[#F5F3EF] rounded-[4px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[1100] py-2 flex flex-col">
+                      {categories.map((cat, idx) => (
+                        <Link
+                          key={idx}
+                          href={cat.url}
+                          className="text-[#2C322D] hover:bg-[#F5F3EF]/60 hover:text-[#507661] text-[16px] font-normal leading-[20px] transition-colors duration-200 px-5 py-3.5 no-underline block"
+                        >
+                          {cat.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                  <Link href="/landscape" className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 no-underline">
                     Landscape
                   </Link>
                   <Link href="/about" className="text-[#2C322D] hover:text-[#507661] text-[18px] font-normal leading-[22.4px] transition-colors duration-300 no-underline">
@@ -247,29 +309,80 @@ export default function Header({ themeSettings, navMenus }: HeaderProps) {
         <div className="overflow-y-auto flex-1">
           <nav className="flex flex-col items-stretch w-full gap-0">
             {hasMenuItems ? (
-              menuItems.map((item) => (
-                <Link
-                  key={item.id}
-                  href={mapUrl(item.url)}
-                  target={item.target || undefined}
-                  className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] first:border-t last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]"
-                  onClick={closeMenu}
-                >
-                  {item.label}
-                </Link>
-              ))
+              menuItems.map((item) => {
+                const isCategory = item.label.toLowerCase() === 'category';
+                if (isCategory) {
+                  return (
+                    <div key={item.id} className="flex flex-col border-b border-[#2C322D]/[0.08] first:border-t">
+                      <button
+                        onClick={() => setIsMobileCategoryOpen(!isMobileCategoryOpen)}
+                        className="w-full font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase py-[22px] px-[30px] md:px-[40px] flex justify-between items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] border-0 bg-transparent text-left focus:outline-none"
+                      >
+                        {item.label}
+                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-transform duration-300 ${isMobileCategoryOpen ? 'rotate-180' : ''}`}>
+                          <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                      <div className={`flex flex-col bg-[#F5F3EF]/30 transition-all duration-300 overflow-hidden ${isMobileCategoryOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
+                        {categories.map((cat, idx) => (
+                          <Link
+                            key={idx}
+                            href={cat.url}
+                            className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D]/80 hover:text-[#507661] hover:bg-black/[0.01] transition-all duration-200 py-3.5 pl-[45px] md:pl-[60px] border-b border-[#2C322D]/[0.04] last:border-b-0 no-underline block"
+                            onClick={closeMenu}
+                          >
+                            {cat.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.id}
+                    href={mapUrl(item.url)}
+                    target={item.target || undefined}
+                    className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] first:border-t last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]"
+                    onClick={closeMenu}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })
             ) : (
               <>
-                <Link href="/portrait" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] first:border-t last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
-                  Category
-                </Link>
-                <Link href="#" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] first:border-t last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
+                {/* Static Category Dropdown Accordion */}
+                <div className="flex flex-col border-b border-[#2C322D]/[0.08] first:border-t">
+                  <button
+                    onClick={() => setIsMobileCategoryOpen(!isMobileCategoryOpen)}
+                    className="w-full font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase py-[22px] px-[30px] md:px-[40px] flex justify-between items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] border-0 bg-transparent text-left focus:outline-none"
+                  >
+                    Category
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" className={`transition-transform duration-300 ${isMobileCategoryOpen ? 'rotate-180' : ''}`}>
+                      <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                  <div className={`flex flex-col bg-[#F5F3EF]/30 transition-all duration-300 overflow-hidden ${isMobileCategoryOpen ? 'max-h-[500px]' : 'max-h-0'}`}>
+                    {categories.map((cat, idx) => (
+                      <Link
+                        key={idx}
+                        href={cat.url}
+                        className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D]/80 hover:text-[#507661] hover:bg-black/[0.01] transition-all duration-200 py-3.5 pl-[45px] md:pl-[60px] border-b border-[#2C322D]/[0.04] last:border-b-0 no-underline block"
+                        onClick={closeMenu}
+                      >
+                        {cat.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <Link href="/landscape" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
                   Landscape
                 </Link>
-                <Link href="/about" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] first:border-t last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
+                <Link href="/about" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
                   About
                 </Link>
-                <Link href="/contact" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] first:border-t last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
+                <Link href="/contact" className="font-sans text-[14px] md:text-[16px] font-normal text-[#2C322D] uppercase no-underline py-[22px] px-[30px] md:px-[40px] border-b border-[#2C322D]/[0.08] last:border-b-0 flex justify-start items-center transition-all duration-300 hover:text-[#507661] hover:bg-black/[0.02] hover:pl-[45px]" onClick={closeMenu}>
                   Contact
                 </Link>
               </>

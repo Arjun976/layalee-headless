@@ -335,7 +335,7 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
       body: JSON.stringify({
         query,
       }),
-      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
+      next: { revalidate: 60 }
     });
 
     if (!response.ok) {
@@ -345,8 +345,8 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
 
     const resJson = await response.json();
 
-    // Log the data in console as requested in step 9
-    console.log("GraphQL API Data:", JSON.stringify(resJson, null, 2));
+    // Log the data in console as requested in step 9 (commented out for performance)
+    // console.log("GraphQL API Data:", JSON.stringify(resJson, null, 2));
 
     if (resJson.errors) {
       console.error("GraphQL Errors:", resJson.errors);
@@ -627,7 +627,7 @@ export async function getLayaleProductCategory(slug: string): Promise<ProductCat
         query,
         variables: { slug },
       }),
-      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
+      next: { revalidate: 60 }
     });
 
     if (!response.ok) {
@@ -785,7 +785,7 @@ export async function getLayaleProduct(slug: string): Promise<any> {
         query,
         variables: { slug },
       }),
-      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
+      next: { revalidate: 60 }
     });
 
     if (!response.ok) {
@@ -864,7 +864,7 @@ export async function getLayaleContact(): Promise<any> {
       body: JSON.stringify({
         query,
       }),
-      next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 60 }
+      next: { revalidate: 60 }
     });
 
     if (!response.ok) {
@@ -885,4 +885,91 @@ export async function getLayaleContact(): Promise<any> {
   }
 }
 
+export async function getLayaleLandscape(): Promise<any> {
+  const secret = process.env.Secret;
+  if (!secret) {
+    console.error("Error: Secret environment variable is not defined.");
+    return null;
+  }
 
+  const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
+
+  const query = `
+    query GetLayaleLandscape {
+      layaleLandscape {
+        id
+        title
+        slug
+
+        banner {
+          enabled
+          image {
+            id
+            url
+          }
+          subtitle
+          title
+        }
+
+        outdoor {
+          enabled
+          title
+          description {
+            text
+          }
+          cards {
+            image {
+              id
+              url
+            }
+            title
+            description {
+              text
+            }
+            buttonText
+            buttonUrl
+          }
+        }
+
+        contact {
+          enabled
+          title
+          description {
+            text
+          }
+          buttonText
+          buttonUrl
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+      }),
+      next: { revalidate: 60 }
+    });
+
+    if (!response.ok) {
+      console.error(`GraphQL fetch failed! Status: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const resJson = await response.json();
+    if (resJson.errors) {
+      console.error("GraphQL Errors in getLayaleLandscape:", resJson.errors);
+      return null;
+    }
+
+    return resJson.data?.layaleLandscape || null;
+  } catch (error) {
+    console.error("Error fetching landscape page data from WordPress:", error);
+    return null;
+  }
+}
