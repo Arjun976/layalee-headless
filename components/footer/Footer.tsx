@@ -40,7 +40,6 @@ function mapUrl(url: string): string {
     
     // Specific mappings
     if (pathname === '/category') return '/portrait';
-    if (pathname === '/landscape') return '#';
     if (pathname === '') return '/';
     
     return pathname;

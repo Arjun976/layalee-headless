@@ -41,7 +41,6 @@ function mapUrl(url: string): string {
     
     // Specific mappings matching standard config/headers
     if (pathname === '/category') return '/portrait';
-    if (pathname === '/landscape') return '#';
     if (pathname === '') return '/';
     
     return pathname;
