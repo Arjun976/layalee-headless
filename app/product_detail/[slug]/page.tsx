@@ -1,5 +1,6 @@
 import ProductSection from '@/feature/product_detail/ProductSection';
 import CraftedIndoorSection from '@/feature/product_detail/CraftedIndoorSection';
+import HowToUse from '@/feature/product_detail/HowToUse';
 import BuiltEveryOutdoorSpace from '@/feature/product_detail/BuiltEveryOutdoorSpace';
 import ProductFaq from '@/feature/Product/Faq';
 import NatureInspired from '@/feature/home/nature-inspired';
@@ -33,6 +34,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
       
       {product.about && (
         <CraftedIndoorSection aboutData={product.about} />
+      )}
+
+      {product.howToUse?.enabled && (
+        <HowToUse howToUseData={product.howToUse} />
       )}
 
       {product.builtForOutdoor?.enabled && (
