@@ -975,6 +975,130 @@ export async function getLayaleLandscape(): Promise<any> {
   }
 }
 
+export async function getLayaleAbout(): Promise<any> {
+  const secret = process.env.Secret;
+  if (!secret) {
+    console.error("Error: Secret environment variable is not defined.");
+    return null;
+  }
+
+  const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
+
+  const query = `
+    query GetLayaleAbout {
+      layaleAbout {
+        id
+        title
+        slug
+        banner {
+          enabled
+          image {
+            id
+            url
+          }
+          subtitle
+          title
+        }
+        about {
+          enabled
+          title
+          paragraphs {
+            text
+          }
+          ourStoryTitle
+          ourStoryParagraphs {
+            text
+          }
+          ourStoryImage {
+            id
+            url
+          }
+          craftedHeading
+          craftedDescription
+          craftedImage {
+            id
+            url
+          }
+          craftedPoints {
+            text
+          }
+        }
+        quality {
+          enabled
+          title
+          paragraphs {
+            text
+          }
+          features {
+            title
+            description
+            icon {
+              id
+              url
+            }
+          }
+          image {
+            id
+            url
+          }
+        }
+        services {
+          enabled
+          subtitle
+          title
+          paragraphs {
+            text
+          }
+          cards {
+            title
+            svg
+          }
+        }
+        whyChoose {
+          enabled
+          subtitle
+          title
+          items {
+            title
+            desc
+            icon
+          }
+        }
+        getInspired
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+      }),
+      next: { revalidate: 60 }
+    });
+
+    if (!response.ok) {
+      console.error(`GraphQL fetch failed! Status: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const resJson = await response.json();
+    if (resJson.errors) {
+      console.error("GraphQL Errors in getLayaleAbout:", resJson.errors);
+      return null;
+    }
+
+    return resJson.data?.layaleAbout || null;
+  } catch (error) {
+    console.error("Error fetching about page data from WordPress:", error);
+    return null;
+  }
+}
+
 export async function getLayaleShopFilters(): Promise<any> {
   const secret = process.env.Secret;
   if (!secret) {

@@ -3,9 +3,10 @@ import ProductBnr from '@/feature/Product/Product_bnr';
 import AboutIntro from '@/feature/about/Intro';
 import AboutQuality from '@/feature/about/Quality';
 import AboutServices from '@/feature/about/Services';
+import WhyChoose from '@/feature/about/WhyChoose';
 import PromiseSection from '@/feature/home/Promise';
 import NatureInspired from '@/feature/home/nature-inspired';
-import { getHeaderAndHomePageData } from '@/lib/wordpress';
+import { getHeaderAndHomePageData, getLayaleAbout } from '@/lib/wordpress';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,35 +15,62 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const { homepage } = await getHeaderAndHomePageData();
+  const [homeData, aboutData] = await Promise.all([
+    getHeaderAndHomePageData(),
+    getLayaleAbout(),
+  ]);
+
+  const { homepage } = homeData || {};
   const baseUrl = process.env.Secret;
+
+  // Banner details
+  const banner = aboutData?.banner || {};
+  const bannerEnabled = banner.enabled !== false;
+  const bannerTitle = banner.title || 'About Us';
+  const bannerSubtitle = banner.subtitle || 'About Us';
+  const bannerBgImage = banner.image?.url || undefined;
 
   return (
     <main className="flex min-h-screen flex-col bg-white">
-      {/* 1. Page Banner Section (styled like contact page) */}
-      <ProductBnr 
-        title="About Us"
-        subtitle="About Us"
-        backgroundImage={undefined} // Falls back to default /bg-product.png internally
-        breadcrumbs={[
-          { label: 'Home', url: '/' },
-          { label: 'About Us', url: '/about' },
-        ]}
-      />
+      {/* 1. Page Banner Section */}
+      {bannerEnabled && (
+        <ProductBnr 
+          title={bannerTitle}
+          subtitle={bannerSubtitle}
+          backgroundImage={bannerBgImage}
+          breadcrumbs={[
+            { label: 'Home', url: '/' },
+            { label: 'About Us', url: '/about' },
+          ]}
+        />
+      )}
 
       {/* 2. Intro Section: Bringing Nature Into Modern Living */}
-      <AboutIntro />
+      <AboutIntro aboutData={aboutData?.about} />
 
-      {/* 3. Specs Section: Quality You Can Trust (Figma Dark Charcoal Section) */}
-      <AboutQuality />
+      {/* 3. Specs Section: Quality You Can Trust */}
+      <AboutQuality qualityData={aboutData?.quality} />
 
-      {/* 4. Our Services: More Than Planters (Figma Light Section) */}
-      <AboutServices />
+      {/* 4. Our Services: More Than Planters */}
+      <AboutServices servicesData={aboutData?.services} />
 
-      {/* 5. Promise Section (Same as Home Page) */}
+      {/* 5. Why Choose Us Section */}
+      {aboutData?.whyChoose?.enabled && (
+        <WhyChoose whyChooseData={aboutData.whyChoose} />
+      )}
+
+      {/* 6. Get Inspired Section */}
+      {aboutData?.getInspired && (
+        <div 
+          className="w-full"
+          dangerouslySetInnerHTML={{ __html: aboutData.getInspired }}
+        />
+      )}
+
+      {/* 7. Promise Section (Same as Home Page) */}
       <PromiseSection homepage={homepage} baseUrl={baseUrl} />
 
-      {/* 6. Nature Inspired Section (Same as Home Page) */}
+      {/* 8. Nature Inspired Section (Same as Home Page) */}
       <NatureInspired homepage={homepage} baseUrl={baseUrl} />
     </main>
   );
