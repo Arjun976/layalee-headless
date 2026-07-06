@@ -680,6 +680,7 @@ export async function getLayaleProduct(slug: string): Promise<any> {
               url
             }
           }
+          shapes
           infoSections {
             title
             points {
@@ -970,6 +971,76 @@ export async function getLayaleLandscape(): Promise<any> {
     return resJson.data?.layaleLandscape || null;
   } catch (error) {
     console.error("Error fetching landscape page data from WordPress:", error);
+    return null;
+  }
+}
+
+export async function getLayaleShopFilters(): Promise<any> {
+  const secret = process.env.Secret;
+  if (!secret) {
+    console.error("Error: Secret environment variable is not defined.");
+    return null;
+  }
+
+  const endpoint = secret.endsWith('/graphql') ? secret : `${secret}/graphql`;
+
+  const query = `
+    query GetShopFilters {
+      layaleShopFilters {
+        categoryTitle
+        categories {
+          id
+          name
+          slug
+        }
+
+        shapeTitle
+        shapes {
+          key
+          label
+        }
+
+        sizeTitle
+        sizes {
+          key
+          label
+        }
+
+        colorTitle
+        colors {
+          key
+          label
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+      }),
+      next: { revalidate: 60 }
+    });
+
+    if (!response.ok) {
+      console.error(`GraphQL fetch failed! Status: ${response.status} ${response.statusText}`);
+      return null;
+    }
+
+    const resJson = await response.json();
+    if (resJson.errors) {
+      console.error("GraphQL Errors in getLayaleShopFilters:", resJson.errors);
+      return null;
+    }
+
+    return resJson.data?.layaleShopFilters || null;
+  } catch (error) {
+    console.error("Error fetching shop filters from WordPress:", error);
     return null;
   }
 }

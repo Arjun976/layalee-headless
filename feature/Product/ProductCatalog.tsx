@@ -16,6 +16,16 @@ interface ProductCatalogProps {
   categories: {
     nodes: CategoryNode[];
   };
+  shopFilters?: {
+    categoryTitle?: string;
+    categories?: Array<{ id: string; name: string; slug: string }>;
+    shapeTitle?: string;
+    shapes?: Array<{ key: string; label: string }>;
+    sizeTitle?: string;
+    sizes?: Array<{ key: string; label: string }>;
+    colorTitle?: string;
+    colors?: Array<{ key: string; label: string }>;
+  } | null;
 }
 
 // Helper to assign category slug based on product name
@@ -48,7 +58,7 @@ const getCategoryLabel = (name: string) => {
   return name;
 };
 
-export default function ProductCatalog({ initialProducts, categories }: ProductCatalogProps) {
+export default function ProductCatalog({ initialProducts, categories, shopFilters }: ProductCatalogProps) {
   // Main filter states
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedShapes, setSelectedShapes] = useState<string[]>([]);
@@ -67,8 +77,11 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
   const itemsPerPage = 16;
 
   const categoryList = useMemo(() => {
-    return categories.nodes || [];
-  }, [categories]);
+    if (shopFilters?.categories && shopFilters.categories.length > 0) {
+      return shopFilters.categories;
+    }
+    return categories?.nodes || [];
+  }, [categories, shopFilters]);
 
   // Enrich initial products with shape, size, color names, and category slugs
   const enrichedProducts = useMemo(() => {
@@ -237,10 +250,27 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
     return pages;
   };
 
-  // Filter lists matching Figma design
-  const shapeOptions = ['ALL', 'Round', 'Square', 'Oval', 'Bowl', 'Rectangular'];
-  const sizeOptions = ['ALL', '6', '8', '10', '12', '15', '17', '20'];
-  const colorOptions = ['ALL', 'Beige', 'Grey', 'Marble White', 'White', 'Choco Brown'];
+  // Filter lists matching Figma design or dynamic WP filters
+  const shapeOptions = useMemo(() => {
+    if (shopFilters?.shapes && shopFilters.shapes.length > 0) {
+      return ['ALL', ...shopFilters.shapes.map((s: any) => s.label || s.key)];
+    }
+    return ['ALL', 'Round', 'Square', 'Oval', 'Bowl', 'Rectangular'];
+  }, [shopFilters]);
+
+  const sizeOptions = useMemo(() => {
+    if (shopFilters?.sizes && shopFilters.sizes.length > 0) {
+      return ['ALL', ...shopFilters.sizes.map((s: any) => s.label || s.key)];
+    }
+    return ['ALL', '6', '8', '10', '12', '15', '17', '20'];
+  }, [shopFilters]);
+
+  const colorOptions = useMemo(() => {
+    if (shopFilters?.colors && shopFilters.colors.length > 0) {
+      return ['ALL', ...shopFilters.colors.map((c: any) => c.label || c.key)];
+    }
+    return ['ALL', 'Beige', 'Grey', 'Marble White', 'White', 'Choco Brown'];
+  }, [shopFilters]);
 
   // Sidebar Filter JSX content (to avoid duplication in Desktop and Mobile drawer)
   const renderSidebarFilters = () => (
@@ -249,7 +279,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
       {/* 1. Categories Section */}
       <div className="flex flex-col mb-8">
         <h3 className="text-[#2C322D] font-['Google_Sans',sans-serif] text-[24px] font-medium leading-[22.4px] mb-1">
-          Categories
+          {shopFilters?.categoryTitle || 'Categories'}
         </h3>
         <div className="w-[228px] h-[3px] bg-[#507661] mt-1 mb-4" />
         <div className="flex flex-col gap-[14px]">
@@ -281,7 +311,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
           className="flex items-center justify-between cursor-pointer group"
         >
           <h3 className="text-[#2C322D] font-['Google_Sans',sans-serif] text-[24px] font-medium leading-[22.4px] mb-1">
-            Shop By Shape
+            {shopFilters?.shapeTitle || 'Shop By Shape'}
           </h3>
           <svg 
             className={`w-4 h-4 text-[#2C322D] transition-transform duration-300 mr-2 ${isShapeOpen ? 'rotate-180' : ''}`}
@@ -323,7 +353,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
           className="flex items-center justify-between cursor-pointer group"
         >
           <h3 className="text-[#2C322D] font-['Google_Sans',sans-serif] text-[24px] font-medium leading-[22.4px] mb-1">
-            Size
+            {shopFilters?.sizeTitle || 'Size'}
           </h3>
           <svg 
             className={`w-4 h-4 text-[#2C322D] transition-transform duration-300 mr-2 ${isSizeOpen ? 'rotate-180' : ''}`}
@@ -365,7 +395,7 @@ export default function ProductCatalog({ initialProducts, categories }: ProductC
           className="flex items-center justify-between cursor-pointer group"
         >
           <h3 className="text-[#2C322D] font-['Google_Sans',sans-serif] text-[24px] font-medium leading-[22.4px] mb-1">
-            Shop By Colour
+            {shopFilters?.colorTitle || 'Shop By Colour'}
           </h3>
           <svg 
             className={`w-4 h-4 text-[#2C322D] transition-transform duration-300 mr-2 ${isColorOpen ? 'rotate-180' : ''}`}

@@ -5,7 +5,7 @@ import ProductPromise from '@/feature/Product/Promise';
 import ProductFaq from '@/feature/Product/Faq';
 import NatureInspired from '@/feature/home/nature-inspired';
 import { ProductItem, ColorSwatch } from '@/components/ProductCard';
-import { getHeaderAndHomePageData, getLayaleProductCategory } from '@/lib/wordpress';
+import { getHeaderAndHomePageData, getLayaleProductCategory, getLayaleShopFilters } from '@/lib/wordpress';
 
 interface PageProps {
   params: Promise<{
@@ -48,6 +48,7 @@ export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
   const { homepage, productCategories, products } = await getHeaderAndHomePageData();
   const categoryDetails = await getLayaleProductCategory(slug);
+  const shopFilters = await getLayaleShopFilters();
   const baseUrl = process.env.Secret;
 
   if (!homepage || !products || !productCategories) {
@@ -194,6 +195,7 @@ export default async function CategoryPage({ params }: PageProps) {
       <ProductCatalog 
         initialProducts={displayProducts} 
         categories={productCategories} 
+        shopFilters={shopFilters}
       />
 
       {/* Why Choose Our Indoor Products Section */}

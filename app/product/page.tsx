@@ -5,7 +5,7 @@ import ProductPromise from '@/feature/Product/Promise';
 import ProductFaq from '@/feature/Product/Faq';
 import NatureInspired from '@/feature/home/nature-inspired';
 import { ProductItem, ColorSwatch } from '@/components/ProductCard';
-import { getHeaderAndHomePageData, getLayaleProductCategory } from '@/lib/wordpress';
+import { getHeaderAndHomePageData, getLayaleProductCategory, getLayaleShopFilters } from '@/lib/wordpress';
 
 function mapUrl(url: string): string {
   if (!url) return '#';
@@ -41,6 +41,7 @@ function mapUrl(url: string): string {
 export default async function ProductPage() {
   const { homepage, productCategories, products } = await getHeaderAndHomePageData();
   const categoryDetails = await getLayaleProductCategory("indoor-planters");
+  const shopFilters = await getLayaleShopFilters();
   const baseUrl = process.env.Secret;
 
   if (!homepage || !products || !productCategories) {
@@ -184,6 +185,7 @@ export default async function ProductPage() {
       <ProductCatalog 
         initialProducts={displayProducts} 
         categories={productCategories} 
+        shopFilters={shopFilters}
       />
 
       {/* Why Choose Our Indoor Products Section */}

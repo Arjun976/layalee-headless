@@ -22,14 +22,11 @@ export default function AboutIntro() {
           <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.1] text-[32px] md:text-[48px] xl:text-[60px] tracking-[-1.8px]">
             Bringing Nature Into Modern Living
           </h2>
-          <div className="flex flex-col gap-4 text-[#545955] font-['Google_Sans',sans-serif] text-base md:text-[18px] leading-[27px] font-normal max-w-[1276px]">
-            <p>
-              At Layale, we believe thoughtfully designed spaces create meaningful experiences. Through premium planters, curated greenery, and expert design guidance, we help transform homes, workplaces, hospitality venues, and outdoor environments into vibrant, inspiring spaces.
-            </p>
-            <p>
-              Our collection of indoor and outdoor planters combines contemporary aesthetics with exceptional durability, bringing natural elegance to every setting.
-            </p>
-          </div>
+          <p className="text-[#545955] font-['Google_Sans',sans-serif] text-base md:text-[18px] leading-[27px] font-normal max-w-[1276px]">
+            At Layale, we believe thoughtfully designed spaces create meaningful experiences. Through premium planters, curated greenery, and expert design guidance, we help transform homes, workplaces, hospitality venues, and outdoor environments into vibrant, inspiring spaces.
+            <br />
+            Our collection of indoor and outdoor planters combines contemporary aesthetics with exceptional durability, bringing natural elegance to every setting.
+          </p>
         </div>
 
         {/* Alternating Rows Container */}
@@ -42,17 +39,13 @@ export default function AboutIntro() {
               <h3 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.1] text-[32px] md:text-[48px] xl:text-[60px] tracking-[-1.8px]">
                 Our Story
               </h3>
-              <div className="flex flex-col gap-4 text-[#545955] font-['Google_Sans',sans-serif] text-sm md:text-base xl:text-[18px] leading-[27px] font-normal">
-                <p>
-                  Layale was created with a passion for design, greenery, and modern living.
-                </p>
-                <p>
-                  We saw the growing desire for beautifully crafted planters that complement contemporary architecture while supporting healthier, greener lifestyles. Today, we work with trusted manufacturers and premium collections to provide planters that combine aesthetics, functionality, and long-lasting performance.
-                </p>
-                <p>
-                  From private residences to hospitality projects and commercial landscapes, Layale helps create spaces where nature becomes part of everyday life.
-                </p>
-              </div>
+              <p className="text-[#545955] font-['Google_Sans',sans-serif] text-sm md:text-base xl:text-[18px] leading-[27px] font-normal">
+                Layale was created with a passion for design, greenery, and modern living.
+                <br />
+                We saw the growing desire for beautifully crafted planters that complement contemporary architecture while supporting healthier, greener lifestyles. Today, we work with trusted manufacturers and premium collections to provide planters that combine aesthetics, functionality, and long-lasting performance.
+                <br />
+                From private residences to hospitality projects and commercial landscapes, Layale helps create spaces where nature becomes part of everyday life.
+              </p>
             </div>
             
             {/* Image block 1: bring_img1.png */}
@@ -95,8 +88,8 @@ export default function AboutIntro() {
                 {checklist.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     {/* Checkbox square like Figma Rectangle 8 */}
-                    <span className="w-[25px] h-[25px] bg-[#507661] flex-shrink-0 mt-0.5" />
-                    <span className="text-[#2C322D] font-['Google_Sans',sans-serif] text-sm md:text-[15px] font-normal leading-tight">
+                    <span className="w-[25px] h-[25px] bg-[#507661] flex-shrink-0" />
+                    <span className="text-[#2C322D] font-['Funnel_Display',sans-serif] text-[16px] md:text-[20px] font-light leading-[22px] tracking-[-0.6px] pt-[2px] whitespace-nowrap">
                       {item}
                     </span>
                   </div>
