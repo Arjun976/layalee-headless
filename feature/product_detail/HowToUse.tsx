@@ -74,7 +74,7 @@ export default function HowToUse({
             />
             {/* Vector 3 - Left pot bottom to Bottom-Left Text Box */}
             <path
-              d="M 249.7 547 H 212 V 570 H 409"
+              d="M 249.7 570 V 547 H 212 V 570 H 409"
               stroke="black"
               strokeWidth="2"
               strokeLinecap="round"
@@ -88,7 +88,7 @@ export default function HowToUse({
             />
             {/* Vector 4 - Right pot bottom to Bottom-Right Text Box */}
             <path
-              d="M 1289.4 559 H 1246 V 593 H 1473"
+              d="M 1429.6 593 V 559 H 1473 V 593 H 1246"
               stroke="black"
               strokeWidth="2"
               strokeLinecap="round"
@@ -161,7 +161,12 @@ export default function HowToUse({
       </div>
 
       {/* 2. TABLET VIEWPORT (768px - 1023px) */}
-      <div className="hidden md:block lg:hidden w-full max-w-[770px] relative h-[495px] bg-[#F5F3EF] overflow-hidden rounded-sm shadow-sm">
+      <div
+        style={{
+          backgroundImage: `url('${resolvedIpadBg}')`,
+        }}
+        className="hidden md:block lg:hidden w-full max-w-[770px] relative h-[495px] bg-[#F5F3EF] bg-cover bg-center bg-no-repeat overflow-hidden rounded-sm shadow-sm"
+      >
         {/* Title and Description */}
         <div className="w-full text-center pt-[60px] px-10">
           <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.0] tracking-tight text-[40px] tracking-[-1px] mb-4">
@@ -189,7 +194,7 @@ export default function HowToUse({
             />
             {/* iPad Vector 3 */}
             <path
-              d="M 91.79 432.22 H 72.41 V 443.82 H 173.67"
+              d="M 91.79 443.82 V 432.22 H 72.41 V 443.82 H 173.67"
               stroke="black"
               strokeWidth="1"
               strokeLinecap="round"
@@ -203,7 +208,7 @@ export default function HowToUse({
             />
             {/* iPad Vector 4 */}
             <path
-              d="M 614.05 431.25 H 594.05 V 445.6 H 698.6"
+              d="M 678.6 445.6 V 431.25 H 698.6 V 445.6 H 594.05"
               stroke="black"
               strokeWidth="1"
               strokeLinecap="round"
@@ -211,51 +216,28 @@ export default function HowToUse({
           </svg>
         </div>
 
-        {/* Group 46 (Left Pot + Text Boxes) */}
-        <div className="absolute left-[26px] top-[216px] w-[366px] h-[244px] z-20">
-          {/* Pot crop 1 */}
-          <div
-            className="absolute left-0 top-0 w-[272px] h-[244px] bg-no-repeat"
-            style={{
-              backgroundImage: `url('${resolvedIpadBg}')`,
-              backgroundSize: isDefaultIpadBg ? '916px 515px' : 'cover',
-              backgroundPosition: isDefaultIpadBg ? '-77px -131px' : 'center',
-            }}
-          />
-          {/* Card: Pot With Planting... */}
-          <div className="absolute left-[142px] top-[85px] w-[224px] h-[31px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Pot With Planting Soil And plant
-          </div>
-          {/* Card: Marking for drain Hole */}
-          <div className="absolute left-[97px] top-[212px] w-[185px] h-[32px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Marking for drain Hole
-          </div>
+        {/* Step Cards for iPad (Flat) */}
+        <div className="absolute left-[168px] top-[301px] w-[224px] h-[31px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Pot With Planting Soil And plant
         </div>
-
-        {/* Group 53 (Right Pot + Text Boxes) */}
-        <div className="absolute left-[387px] top-[216px] w-[369px] h-[240px] z-20">
-          {/* Pot crop 2 */}
-          <div
-            className="absolute left-[243px] top-0 w-[126px] h-[240px] bg-no-repeat"
-            style={{
-              backgroundImage: `url('${resolvedIpadBg}')`,
-              backgroundSize: isDefaultIpadBg ? '813px 457px' : 'cover',
-              backgroundPosition: isDefaultIpadBg ? '-619px -120px' : 'center',
-            }}
-          />
-          {/* Card: Planting Soil and Plant */}
-          <div className="absolute left-0 top-[145px] w-[165px] h-[29px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Planting Soil and Plant
-          </div>
-          {/* Card: Marking for drain Hole */}
-          <div className="absolute left-[51px] top-[213px] w-[164px] h-[27px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Marking for drain Hole
-          </div>
+        <div className="absolute left-[123px] top-[428px] w-[185px] h-[32px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Marking for drain Hole
+        </div>
+        <div className="absolute left-[387px] top-[361px] w-[165px] h-[29px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Planting Soil and Plant
+        </div>
+        <div className="absolute left-[438px] top-[429px] w-[164px] h-[27px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Marking for drain Hole
         </div>
       </div>
 
       {/* 3. MOBILE/IPHONE VIEWPORT (max-width: 767px) */}
-      <div className="block md:hidden w-full max-w-[375px] relative h-[622px] bg-[#F5F3EF] overflow-hidden rounded-sm shadow-sm mx-auto">
+      <div
+        style={{
+          backgroundImage: `url('${resolvedMobileBg}')`,
+        }}
+        className="block md:hidden w-full max-w-[375px] relative h-[622px] bg-[#F5F3EF] bg-cover bg-center bg-no-repeat overflow-hidden rounded-sm shadow-sm mx-auto"
+      >
         {/* Title and Description */}
         <div className="w-full text-center pt-[40px] px-5">
           <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.0] tracking-tight text-[30px] tracking-[-1px] mb-3">
@@ -283,7 +265,7 @@ export default function HowToUse({
             />
             {/* iPhone Vector 3 */}
             <path
-              d="M 64.37 402 H 46 V 413 H 142"
+              d="M 64.37 413 V 402 H 46 V 413 H 142"
               stroke="black"
               strokeWidth="1"
               strokeLinecap="round"
@@ -297,7 +279,7 @@ export default function HowToUse({
             />
             {/* iPhone Vector 4 */}
             <path
-              d="M 242.5 563 H 223 V 577 H 325"
+              d="M 305.5 577 V 563 H 325 V 577 H 223"
               stroke="black"
               strokeWidth="1"
               strokeLinecap="round"
@@ -305,46 +287,18 @@ export default function HowToUse({
           </svg>
         </div>
 
-        {/* Group 46 (Top Pot + Cards) */}
-        <div className="absolute left-[2px] top-[197px] w-[347px] h-[267px] z-20">
-          {/* Pot crop 1 */}
-          <div
-            className="absolute left-0 top-0 w-[258px] h-[267px] bg-no-repeat"
-            style={{
-              backgroundImage: `url('${resolvedMobileBg}')`,
-              backgroundSize: isDefaultMobileBg ? '870px 490px' : 'cover',
-              backgroundPosition: isDefaultMobileBg ? '-73.5px -124.5px' : 'center',
-            }}
-          />
-          {/* Card: Pot With Planting... */}
-          <div className="absolute left-[135px] top-[81px] w-[212px] h-[29px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Pot With Planting Soil And plant
-          </div>
-          {/* Card: Marking for drain Hole */}
-          <div className="absolute left-[92px] top-[201px] w-[175px] h-[30px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Marking for drain Hole
-          </div>
+        {/* Step Cards for iPhone (Flat) */}
+        <div className="absolute left-[137px] top-[278px] w-[212px] h-[29px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Pot With Planting Soil And plant
         </div>
-
-        {/* Group 53 (Bottom Pot + Cards) */}
-        <div className="absolute left-[21px] top-[353px] w-[360px] h-[256px] z-20">
-          {/* Pot crop 2 */}
-          <div
-            className="absolute left-[237px] top-0 w-[123px] h-[256px] bg-no-repeat"
-            style={{
-              backgroundImage: `url('${resolvedMobileBg}')`,
-              backgroundSize: isDefaultMobileBg ? '794px 446px' : 'cover',
-              backgroundPosition: isDefaultMobileBg ? '-604px -117px' : 'center',
-            }}
-          />
-          {/* Card: Planting Soil and Plant */}
-          <div className="absolute left-0 top-[141px] w-[161px] h-[28px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Planting Soil and Plant
-          </div>
-          {/* Card: Marking for drain Hole */}
-          <div className="absolute left-[50px] top-[208px] w-[160px] h-[26px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2">
-            Marking for drain Hole
-          </div>
+        <div className="absolute left-[94px] top-[398px] w-[175px] h-[30px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Marking for drain Hole
+        </div>
+        <div className="absolute left-[21px] top-[494px] w-[161px] h-[28px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Planting Soil and Plant
+        </div>
+        <div className="absolute left-[71px] top-[561px] w-[160px] h-[26px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+          Marking for drain Hole
         </div>
       </div>
     </section>
