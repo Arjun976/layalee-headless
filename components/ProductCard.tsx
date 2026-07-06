@@ -15,6 +15,9 @@ export interface ProductItem {
   badge: string;
   colors: ColorSwatch[];
   link: string;
+  shapes?: string[];
+  sizes?: string[];
+  colorNames?: string[];
 }
 
 interface ProductCardProps {

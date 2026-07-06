@@ -307,7 +307,7 @@ export default function ProductSection({ productData }: { productData?: any }) {
             </div>
    
             {/* Size Selector */}
-            <div className="mb-8 md:mb-0 lg:mb-8">
+            <div className="mb-0 md:mb-0 lg:mb-0">
               <h3 className="mb-4 text-[18px] lg:text-[20px] font-medium text-[#2C322D] font-sans">
                 Size in inches
               </h3>
@@ -331,7 +331,7 @@ export default function ProductSection({ productData }: { productData?: any }) {
           </div>
  
           {/* Specs Table */}
-          <div className="flex flex-col gap-3.5 border-t border-[#2C322D]/10 pt-8 pb-8 mb-8">
+          <div className="flex flex-col gap-3.5  pt-8 pb-8 mb-8">
             {product.specs.map((spec: any) => {
               const value = spec.label === 'Colour' ? activeColor.name : spec.value;
               return (

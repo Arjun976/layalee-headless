@@ -5,7 +5,7 @@ import ProductPromise from '@/feature/Product/Promise';
 import ProductFaq from '@/feature/Product/Faq';
 import NatureInspired from '@/feature/home/nature-inspired';
 import { ProductItem, ColorSwatch } from '@/components/ProductCard';
-import { getHeaderAndHomePageData, getLayaleProductCategory, getLayaleShopFilters } from '@/lib/wordpress';
+import { getHeaderAndHomePageData, getLayaleProductCategory, getLayaleShopFilters, getLayaleProduct } from '@/lib/wordpress';
 
 interface PageProps {
   params: Promise<{
@@ -62,7 +62,29 @@ export default async function CategoryPage({ params }: PageProps) {
     );
   }
 
-  const apiProducts = (products as { nodes?: Array<{ databaseId: number; title?: string; uri?: string; slug?: string }> })?.nodes || [];
+  const apiProductsRaw = (products as { nodes?: Array<{ databaseId: number; title?: string; uri?: string; slug?: string }> })?.nodes || [];
+  const detailedProducts = await Promise.all(
+    apiProductsRaw.map(async (p) => {
+      if (!p.slug) return null;
+      const details = await getLayaleProduct(p.slug);
+      if (!details) return null;
+      return {
+        ...details,
+        databaseId: p.databaseId,
+      };
+    })
+  );
+
+  const apiProducts = detailedProducts.filter(Boolean) as Array<{
+    databaseId: number;
+    title?: string;
+    slug?: string;
+    content?: {
+      colors?: Array<{ colorName?: string; colorCode?: string }>;
+      sizes?: Array<{ sizeName?: string }>;
+      shapes?: string[];
+    };
+  }>;
   const rawCategoryFeaturedProducts = categoryDetails?.featured?.products;
 
   let displayProducts: ProductItem[] = [];
@@ -104,6 +126,9 @@ export default async function CategoryPage({ params }: PageProps) {
         badge: badge,
         colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
         link: matched ? `/product_detail/${matched.slug}` : '#',
+        shapes: matched?.content?.shapes || [],
+        sizes: (matched?.content?.sizes || []).map((s: any) => s.sizeName).filter(Boolean),
+        colorNames: (matched?.content?.colors || []).map((c: any) => c.colorName).filter(Boolean),
       };
     });
   } else {
@@ -172,6 +197,9 @@ export default async function CategoryPage({ params }: PageProps) {
         badge: badge,
         colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
         link: matched ? `/product_detail/${matched.slug}` : '#',
+        shapes: matched?.content?.shapes || [],
+        sizes: (matched?.content?.sizes || []).map((s: any) => s.sizeName).filter(Boolean),
+        colorNames: (matched?.content?.colors || []).map((c: any) => c.colorName).filter(Boolean),
       };
     });
   }

@@ -88,53 +88,62 @@ export default function ProductCatalog({ initialProducts, categories, shopFilter
     return initialProducts.map((p, idx) => {
       const nameLower = p.name.toLowerCase();
 
-      // Determine Shape
-      let shape = 'Round';
-      if (nameLower.includes('cubo') || nameLower.includes('sq') || nameLower.includes('square')) {
-        shape = 'Square';
-      } else if (nameLower.includes('oval') || nameLower.includes('cilin')) {
-        shape = 'Oval';
-      } else if (nameLower.includes('bowl')) {
-        shape = 'Bowl';
-      } else if (nameLower.includes('bs') || nameLower.includes('rect') || nameLower.includes('planter')) {
-        shape = idx % 3 === 0 ? 'Rectangular' : (idx % 3 === 1 ? 'Round' : 'Square');
-      } else {
-        shape = idx % 2 === 0 ? 'Round' : 'Square';
+      // 1. Determine Shapes
+      let shapes = p.shapes && p.shapes.length > 0 ? p.shapes : [];
+      if (shapes.length === 0) {
+        let guessedShape = 'Round';
+        if (nameLower.includes('cubo') || nameLower.includes('sq') || nameLower.includes('square')) {
+          guessedShape = 'Square';
+        } else if (nameLower.includes('oval') || nameLower.includes('cilin')) {
+          guessedShape = 'Oval';
+        } else if (nameLower.includes('bowl')) {
+          guessedShape = 'Bowl';
+        } else if (nameLower.includes('bs') || nameLower.includes('rect') || nameLower.includes('planter')) {
+          guessedShape = idx % 3 === 0 ? 'Rectangular' : (idx % 3 === 1 ? 'Round' : 'Square');
+        } else {
+          guessedShape = idx % 2 === 0 ? 'Round' : 'Square';
+        }
+        shapes = [guessedShape];
       }
 
-      // Determine Size
-      const sizes = ['6', '8', '10', '12', '15', '17', '20'];
-      const size = sizes[idx % sizes.length];
-
-      // Determine Color Names
-      const colorNames: string[] = [];
-      const colorList = ['Beige', 'Grey', 'Marble White', 'White', 'Choco Brown'];
-
-      if (p.colors && p.colors.length > 0) {
-        p.colors.forEach((c) => {
-          const hex = c.code.toLowerCase();
-          if (hex === '#ffffff' || hex === '#fff') {
-            colorNames.push('White');
-          } else if (hex.includes('beige') || hex === '#eedc82' || hex === '#d2b48c' || hex === '#f5f5dc' || hex === '#e8e4db') {
-            colorNames.push('Beige');
-          } else if (hex === '#808080' || hex === '#828787' || hex === '#a9a9a9' || hex === '#d3d3d3' || hex === '#2c322d') {
-            colorNames.push('Grey');
-          } else if (hex === '#8b4513' || hex === '#a0522d' || hex === '#5c4033' || hex === '#3d2b1f') {
-            colorNames.push('Choco Brown');
-          } else {
-            const sum = hex.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-            colorNames.push(colorList[sum % colorList.length]);
-          }
-        });
+      // 2. Determine Sizes
+      let sizes = p.sizes && p.sizes.length > 0 ? p.sizes : [];
+      if (sizes.length === 0) {
+        const fallbackSizes = ['6', '8', '10', '12', '15', '17', '20'];
+        sizes = [fallbackSizes[idx % fallbackSizes.length]];
       }
+
+      // 3. Determine Color Names
+      let colorNames = p.colorNames && p.colorNames.length > 0 ? p.colorNames : [];
       if (colorNames.length === 0) {
-        colorNames.push(idx % 2 === 0 ? 'White' : 'Grey');
+        const colorList = ['Beige', 'Grey', 'Marble White', 'White', 'Choco Brown'];
+
+        if (p.colors && p.colors.length > 0) {
+          p.colors.forEach((c) => {
+            const hex = c.code.toLowerCase();
+            if (hex === '#ffffff' || hex === '#fff') {
+              colorNames.push('White');
+            } else if (hex.includes('beige') || hex === '#eedc82' || hex === '#d2b48c' || hex === '#f5f5dc' || hex === '#e8e4db') {
+              colorNames.push('Beige');
+            } else if (hex === '#808080' || hex === '#828787' || hex === '#a9a9a9' || hex === '#d3d3d3' || hex === '#2c322d') {
+              colorNames.push('Grey');
+            } else if (hex === '#8b4513' || hex === '#a0522d' || hex === '#5c4033' || hex === '#3d2b1f') {
+              colorNames.push('Choco Brown');
+            } else {
+              const sum = hex.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+              colorNames.push(colorList[sum % colorList.length]);
+            }
+          });
+        }
+        if (colorNames.length === 0) {
+          colorNames.push(idx % 2 === 0 ? 'White' : 'Grey');
+        }
       }
 
       return {
         ...p,
-        shape,
-        size,
+        shapes,
+        sizes,
         colorNames,
         categorySlug: getProductCategorySlug(p.name)
       };
@@ -150,19 +159,31 @@ export default function ProductCatalog({ initialProducts, categories, shopFilter
       result = result.filter(p => selectedCategories.includes(p.categorySlug));
     }
 
-    // Shape Filter
+    // Shape Filter (Case-insensitive multi-match)
     if (selectedShapes.length > 0) {
-      result = result.filter(p => selectedShapes.includes(p.shape));
+      result = result.filter(p => 
+        p.shapes.some(s => 
+          selectedShapes.some(sel => sel.toLowerCase() === s.toLowerCase())
+        )
+      );
     }
 
-    // Size Filter
+    // Size Filter (Case-insensitive multi-match)
     if (selectedSizes.length > 0) {
-      result = result.filter(p => selectedSizes.includes(p.size));
+      result = result.filter(p => 
+        p.sizes.some(s => 
+          selectedSizes.some(sel => sel.toLowerCase() === s.toLowerCase())
+        )
+      );
     }
 
-    // Color Filter
+    // Color Filter (Case-insensitive multi-match)
     if (selectedColors.length > 0) {
-      result = result.filter(p => p.colorNames.some(c => selectedColors.includes(c)));
+      result = result.filter(p => 
+        p.colorNames.some(c => 
+          selectedColors.some(sel => sel.toLowerCase() === c.toLowerCase())
+        )
+      );
     }
 
     // Sorting
