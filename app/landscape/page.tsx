@@ -1,8 +1,7 @@
 import React from 'react';
 import ProductBnr from '@/feature/Product/Product_bnr';
 import LandscapeCards from '@/feature/landscape/LandscapeCards';
-import NatureInspired from '@/feature/home/nature-inspired';
-import { getHeaderAndHomePageData, getLayaleLandscape } from '@/lib/wordpress';
+import { getLayaleLandscape } from '@/lib/wordpress';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,13 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function LandscapePage() {
-  const [homeData, landscapeData] = await Promise.all([
-    getHeaderAndHomePageData(),
-    getLayaleLandscape(),
-  ]);
-
-  const { homepage } = homeData || {};
-  const baseUrl = process.env.Secret;
+  const landscapeData = await getLayaleLandscape();
 
   // Resolve Banner Details
   const banner = landscapeData?.banner || {};
@@ -44,8 +37,6 @@ export default async function LandscapePage() {
       {/* ── Figma Landscape Cards Section ── */}
       <LandscapeCards landscapeData={landscapeData} />
 
-      {/* ── Nature Inspired Section (Footer/End of page standard) ── */}
-      <NatureInspired homepage={homepage} baseUrl={baseUrl} />
     </main>
   );
 }
