@@ -4,7 +4,6 @@ import AboutIntro from '@/feature/about/Intro';
 import AboutQuality from '@/feature/about/Quality';
 import AboutServices from '@/feature/about/Services';
 import WhyChoose from '@/feature/about/WhyChoose';
-import PromiseSection from '@/feature/home/Promise';
 import NatureInspired from '@/feature/home/nature-inspired';
 import { getHeaderAndHomePageData, getLayaleAbout } from '@/lib/wordpress';
 import type { Metadata } from 'next';
@@ -59,18 +58,7 @@ export default async function AboutPage() {
         <WhyChoose whyChooseData={aboutData.whyChoose} />
       )}
 
-      {/* 6. Get Inspired Section */}
-      {aboutData?.getInspired && (
-        <div 
-          className="w-full"
-          dangerouslySetInnerHTML={{ __html: aboutData.getInspired }}
-        />
-      )}
-
-      {/* 7. Promise Section (Same as Home Page) */}
-      <PromiseSection homepage={homepage} baseUrl={baseUrl} />
-
-      {/* 8. Nature Inspired Section (Same as Home Page) */}
+      {/* 6. Nature Inspired Section (Same as Home Page) */}
       <NatureInspired homepage={homepage} baseUrl={baseUrl} />
     </main>
   );
