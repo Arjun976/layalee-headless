@@ -43,3 +43,9 @@ next-env.d.ts
 # Gemini / Antigravity IDE configuration
 .gemini/
 .test/
+
+# Figma JSON dumps and local scratch scripts
+figma_nodes.json
+figma_mobile.json
+inspect_*.js
+*.pdf
