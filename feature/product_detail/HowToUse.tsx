@@ -55,10 +55,9 @@ export default function HowToUse({
   const isDefault = howToUseData === undefined;
 
   // Resolve background images
-  const defaultBg = '/how_bg.png';
-  const resolvedDesktopBg = getClientImageUrl(desktopBg || howToUseData?.imageDesktop?.url || defaultBg, hostname);
-  const resolvedIpadBg = getClientImageUrl(ipadBg || howToUseData?.imageTablet?.url || resolvedDesktopBg, hostname);
-  const resolvedMobileBg = getClientImageUrl(mobileBg || howToUseData?.imageMobile?.url || resolvedDesktopBg, hostname);
+  const resolvedDesktopBg = getClientImageUrl(desktopBg || howToUseData?.imageDesktop?.url || '/how_bg.png', hostname);
+  const resolvedIpadBg = getClientImageUrl(ipadBg || howToUseData?.imageTablet?.url || '/how_bg_ipad.png', hostname);
+  const resolvedMobileBg = getClientImageUrl(mobileBg || howToUseData?.imageMobile?.url || '/how_bg_mobile.png', hostname);
 
   if (typeof window !== 'undefined') {
     console.log("HowToUse component rendered on client:", {
@@ -78,12 +77,12 @@ export default function HowToUse({
     : (howToUseData.subtitle || '');
 
   // Determine if we need to crop the default how_bg.png on mobile/tablet
-  const isDefaultDesktopBg = resolvedDesktopBg === defaultBg;
-  const isDefaultIpadBg = resolvedIpadBg === defaultBg;
-  const isDefaultMobileBg = resolvedMobileBg === defaultBg;
+  const isDefaultDesktopBg = resolvedDesktopBg === '/how_bg.png';
+  const isDefaultIpadBg = resolvedIpadBg === '/how_bg_ipad.png';
+  const isDefaultMobileBg = resolvedMobileBg === '/how_bg_mobile.png';
 
   return (
-    <section className="w-full bg-white px-0 md:px-[30px] xl:px-10 min-[1600px]:px-[30px] py-10 md:py-14 xl:py-16 flex flex-col items-center">
+    <section className="w-full bg-white px-0 md:px-0 lg:px-[30px] xl:px-10 min-[1600px]:px-[30px] py-10 md:py-14 xl:py-16 flex flex-col items-center">
       {/* 1. DESKTOP VIEWPORT (min-width: 1024px) */}
       <div
         className="hidden lg:block w-full mx-auto max-w-full xl:max-w-[1200px] 2xl:max-w-[1400px] min-[1600px]:max-w-[1540px]! relative aspect-[1720/657] overflow-hidden rounded-sm bg-neutral-100 bg-cover bg-center bg-no-repeat shadow-sm"
@@ -198,10 +197,10 @@ export default function HowToUse({
         style={{
           backgroundImage: `url('${resolvedIpadBg}')`,
         }}
-        className="hidden md:block lg:hidden w-full max-w-[770px] relative h-[495px] bg-[#F5F3EF] bg-cover bg-center bg-no-repeat overflow-hidden rounded-sm shadow-sm"
+        className="hidden md:block lg:hidden w-full max-w-[770px] relative aspect-[770/495] bg-[#F5F3EF] bg-cover bg-center bg-no-repeat overflow-hidden rounded-sm shadow-sm"
       >
         {/* Title and Description */}
-        <div className="w-full text-center pt-[60px] px-10">
+        <div className="absolute top-[60px] left-1/2 -translate-x-1/2 w-full text-center z-20 px-10">
           <h2 className="text-[#2C322D] font-['Funnel_Display',sans-serif] font-light leading-[1.0] tracking-tight text-[40px] tracking-[-1px] mb-4">
             {title}
           </h2>
@@ -250,16 +249,48 @@ export default function HowToUse({
         </div>
 
         {/* Step Cards for iPad (Flat) */}
-        <div className="absolute left-[168px] top-[301px] w-[224px] h-[31px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+        <div
+          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          style={{
+            left: '21.87%',
+            top: '60.90%',
+            width: '224px',
+            height: '31px',
+          }}
+        >
           Pot With Planting Soil And plant
         </div>
-        <div className="absolute left-[123px] top-[428px] w-[185px] h-[32px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+        <div
+          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          style={{
+            left: '15.98%',
+            top: '86.47%',
+            width: '185px',
+            height: '32px',
+          }}
+        >
           Marking for drain Hole
         </div>
-        <div className="absolute left-[387px] top-[361px] w-[165px] h-[29px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+        <div
+          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          style={{
+            left: '50.26%',
+            top: '72.83%',
+            width: '165px',
+            height: '29px',
+          }}
+        >
           Planting Soil and Plant
         </div>
-        <div className="absolute left-[438px] top-[429px] w-[164px] h-[27px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+        <div
+          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          style={{
+            left: '56.92%',
+            top: '86.71%',
+            width: '164px',
+            height: '27px',
+          }}
+        >
           Marking for drain Hole
         </div>
       </div>
