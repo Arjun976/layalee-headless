@@ -3,33 +3,24 @@
 import React from 'react';
 import Link from 'next/link';
 
-function getClientImageUrl(url?: string): string {
+function getClientImageUrl(url?: string, hostname?: string): string {
   if (!url) return '';
-  if (typeof window === 'undefined') return url;
+  const activeHost = hostname || (typeof window !== 'undefined' ? window.location.hostname : 'localhost');
   if (url.includes('://localhost/')) {
-    return url.replace('://localhost/', `://${window.location.hostname}/`);
+    return url.replace('://localhost/', `://${activeHost}/`);
   }
   if (url.includes('://127.0.0.1/')) {
-    return url.replace('://127.0.0.1/', `://${window.location.hostname}/`);
+    return url.replace('://127.0.0.1/', `://${activeHost}/`);
   }
   return url;
 }
 
-export default function CraftedIndoorSection({ aboutData }: { aboutData?: any }) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
+export default function CraftedIndoorSection({ aboutData, hostname }: { aboutData?: any; hostname?: string }) {
   if (aboutData === null) return null;
-
-  if (!mounted) {
-    return null;
-  }
 
   const isDefault = aboutData === undefined;
   
-  const bgImage = getClientImageUrl(isDefault ? '/product_d_bg.png' : (aboutData.backgroundImage?.url || '/product_d_bg.png'));
+  const bgImage = getClientImageUrl(isDefault ? '/product_d_bg.png' : (aboutData.backgroundImage?.url || '/product_d_bg.png'), hostname);
   const title = isDefault ? 'Crafted for Indoor Living' : (aboutData.title || '');
   const description = isDefault 
     ? 'Designed to Elevate Modern Interiors\nCrafted with premium materials to bring elegance, greenery, and timeless style into every space.'

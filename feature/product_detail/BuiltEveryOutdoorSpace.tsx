@@ -58,35 +58,26 @@ export function LongLastingIcon({ className }: IconProps) {
   );
 }
 
-function getClientImageUrl(url?: string): string {
+function getClientImageUrl(url?: string, hostname?: string): string {
   if (!url) return '';
-  if (typeof window === 'undefined') return url;
+  const activeHost = hostname || (typeof window !== 'undefined' ? window.location.hostname : 'localhost');
   if (url.includes('://localhost/')) {
-    return url.replace('://localhost/', `://${window.location.hostname}/`);
+    return url.replace('://localhost/', `://${activeHost}/`);
   }
   if (url.includes('://127.0.0.1/')) {
-    return url.replace('://127.0.0.1/', `://${window.location.hostname}/`);
+    return url.replace('://127.0.0.1/', `://${activeHost}/`);
   }
   return url;
 }
 
-export default function BuiltEveryOutdoorSpace({ builtForOutdoor }: { builtForOutdoor?: any }) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
+export default function BuiltEveryOutdoorSpace({ builtForOutdoor, hostname }: { builtForOutdoor?: any; hostname?: string }) {
   if (builtForOutdoor === null || (builtForOutdoor && builtForOutdoor.enabled === false)) {
-    return null;
-  }
-
-  if (!mounted) {
     return null;
   }
 
   const isDefault = builtForOutdoor === undefined;
 
-  const bgImage = getClientImageUrl(isDefault ? '/outdoor_bg.png' : (builtForOutdoor.image?.url || '/outdoor_bg.png'));
+  const bgImage = getClientImageUrl(isDefault ? '/outdoor_bg.png' : (builtForOutdoor.image?.url || '/outdoor_bg.png'), hostname);
   const title = isDefault ? 'Built for Every Outdoor Space' : (builtForOutdoor.title || '');
   const description = isDefault 
     ? 'Designed to Transform Outdoor Spaces\nCrafted with premium German polymer technology for durability, style, and all-weather performance.'

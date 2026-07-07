@@ -25,16 +25,17 @@ interface HowToUseProps {
   desktopBg?: string;
   ipadBg?: string;
   mobileBg?: string;
+  hostname?: string;
 }
 
-function getClientImageUrl(url?: string): string {
+function getClientImageUrl(url?: string, hostname?: string): string {
   if (!url) return '';
-  if (typeof window === 'undefined') return url;
+  const activeHost = hostname || (typeof window !== 'undefined' ? window.location.hostname : 'localhost');
   if (url.includes('://localhost/')) {
-    return url.replace('://localhost/', `://${window.location.hostname}/`);
+    return url.replace('://localhost/', `://${activeHost}/`);
   }
   if (url.includes('://127.0.0.1/')) {
-    return url.replace('://127.0.0.1/', `://${window.location.hostname}/`);
+    return url.replace('://127.0.0.1/', `://${activeHost}/`);
   }
   return url;
 }
@@ -44,18 +45,10 @@ export default function HowToUse({
   desktopBg,
   ipadBg,
   mobileBg,
+  hostname,
 }: HowToUseProps) {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // If explicitly disabled in backend, do not render
   if (howToUseData && howToUseData.enabled === false) {
-    return null;
-  }
-
-  if (!mounted) {
     return null;
   }
 
@@ -63,9 +56,20 @@ export default function HowToUse({
 
   // Resolve background images
   const defaultBg = '/how_bg.png';
-  const resolvedDesktopBg = getClientImageUrl(desktopBg || howToUseData?.imageDesktop?.url || defaultBg);
-  const resolvedIpadBg = getClientImageUrl(ipadBg || howToUseData?.imageTablet?.url || resolvedDesktopBg);
-  const resolvedMobileBg = getClientImageUrl(mobileBg || howToUseData?.imageMobile?.url || resolvedDesktopBg);
+  const resolvedDesktopBg = getClientImageUrl(desktopBg || howToUseData?.imageDesktop?.url || defaultBg, hostname);
+  const resolvedIpadBg = getClientImageUrl(ipadBg || howToUseData?.imageTablet?.url || resolvedDesktopBg, hostname);
+  const resolvedMobileBg = getClientImageUrl(mobileBg || howToUseData?.imageMobile?.url || resolvedDesktopBg, hostname);
+
+  if (typeof window !== 'undefined') {
+    console.log("HowToUse component rendered on client:", {
+      imageDesktop: howToUseData?.imageDesktop?.url,
+      imageTablet: howToUseData?.imageTablet?.url,
+      imageMobile: howToUseData?.imageMobile?.url,
+      resolvedDesktopBg,
+      resolvedIpadBg,
+      resolvedMobileBg
+    });
+  }
 
   // Contents
   const title = isDefault ? 'How to use' : (howToUseData.title || 'How to use');
