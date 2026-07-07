@@ -145,7 +145,7 @@ export default function ProductCatalog({ initialProducts, categories, shopFilter
         shapes,
         sizes,
         colorNames,
-        categorySlug: getProductCategorySlug(p.name)
+        categorySlugs: p.categorySlugs && p.categorySlugs.length > 0 ? p.categorySlugs : [getProductCategorySlug(p.name)]
       };
     });
   }, [initialProducts]);
@@ -156,7 +156,7 @@ export default function ProductCatalog({ initialProducts, categories, shopFilter
 
     // Category Filter
     if (selectedCategories.length > 0) {
-      result = result.filter(p => selectedCategories.includes(p.categorySlug));
+      result = result.filter(p => p.categorySlugs?.some(cat => selectedCategories.includes(cat)));
     }
 
     // Shape Filter (Case-insensitive multi-match)

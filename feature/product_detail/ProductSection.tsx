@@ -151,12 +151,9 @@ export default function ProductSection({ productData }: { productData?: any }) {
     return activeImages[currentImageIndex] || activeImages[0] || '/select_1.png';
   }, [activeImages, currentImageIndex]);
 
-  useEffect(() => {
-    setCurrentImageIndex(0);
-  }, [selectedColorIndex]);
-
   const handleColorSelect = (index: number) => {
     setSelectedColorIndex(index);
+    setCurrentImageIndex(0);
   };
 
   const handleThumbnailSelect = (index: number) => {

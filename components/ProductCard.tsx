@@ -18,6 +18,7 @@ export interface ProductItem {
   shapes?: string[];
   sizes?: string[];
   colorNames?: string[];
+  categorySlugs?: string[];
 }
 
 interface ProductCardProps {

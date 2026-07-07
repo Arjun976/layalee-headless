@@ -327,6 +327,13 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
           title
           slug
           uri
+          productCategories {
+            nodes {
+              id
+              name
+              slug
+            }
+          }
         }
       }
     }

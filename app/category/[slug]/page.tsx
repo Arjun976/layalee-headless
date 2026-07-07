@@ -44,6 +44,25 @@ function mapUrl(url: string): string {
   }
 }
 
+// Helper to assign category slug based on product name
+function getProductCategorySlug(name: string): string {
+  const lowercaseName = name.toLowerCase();
+  if (lowercaseName.includes('hanging') || lowercaseName.includes('ktr')) {
+    return 'hanging-planters';
+  }
+  if (lowercaseName.includes('kangaroo') || lowercaseName.includes('bar') || lowercaseName.includes('balcony')) {
+    return 'balcony-planters';
+  }
+  if (lowercaseName.includes('tray')) {
+    return 'tray-planter';
+  }
+  if (lowercaseName.includes('outdoor')) {
+    return 'outdoor-planters';
+  }
+  // Default to indoor planters
+  return 'indoor-planters';
+}
+
 export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params;
   const { homepage, productCategories, products } = await getHeaderAndHomePageData();
@@ -62,7 +81,7 @@ export default async function CategoryPage({ params }: PageProps) {
     );
   }
 
-  const apiProductsRaw = (products as { nodes?: Array<{ databaseId: number; title?: string; uri?: string; slug?: string }> })?.nodes || [];
+  const apiProductsRaw = (products as { nodes?: Array<{ databaseId: number; title?: string; uri?: string; slug?: string; productCategories?: { nodes: Array<{ slug: string }> } }> })?.nodes || [];
   const detailedProducts = await Promise.all(
     apiProductsRaw.map(async (p) => {
       if (!p.slug) return null;
@@ -71,6 +90,7 @@ export default async function CategoryPage({ params }: PageProps) {
       return {
         ...details,
         databaseId: p.databaseId,
+        categorySlugs: p.productCategories?.nodes?.map((cat) => cat.slug) || [],
       };
     })
   );
@@ -79,130 +99,110 @@ export default async function CategoryPage({ params }: PageProps) {
     databaseId: number;
     title?: string;
     slug?: string;
+    categorySlugs?: string[];
     content?: {
-      colors?: Array<{ colorName?: string; colorCode?: string }>;
+      colors?: Array<{ colorName?: string; colorCode?: string; images?: Array<{ url?: string }> }>;
       sizes?: Array<{ sizeName?: string }>;
       shapes?: string[];
     };
   }>;
   const rawCategoryFeaturedProducts = categoryDetails?.featured?.products;
 
-  let displayProducts: ProductItem[] = [];
+  // Filter detailed products that belong to this category slug
+  const categoryProducts = apiProducts.filter(p => {
+    if (p.categorySlugs && p.categorySlugs.length > 0) {
+      return p.categorySlugs.includes(slug);
+    }
+    return getProductCategorySlug(p.title || '') === slug;
+  });
 
-  if (rawCategoryFeaturedProducts && rawCategoryFeaturedProducts.length > 0) {
-    displayProducts = rawCategoryFeaturedProducts.map((fp) => {
-      // Find matching product by ID
-      const matched = apiProducts.find((p) => p.databaseId === parseInt(String(fp.productId)));
-      
-      // Parse colors to ColorSwatch objects
-      const colorsList = fp.colors || [];
-      const colors: ColorSwatch[] = colorsList
-        .map((col) => {
-          const rawCode = col.colorCode;
-          const rawImage = col.colorImage?.url;
-          if (!rawCode && !rawImage) return null;
-          return {
-            code: rawCode || '#ffffff',
-            image: rawImage || ''
-          };
-        })
-        .filter(Boolean) as ColorSwatch[];
-      
-      // Primary image is either the first color swatch image with a url, or a default fallback
-      const firstColorWithImage = colors.find(c => c.image);
-      const image = firstColorWithImage ? firstColorWithImage.image : '/select_1.png';
-      
-      // Set Badge: "New" or "Best Seller"
-      let badge = '';
-      if (fp.isNew === true) {
+  // Parse Featured Options from homepage fallback to fetch detailed products information
+  let homeCommonOptions: {
+    home_featured_fieldset?: {
+      featured_products?: Array<{
+        product_id?: string | number;
+        product_colors?: Array<{
+          color_code?: string;
+          color_image?: { url?: string };
+        }>;
+        is_new?: boolean | string;
+        is_bestseller?: boolean | string;
+        product_title?: string;
+      }>;
+    };
+  } | null = null;
+  if (homepage && (homepage as { homeCommonOptions?: string | object }).homeCommonOptions) {
+    const rawOptions = (homepage as { homeCommonOptions: string | object }).homeCommonOptions;
+    try {
+      homeCommonOptions = typeof rawOptions === 'string'
+        ? JSON.parse(rawOptions)
+        : rawOptions;
+    } catch (e) {
+      console.error("Error parsing homeCommonOptions:", e);
+    }
+  }
+
+  const featuredFieldset = homeCommonOptions?.home_featured_fieldset || {};
+  const rawFeaturedProducts = featuredFieldset.featured_products || [];
+
+  const displayProducts: ProductItem[] = categoryProducts.map((p) => {
+    // Find if this product is marked as featured in category or homepage to get its badge
+    let badge = '';
+    
+    // Check category featured products
+    const categoryFeatured = rawCategoryFeaturedProducts?.find(
+      (fp: any) => parseInt(String(fp.productId)) === p.databaseId
+    );
+    if (categoryFeatured) {
+      if (categoryFeatured.isNew === true) {
         badge = 'New';
-      } else if (fp.isBestseller === true) {
+      } else if (categoryFeatured.isBestseller === true) {
         badge = 'Best Seller';
       }
-
-      return {
-        name: matched?.title || `Product #${fp.productId}`,
-        image: image,
-        badge: badge,
-        colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
-        link: matched ? `/product_detail/${matched.slug}` : '#',
-        shapes: matched?.content?.shapes || [],
-        sizes: (matched?.content?.sizes || []).map((s: any) => s.sizeName).filter(Boolean),
-        colorNames: (matched?.content?.colors || []).map((c: any) => c.colorName).filter(Boolean),
-      };
-    });
-  } else {
-    // Parse Featured Options from homepage fallback to fetch detailed products information
-    let homeCommonOptions: {
-      home_featured_fieldset?: {
-        featured_products?: Array<{
-          product_id?: string | number;
-          product_colors?: Array<{
-            color_code?: string;
-            color_image?: { url?: string };
-          }>;
-          is_new?: boolean | string;
-          is_bestseller?: boolean | string;
-          product_title?: string;
-        }>;
-      };
-    } | null = null;
-    if (homepage && (homepage as { homeCommonOptions?: string | object }).homeCommonOptions) {
-      const rawOptions = (homepage as { homeCommonOptions: string | object }).homeCommonOptions;
-      try {
-        homeCommonOptions = typeof rawOptions === 'string'
-          ? JSON.parse(rawOptions)
-          : rawOptions;
-      } catch (e) {
-        console.error("Error parsing homeCommonOptions:", e);
+    } else {
+      // Check homepage featured products
+      const homeFeatured = rawFeaturedProducts?.find(
+        (fp: any) => parseInt(String(fp.product_id)) === p.databaseId
+      );
+      if (homeFeatured) {
+        if (homeFeatured.is_new === '1' || homeFeatured.is_new === true) {
+          badge = 'New';
+        } else if (homeFeatured.is_bestseller === '1' || homeFeatured.is_bestseller === true) {
+          badge = 'Best Seller';
+        }
       }
     }
 
-    const featuredFieldset = homeCommonOptions?.home_featured_fieldset || {};
-    const rawFeaturedProducts = featuredFieldset.featured_products || [];
+    // Parse colors to ColorSwatch objects using detailed product's colors and first image url
+    const colorsList = p.content?.colors || [];
+    const colors: ColorSwatch[] = colorsList
+      .map((col: any) => {
+        const rawCode = col.colorCode;
+        const rawImage = col.images?.[0]?.url;
+        if (!rawCode && !rawImage) return null;
+        return {
+          code: rawCode || '#ffffff',
+          image: rawImage || ''
+        };
+      })
+      .filter(Boolean) as ColorSwatch[];
 
-    displayProducts = rawFeaturedProducts.map((fp) => {
-      // Find matching product by ID
-      const matched = apiProducts.find((p) => p.databaseId === parseInt(String(fp.product_id)));
-      
-      // Parse colors to ColorSwatch objects
-      const colorsList = fp.product_colors || [];
-      const colors: ColorSwatch[] = colorsList
-        .map((col) => {
-          const rawCode = col.color_code;
-          const rawImage = col.color_image?.url;
-          if (!rawCode && !rawImage) return null;
-          return {
-            code: rawCode || '#ffffff',
-            image: rawImage || ''
-          };
-        })
-        .filter(Boolean) as ColorSwatch[];
-      
-      // Primary image is either the first color swatch image with a url, or a default fallback
-      const firstColorWithImage = colors.find(c => c.image);
-      const image = firstColorWithImage ? firstColorWithImage.image : '/select_1.png';
-      
-      // Set Badge: "New" or "Best Seller"
-      let badge = '';
-      if (fp.is_new === '1' || fp.is_new === true) {
-        badge = 'New';
-      } else if (fp.is_bestseller === '1' || fp.is_bestseller === true) {
-        badge = 'Best Seller';
-      }
+    // Primary image is either the first color swatch image with a url, or a default fallback
+    const firstColorWithImage = colors.find(c => c.image);
+    const image = firstColorWithImage ? firstColorWithImage.image : '/select_1.png';
 
-      return {
-        name: matched?.title || fp.product_title || `Product #${fp.product_id}`,
-        image: image,
-        badge: badge,
-        colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
-        link: matched ? `/product_detail/${matched.slug}` : '#',
-        shapes: matched?.content?.shapes || [],
-        sizes: (matched?.content?.sizes || []).map((s: any) => s.sizeName).filter(Boolean),
-        colorNames: (matched?.content?.colors || []).map((c: any) => c.colorName).filter(Boolean),
-      };
-    });
-  }
+    return {
+      name: p.title || `Product #${p.databaseId}`,
+      image: image,
+      badge: badge,
+      colors: colors.length > 0 ? colors : [{ code: '#ffffff', image: image }],
+      link: p.slug ? `/product_detail/${p.slug}` : '#',
+      shapes: p.content?.shapes || [],
+      sizes: (p.content?.sizes || []).map((s: any) => s.sizeName).filter(Boolean),
+      colorNames: (p.content?.colors || []).map((c: any) => c.colorName).filter(Boolean),
+      categorySlugs: p.categorySlugs,
+    };
+  });
 
   // Format breadcrumbs category name correctly
   const categoryName = categoryDetails?.term?.name || slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
