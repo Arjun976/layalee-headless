@@ -4,7 +4,15 @@ import React from 'react';
 
 interface HowToUseData {
   enabled?: boolean;
-  image?: {
+  imageDesktop?: {
+    id?: string;
+    url?: string;
+  };
+  imageTablet?: {
+    id?: string;
+    url?: string;
+  };
+  imageMobile?: {
     id?: string;
     url?: string;
   };
@@ -17,6 +25,18 @@ interface HowToUseProps {
   desktopBg?: string;
   ipadBg?: string;
   mobileBg?: string;
+}
+
+function getClientImageUrl(url?: string): string {
+  if (!url) return '';
+  if (typeof window === 'undefined') return url;
+  if (url.includes('://localhost/')) {
+    return url.replace('://localhost/', `://${window.location.hostname}/`);
+  }
+  if (url.includes('://127.0.0.1/')) {
+    return url.replace('://127.0.0.1/', `://${window.location.hostname}/`);
+  }
+  return url;
 }
 
 export default function HowToUse({
@@ -34,9 +54,9 @@ export default function HowToUse({
 
   // Resolve background images
   const defaultBg = '/how_bg.png';
-  const resolvedDesktopBg = desktopBg || howToUseData?.image?.url || defaultBg;
-  const resolvedIpadBg = ipadBg || resolvedDesktopBg;
-  const resolvedMobileBg = mobileBg || resolvedDesktopBg;
+  const resolvedDesktopBg = getClientImageUrl(desktopBg || howToUseData?.imageDesktop?.url || defaultBg);
+  const resolvedIpadBg = getClientImageUrl(ipadBg || howToUseData?.imageTablet?.url || resolvedDesktopBg);
+  const resolvedMobileBg = getClientImageUrl(mobileBg || howToUseData?.imageMobile?.url || resolvedDesktopBg);
 
   // Contents
   const title = isDefault ? 'How to use' : (howToUseData.title || 'How to use');

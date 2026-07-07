@@ -119,13 +119,13 @@ export default function BuiltEveryOutdoorSpace({ builtForOutdoor }: { builtForOu
             </p>
 
             {/* Badges / Features Group */}
-            <div className="grid grid-cols-2 gap-x-6 md:gap-x-10 lg:gap-x-16 xl:gap-x-24 gap-y-5 lg:gap-y-6 mb-8 lg:mb-0 max-w-[302px] lg:max-w-[580px]">
+            <div className="grid grid-cols-2 gap-x-6 md:gap-x-10 lg:gap-x-16 xl:gap-x-24 gap-y-5 lg:gap-y-6 mb-8 lg:mb-10 max-w-[302px] lg:max-w-[580px]">
               {points.map((point: any, idx: number) => (
                 <div key={idx} className="flex items-center gap-2.5 lg:gap-3.5">
                   {point.svg ? (
                     <div 
                       dangerouslySetInnerHTML={{ __html: point.svg }} 
-                      className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0"
+                      className="w-[30px] h-[30px] lg:w-[60px] lg:h-[60px] shrink-0 [&>svg]:w-full [&>svg]:h-full [&>svg]:text-white"
                     />
                   ) : null}
                   <span className="text-white font-['Funnel_Display',sans-serif] font-normal text-[16px] lg:text-[24px] leading-none">
@@ -135,8 +135,8 @@ export default function BuiltEveryOutdoorSpace({ builtForOutdoor }: { builtForOu
               ))}
             </div>
 
-            {/* Button Link - Absolute positioned on desktop at bottom right of container, stacked on mobile/tablet */}
-            <div className="flex lg:absolute lg:bottom-[28px] lg:right-[30px] z-20">
+            {/* Button Link */}
+            <div className="flex z-20">
               {/* Desktop Button */}
               <Link 
                 href={buttonUrl}

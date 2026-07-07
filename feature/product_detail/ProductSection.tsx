@@ -300,7 +300,7 @@ export default function ProductSection({ productData }: { productData?: any }) {
               <h3 className="mb-4 text-[18px] lg:text-[20px] font-medium text-[#2C322D] font-sans">
                 Colour: <span className="font-medium text-[#2C322D]">{activeColor.name}</span>
               </h3>
-              <div className="flex gap-4">
+              <div className="flex gap-4 p-1 -my-1 -mr-1">
                 {product.colors.map((color: any, index: number) => (
                   <button
                     key={color.name}

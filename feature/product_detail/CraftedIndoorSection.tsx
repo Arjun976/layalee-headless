@@ -3,12 +3,24 @@
 import React from 'react';
 import Link from 'next/link';
 
+function getClientImageUrl(url?: string): string {
+  if (!url) return '';
+  if (typeof window === 'undefined') return url;
+  if (url.includes('://localhost/')) {
+    return url.replace('://localhost/', `://${window.location.hostname}/`);
+  }
+  if (url.includes('://127.0.0.1/')) {
+    return url.replace('://127.0.0.1/', `://${window.location.hostname}/`);
+  }
+  return url;
+}
+
 export default function CraftedIndoorSection({ aboutData }: { aboutData?: any }) {
   if (aboutData === null) return null;
 
   const isDefault = aboutData === undefined;
   
-  const bgImage = isDefault ? '/product_d_bg.png' : (aboutData.backgroundImage?.url || '/product_d_bg.png');
+  const bgImage = getClientImageUrl(isDefault ? '/product_d_bg.png' : (aboutData.backgroundImage?.url || '/product_d_bg.png'));
   const title = isDefault ? 'Crafted for Indoor Living' : (aboutData.title || '');
   const description = isDefault 
     ? 'Designed to Elevate Modern Interiors\nCrafted with premium materials to bring elegance, greenery, and timeless style into every space.'

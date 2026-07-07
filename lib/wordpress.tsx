@@ -758,7 +758,15 @@ export async function getLayaleProduct(slug: string): Promise<any> {
 
         howToUse {
           enabled
-          image {
+          imageDesktop {
+            id
+            url
+          }
+          imageTablet {
+            id
+            url
+          }
+          imageMobile {
             id
             url
           }
