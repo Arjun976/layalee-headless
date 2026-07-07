@@ -76,11 +76,26 @@ function normalizeProductData(productData: any) {
 
   const content = productData.content || {};
   
-  const colors = (content.colors || []).map((col: any) => ({
-    name: col.colorName || '',
-    value: col.colorCode || '#ffffff',
-    images: (col.images || []).map((img: any) => img.url).filter(Boolean)
-  }));
+  // Collect all unique images across all colors to use as a fallback if a color has no images
+  const allUniqueImages = (content.colors || [])
+    .flatMap((col: any) => (col.images || []).map((img: any) => img.url))
+    .filter(Boolean) as string[];
+
+  const colors = (content.colors || []).map((col: any, colorIdx: number) => {
+    let images = (col.images || []).map((img: any) => img.url).filter(Boolean);
+    if (images.length === 0) {
+      // Fallback: use the image at the color's index from all unique images, or the first image
+      const fallbackImage = allUniqueImages[colorIdx] || allUniqueImages[0];
+      if (fallbackImage) {
+        images = [fallbackImage];
+      }
+    }
+    return {
+      name: col.colorName || '',
+      value: col.colorCode || '#ffffff',
+      images: images.length > 0 ? images : ['/select_1.png']
+    };
+  });
 
   const sizes = (content.sizes || []).map((sz: any) => sz.sizeName || '');
 

@@ -173,12 +173,24 @@ export default async function CategoryPage({ params }: PageProps) {
       }
     }
 
-    // Parse colors to ColorSwatch objects using detailed product's colors and first image url
     const colorsList = p.content?.colors || [];
+
+    // Collect all unique images of the product across all colors to use as fallback
+    const allUniqueImages = colorsList
+      .flatMap((col: any) => (col.images || []).map((img: any) => img.url))
+      .filter(Boolean) as string[];
+
+    // Parse colors to ColorSwatch objects using detailed product's colors and first image url
     const colors: ColorSwatch[] = colorsList
-      .map((col: any) => {
+      .map((col: any, colorIdx: number) => {
         const rawCode = col.colorCode;
-        const rawImage = col.images?.[0]?.url;
+        let rawImage = col.images?.[0]?.url;
+        
+        // Fallback if this color has no images of its own
+        if (!rawImage) {
+          rawImage = allUniqueImages[colorIdx] || allUniqueImages[0] || '';
+        }
+
         if (!rawCode && !rawImage) return null;
         return {
           code: rawCode || '#ffffff',
