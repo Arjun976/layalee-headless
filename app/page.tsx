@@ -15,10 +15,12 @@ export default async function Home() {
   }
 
   const baseUrl = process.env.Secret;
+  const firstCategorySlug = productCategories?.nodes?.[0]?.slug;
+  const firstCategoryLink = firstCategorySlug ? `/category/${firstCategorySlug}` : '/category/indoor-planters';
 
   return (
     <main className="flex min-h-screen flex-col bg-white">
-      <Banner homepage={homepage} />
+      <Banner homepage={homepage} firstCategoryLink={firstCategoryLink} />
       <Category homepage={homepage} productCategories={productCategories} />
       <Featured homepage={homepage} products={products} />
       <ExpertAssistance homepage={homepage} />

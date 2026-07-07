@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 interface BannerProps {
   homepage?: any;
+  firstCategoryLink?: string;
 }
 
 interface Slide {
@@ -49,7 +50,7 @@ function mapUrl(url: string): string {
   }
 }
 
-export default function Banner({ homepage }: BannerProps) {
+export default function Banner({ homepage, firstCategoryLink }: BannerProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   if (!homepage) {
@@ -83,9 +84,9 @@ export default function Banner({ homepage }: BannerProps) {
     description: slide.home_banner_slide_description || '',
     image: index % 2 === 0 ? '/banner_img1.png' : '/banner_img2.png',
     primaryBtnText: slide.home_banner_slide_primary_text || '',
-    primaryBtnLink: '/product',
+    primaryBtnLink: firstCategoryLink || '/category/indoor-planters',
     secondaryBtnText: slide.home_banner_slide_secondary_text || '',
-    secondaryBtnLink: '/product',
+    secondaryBtnLink: firstCategoryLink || '/category/indoor-planters',
   }));
 
   const scrollText = bannerFieldset.home_banner_scroll_text || 'Scroll';
