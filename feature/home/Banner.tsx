@@ -83,9 +83,9 @@ export default function Banner({ homepage }: BannerProps) {
     description: slide.home_banner_slide_description || '',
     image: index % 2 === 0 ? '/banner_img1.png' : '/banner_img2.png',
     primaryBtnText: slide.home_banner_slide_primary_text || '',
-    primaryBtnLink: mapUrl(slide.home_banner_slide_primary_link?.url || '#'),
+    primaryBtnLink: '/product',
     secondaryBtnText: slide.home_banner_slide_secondary_text || '',
-    secondaryBtnLink: mapUrl(slide.home_banner_slide_secondary_link?.url || '#'),
+    secondaryBtnLink: '/product',
   }));
 
   const scrollText = bannerFieldset.home_banner_scroll_text || 'Scroll';
