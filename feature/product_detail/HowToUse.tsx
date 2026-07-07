@@ -45,8 +45,17 @@ export default function HowToUse({
   ipadBg,
   mobileBg,
 }: HowToUseProps) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // If explicitly disabled in backend, do not render
   if (howToUseData && howToUseData.enabled === false) {
+    return null;
+  }
+
+  if (!mounted) {
     return null;
   }
 

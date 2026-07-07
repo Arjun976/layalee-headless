@@ -20,7 +20,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
     getLayaleProduct(slug),
     getHeaderAndHomePageData()
   ]);
-
   if (!product) {
     notFound();
   }

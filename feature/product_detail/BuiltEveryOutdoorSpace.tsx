@@ -58,14 +58,35 @@ export function LongLastingIcon({ className }: IconProps) {
   );
 }
 
+function getClientImageUrl(url?: string): string {
+  if (!url) return '';
+  if (typeof window === 'undefined') return url;
+  if (url.includes('://localhost/')) {
+    return url.replace('://localhost/', `://${window.location.hostname}/`);
+  }
+  if (url.includes('://127.0.0.1/')) {
+    return url.replace('://127.0.0.1/', `://${window.location.hostname}/`);
+  }
+  return url;
+}
+
 export default function BuiltEveryOutdoorSpace({ builtForOutdoor }: { builtForOutdoor?: any }) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   if (builtForOutdoor === null || (builtForOutdoor && builtForOutdoor.enabled === false)) {
+    return null;
+  }
+
+  if (!mounted) {
     return null;
   }
 
   const isDefault = builtForOutdoor === undefined;
 
-  const bgImage = isDefault ? '/outdoor_bg.png' : (builtForOutdoor.image?.url || '/outdoor_bg.png');
+  const bgImage = getClientImageUrl(isDefault ? '/outdoor_bg.png' : (builtForOutdoor.image?.url || '/outdoor_bg.png'));
   const title = isDefault ? 'Built for Every Outdoor Space' : (builtForOutdoor.title || '');
   const description = isDefault 
     ? 'Designed to Transform Outdoor Spaces\nCrafted with premium German polymer technology for durability, style, and all-weather performance.'

@@ -16,7 +16,16 @@ function getClientImageUrl(url?: string): string {
 }
 
 export default function CraftedIndoorSection({ aboutData }: { aboutData?: any }) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   if (aboutData === null) return null;
+
+  if (!mounted) {
+    return null;
+  }
 
   const isDefault = aboutData === undefined;
   
