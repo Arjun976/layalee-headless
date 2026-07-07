@@ -139,9 +139,9 @@ export default function HowToUse({
         </div>
 
         {/* Dynamic Step Text Cards */}
-        {/* Step 1: Pot With Planting Soil And plant (Left) */}
+        {/* Step 1: Pot With Planting Soil And Plant (Left) */}
         <div
-          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-sans font-medium text-[20px] shadow-sm tracking-wide text-center whitespace-nowrap px-4"
+          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-medium text-[20px] shadow-sm text-center leading-[1.5] whitespace-nowrap px-4"
           style={{
             left: '27.62%',
             top: '44.90%',
@@ -149,12 +149,12 @@ export default function HowToUse({
             height: '60px',
           }}
         >
-          Pot With Planting Soil And plant
+          Pot With Planting Soil And Plant
         </div>
 
         {/* Step 2: Planting Soil and Plant (Right) */}
         <div
-          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-sans font-medium text-[20px] shadow-sm tracking-wide text-center whitespace-nowrap px-4"
+          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-medium text-[20px] shadow-sm text-center leading-[1.5] whitespace-nowrap px-4"
           style={{
             left: '46.28%',
             top: '62.10%',
@@ -165,9 +165,9 @@ export default function HowToUse({
           Planting Soil and Plant
         </div>
 
-        {/* Step 3: Marking for drain Hole (Bottom Left) */}
+        {/* Step 3: Marking for Drain Hole (Bottom Left) */}
         <div
-          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-sans font-medium text-[20px] shadow-sm tracking-wide text-center whitespace-nowrap px-4"
+          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-medium text-[20px] shadow-sm text-center leading-[1.5] whitespace-nowrap px-4"
           style={{
             left: '22.62%',
             top: '80.52%',
@@ -175,12 +175,12 @@ export default function HowToUse({
             height: '60px',
           }}
         >
-          Marking for drain Hole
+          Marking for Drain Hole
         </div>
 
-        {/* Step 4: Marking for drain Hole (Bottom Right) */}
+        {/* Step 4: Marking for Drain Hole (Bottom Right) */}
         <div
-          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-sans font-medium text-[20px] shadow-sm tracking-wide text-center whitespace-nowrap px-4"
+          className="absolute z-20 flex items-center justify-center bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-medium text-[20px] shadow-sm text-center leading-[1.5] whitespace-nowrap px-4"
           style={{
             left: '52.62%',
             top: '84.32%',
@@ -188,7 +188,7 @@ export default function HowToUse({
             height: '60px',
           }}
         >
-          Marking for drain Hole
+          Marking for Drain Hole
         </div>
       </div>
 
@@ -250,7 +250,7 @@ export default function HowToUse({
 
         {/* Step Cards for iPad (Flat) */}
         <div
-          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          className="absolute bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20"
           style={{
             left: '21.87%',
             top: '60.90%',
@@ -258,10 +258,10 @@ export default function HowToUse({
             height: '31px',
           }}
         >
-          Pot With Planting Soil And plant
+          Pot With Planting Soil And Plant
         </div>
         <div
-          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          className="absolute bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20"
           style={{
             left: '15.98%',
             top: '86.47%',
@@ -269,10 +269,10 @@ export default function HowToUse({
             height: '32px',
           }}
         >
-          Marking for drain Hole
+          Marking for Drain Hole
         </div>
         <div
-          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          className="absolute bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20"
           style={{
             left: '50.26%',
             top: '72.83%',
@@ -283,7 +283,7 @@ export default function HowToUse({
           Planting Soil and Plant
         </div>
         <div
-          className="absolute bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20"
+          className="absolute bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20"
           style={{
             left: '56.92%',
             top: '86.71%',
@@ -291,7 +291,7 @@ export default function HowToUse({
             height: '27px',
           }}
         >
-          Marking for drain Hole
+          Marking for Drain Hole
         </div>
       </div>
 
@@ -352,17 +352,17 @@ export default function HowToUse({
         </div>
 
         {/* Step Cards for iPhone (Flat) */}
-        <div className="absolute left-[137px] top-[278px] w-[212px] h-[29px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
-          Pot With Planting Soil And plant
+        <div className="absolute left-[137px] top-[278px] w-[212px] h-[29px] bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20">
+          Pot With Planting Soil And Plant
         </div>
-        <div className="absolute left-[94px] top-[398px] w-[175px] h-[30px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
-          Marking for drain Hole
+        <div className="absolute left-[94px] top-[398px] w-[175px] h-[30px] bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20">
+          Marking for Drain Hole
         </div>
-        <div className="absolute left-[21px] top-[494px] w-[161px] h-[28px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
+        <div className="absolute left-[21px] top-[494px] w-[161px] h-[28px] bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20">
           Planting Soil and Plant
         </div>
-        <div className="absolute left-[71px] top-[561px] w-[160px] h-[26px] bg-[#4E7361] text-white font-sans font-normal text-[14px] flex items-center justify-center tracking-wide text-center whitespace-nowrap px-2 z-20">
-          Marking for drain Hole
+        <div className="absolute left-[71px] top-[561px] w-[160px] h-[26px] bg-[#4E7361] text-white font-['Google_Sans',sans-serif] font-normal text-[14px] flex items-center justify-center text-center leading-[1.5] whitespace-nowrap px-2 z-20">
+          Marking for Drain Hole
         </div>
       </div>
     </section>
