@@ -39,8 +39,8 @@ export default function ProductBnr({
         />
       </div>
 
-      {/* Background Image Container - iPad and Mobile (below xl) */}
-      <div className="absolute inset-0 z-0 h-full w-full xl:hidden flex">
+      {/* Background Image Container - iPad (md to xl) */}
+      <div className="absolute inset-0 z-0 h-full w-full hidden md:flex xl:hidden">
         {/* Left Half */}
         <div className="relative w-1/2 h-full overflow-hidden">
           <Image
@@ -63,6 +63,18 @@ export default function ProductBnr({
             className="object-cover object-right"
           />
         </div>
+      </div>
+
+      {/* Background Image Container - Mobile (below md) */}
+      <div className="absolute inset-0 z-0 h-full w-full block md:hidden">
+        <Image
+          src={backgroundImage || "/bg-product.png"}
+          alt="Product Banner Background Mobile"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-left"
+        />
       </div>
 
       {/* Content Container - Vertically and Horizontally Centered */}
