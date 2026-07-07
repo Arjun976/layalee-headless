@@ -27,16 +27,42 @@ export default function ProductBnr({
 }: ProductBnrProps) {
   return (
     <section className="relative w-full h-[260px] md:h-[300px] xl:h-[336px] overflow-hidden bg-white border-b border-[#2C322D]/10">
-      {/* Background Image Container */}
-      <div className="absolute inset-0 z-0 h-full w-full">
+      {/* Background Image Container - Desktop (xl and up) */}
+      <div className="absolute inset-0 z-0 h-full w-full hidden xl:block">
         <Image
           src={backgroundImage || "/bg-product.png"}
-          alt="Product Banner Background"
+          alt="Product Banner Background Desktop"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
+      </div>
+
+      {/* Background Image Container - iPad and Mobile (below xl) */}
+      <div className="absolute inset-0 z-0 h-full w-full xl:hidden flex">
+        {/* Left Half */}
+        <div className="relative w-1/2 h-full overflow-hidden">
+          <Image
+            src={backgroundImage || "/bg-product.png"}
+            alt="Product Banner Background Left"
+            fill
+            priority
+            sizes="50vw"
+            className="object-cover object-left"
+          />
+        </div>
+        {/* Right Half */}
+        <div className="relative w-1/2 h-full overflow-hidden">
+          <Image
+            src={backgroundImage || "/bg-product.png"}
+            alt="Product Banner Background Right"
+            fill
+            priority
+            sizes="50vw"
+            className="object-cover object-right"
+          />
+        </div>
       </div>
 
       {/* Content Container - Vertically and Horizontally Centered */}
