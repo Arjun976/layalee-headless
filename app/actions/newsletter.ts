@@ -17,6 +17,7 @@ export type NewsletterState = {
 
 export async function submitNewsletterForm(
   email: string,
+  formShortcode?: string,
   honeypot?: string
 ): Promise<NewsletterState> {
   // 1. Check for spam bots (Honeypot technique)
@@ -49,8 +50,17 @@ export async function submitNewsletterForm(
 
   const endpoint = wpBaseUrl.endsWith('/graphql') ? wpBaseUrl : `${wpBaseUrl}/graphql`;
   
-  // Fallback chain: WP_NEWSLETTER_FORM_ID -> WP_CONTACT_FORM_ID -> 'newsletter-form'
-  const rawFormId = process.env.WP_NEWSLETTER_FORM_ID || process.env.WP_CONTACT_FORM_ID || 'newsletter-form';
+  // Try to parse form ID from formShortcode first
+  let parsedFormId = '';
+  if (formShortcode) {
+    const match = formShortcode.match(/id=["']?([a-zA-Z0-9_-]+)["']?/);
+    if (match) {
+      parsedFormId = match[1];
+    }
+  }
+
+  // Fallback chain: parsedFormId -> WP_NEWSLETTER_FORM_ID -> WP_CONTACT_FORM_ID -> 'newsletter-form'
+  const rawFormId = parsedFormId || process.env.WP_NEWSLETTER_FORM_ID || process.env.WP_CONTACT_FORM_ID || 'newsletter-form';
   const contactFormId = /^\d+$/.test(rawFormId) ? parseInt(rawFormId, 10) : rawFormId;
 
   console.log("\n=========================================");

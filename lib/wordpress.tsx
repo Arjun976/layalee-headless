@@ -197,6 +197,12 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
       # ── 1. WHOLE HEADER & MENU DATA ──
       layaleThemeSettings
       layaleNavMenus
+      layaleNewsletterSection {
+        subtitle
+        title
+        paragraphs
+        formShortcode
+      }
 
       # ── 2. WHOLE HOMEPAGE DATA ──
       layaleHome {
@@ -359,6 +365,7 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
     const layaleHome = data?.layaleHome || null;
     const productCategories = data?.productCategories || null;
     const products = data?.products || null;
+    const newsletterSection = data?.layaleNewsletterSection || null;
 
     let themeSettings: ThemeSettings | null = null;
     let navMenus: NavMenus | null = null;
@@ -369,6 +376,13 @@ export async function getHeaderAndHomePageData(): Promise<WordPressData> {
       } catch (e) {
         console.error("Error parsing layaleThemeSettings JSON string:", e);
       }
+    }
+
+    if (newsletterSection) {
+      if (!themeSettings) {
+        themeSettings = {};
+      }
+      themeSettings.newsletterSection = newsletterSection;
     }
 
     if (rawNavMenus) {

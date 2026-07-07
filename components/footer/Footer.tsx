@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ThemeSettings, NavMenus } from '@/lib/wordpress';
+import { submitNewsletterForm } from '@/app/actions/newsletter';
 
 interface FooterProps {
   themeSettings?: ThemeSettings | null;
@@ -50,15 +51,58 @@ function mapUrl(url: string): string {
 
 export default function FooterSection({ themeSettings, navMenus }: FooterProps) {
   // Newsletter copy
-  const newsletterSubtitle = themeSettings?.newsletter_section?.newsletter_subtitle || themeSettings?.footer_newsletter_content?.footer_newsletter_subtitle || "Join Us";
-  const newsletterTitle = themeSettings?.newsletter_section?.newsletter_title || themeSettings?.footer_newsletter_content?.footer_newsletter_title || "Stay Inspired";
+  const newsletterSubtitle = themeSettings?.newsletterSection?.subtitle || themeSettings?.newsletter_section?.newsletter_subtitle || themeSettings?.footer_newsletter_content?.footer_newsletter_subtitle || "Join Us";
+  const newsletterTitle = themeSettings?.newsletterSection?.title || themeSettings?.newsletter_section?.newsletter_title || themeSettings?.footer_newsletter_content?.footer_newsletter_title || "Stay Inspired";
   
   let newsletterDescription = "Join our newsletter for design ideas, new collections, and exclusive offers.";
-  if (themeSettings?.newsletter_section?.newsletter_paragraphs && themeSettings.newsletter_section.newsletter_paragraphs.length > 0) {
+  if (themeSettings?.newsletterSection?.paragraphs && themeSettings.newsletterSection.paragraphs.length > 0) {
+    newsletterDescription = themeSettings.newsletterSection.paragraphs.join(' ');
+  } else if (themeSettings?.newsletter_section?.newsletter_paragraphs && themeSettings.newsletter_section.newsletter_paragraphs.length > 0) {
     newsletterDescription = themeSettings.newsletter_section.newsletter_paragraphs[0].paragraph;
   } else if (themeSettings?.footer_newsletter_content?.footer_newsletter_description) {
     newsletterDescription = themeSettings.footer_newsletter_content.footer_newsletter_description;
   }
+
+  const formShortcode = themeSettings?.newsletterSection?.formShortcode || '';
+
+  const [email, setEmail] = React.useState('');
+  const [honeypot, setHoneypot] = React.useState('');
+  const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [message, setMessage] = React.useState('');
+
+  React.useEffect(() => {
+    if (status === 'success') {
+      const timer = setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus('loading');
+    setMessage('');
+
+    try {
+      const result = await submitNewsletterForm(email, formShortcode, honeypot);
+      if (result.success) {
+        setStatus('success');
+        setMessage(result.message);
+        setEmail('');
+      } else {
+        setStatus('error');
+        setMessage(result.message || 'An error occurred. Please try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+      setMessage('An error occurred. Please try again.');
+    }
+  };
 
   // Logo (processed to ensure unique IDs across desktop and mobile, avoiding SVG duplication/mask clipping bugs)
   const logoSvgRaw = themeSettings?.footer_logo?.footer_logo_svg || themeSettings?.logo_settings?.logo_svg || null;
@@ -124,18 +168,42 @@ export default function FooterSection({ themeSettings, navMenus }: FooterProps) 
                 </p>
               </div>
               
-              <form className="flex gap-3 w-full" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex flex-col gap-3 w-full" onSubmit={handleSubscribe}>
+                {/* Honeypot field for spam prevention */}
                 <input
-                  type="email"
-                  placeholder="email@example.com"
-                  className="flex-1 min-w-0 max-w-[224px] max-[360px]:max-w-[188px] md:max-w-[332px] p-5 bg-transparent border border-[#F5F3EF]/20 text-white font-['Google_Sans',sans-serif] text-sm md:text-lg placeholder-[#F5F3EF]/30 focus:outline-none focus:border-[#CC9433] transition-colors duration-300"
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
                 />
-                <button
-                  type="submit"
-                  className="w-full max-w-[162px] h-[61px] md:h-[67px] inline-flex items-center justify-center gap-[10px] bg-[#507661] hover:bg-[#456654] text-white font-['Google_Sans',sans-serif] text-sm md:text-base xl:text-lg font-medium leading-[1.5] border-none cursor-pointer transition-colors duration-300"
-                >
-                  subscribe
-                </button>
+                <div className="flex gap-3 w-full">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={status === 'loading'}
+                    placeholder="email@example.com"
+                    className="flex-1 min-w-0 max-w-[224px] max-[360px]:max-w-[188px] md:max-w-[332px] p-5 bg-transparent border border-[#F5F3EF]/20 text-white font-['Google_Sans',sans-serif] text-sm md:text-lg placeholder-[#F5F3EF]/30 focus:outline-none focus:border-[#CC9433] transition-colors duration-300 disabled:opacity-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full max-w-[162px] h-[61px] md:h-[67px] inline-flex items-center justify-center gap-[10px] bg-[#507661] hover:bg-[#456654] disabled:bg-[#507661]/50 text-white font-['Google_Sans',sans-serif] text-sm md:text-base xl:text-lg font-medium leading-[1.5] border-none cursor-pointer transition-colors duration-300"
+                  >
+                    {status === 'loading' ? 'submitting...' : 'subscribe'}
+                  </button>
+                </div>
+                {message && (
+                  <p className={`text-sm mt-1 max-w-[380px] font-sans ${
+                    status === 'success' ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {message}
+                  </p>
+                )}
               </form>
             </div>
 
